@@ -1,0 +1,16 @@
+Grafos:
+Matriz de adyacencia
+Matriz de incidencia ---> no
+Lista de adyacencias
+Lista de nodos y aristas ---> Porque guardar informacion sobre los aeropuertos en los vuelos  -- no
+
+
+BUE:
+FROM: JAP BRA
+TO:
+      JAP: Vuelo 1 
+      BRA: Vuelo 1 vuelo 2
+      CRO:
+      
+Guardas en FROM todos los aeropuertos que tienen un vuelo de ida en hacia el
+En TO tenes un hashmap que va de aeropuertos a vuelos.
