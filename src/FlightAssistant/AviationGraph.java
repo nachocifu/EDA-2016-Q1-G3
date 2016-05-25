@@ -3,11 +3,11 @@ package FlightAssistant;
 
 import java.util.HashMap;
 
-class Graph {
+class AviationGraph {
 
     private HashMap<String,Airport> airports;
 
-    public Graph() {
+    public AviationGraph() {
         airports = new HashMap<String, Airport>();
     }
 
