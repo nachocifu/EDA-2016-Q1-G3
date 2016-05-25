@@ -72,4 +72,6 @@ public class Flight {
     public int hashCode() {
         return this.getCode().hashCode();
     }
+
+    public String toString() { return this.getCode(); }
 }

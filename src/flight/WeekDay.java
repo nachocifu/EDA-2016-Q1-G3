@@ -6,7 +6,7 @@ public enum WeekDay {
 
     private int numDay;
 
-    public WeekDay getWeekDay(String string){
+    public static WeekDay getWeekDay(String string){
         switch (string){
             case "Lu":
                 return MONDAY;

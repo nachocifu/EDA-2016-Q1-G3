@@ -2,6 +2,7 @@ package flight;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 
 public class Airport {
 	
@@ -23,6 +24,7 @@ public class Airport {
 	 * @param code unique string representing this entity.
 	 * @param lat latitud coordinate
 	 * @param lon longitud coordinate
+	 * @throws IllegalArgumentException
      */
 	public Airport(String code, Float lat, Float lon){
 		if (code == null || code.length() > 3 || lat > MAX_LON || lat < MIN_LON
@@ -59,5 +61,31 @@ public class Airport {
      */
 	public Float getLongitude() {
 		return longitude;
+	}
+
+	/**
+	 * Return string representation
+	 *
+	 * @return string
+     */
+	public String toString() { return this.code; }
+
+	public String listDepartureFlights() {
+		StringBuilder sb = new StringBuilder();
+
+		Iterator<HashSet<Flight>> iteratorSets = this.to.values().iterator();
+
+		Flight flight;
+		while (iteratorSets.hasNext()) {
+			HashSet<Flight> set = iteratorSets.next();
+			Iterator<Flight> itr = set.iterator();
+			while ( itr.hasNext() ) {
+				flight = itr.next();
+				sb.append(flight);
+				sb.append(System.lineSeparator());
+			}
+		}
+
+		return sb.toString();
 	}
 }
