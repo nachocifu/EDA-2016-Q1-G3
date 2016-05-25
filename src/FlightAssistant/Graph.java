@@ -1,4 +1,4 @@
-package flight;
+package FlightAssistant;
 
 
 import java.util.HashMap;
@@ -55,7 +55,7 @@ public class Graph {
 
         Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), destination, airline, flightNumber);
 
-        // agregar flight a los to en origin
+        // agregar FlightAssistant a los to en origin
 
         // agregar origin a los from de destinatin.
     }

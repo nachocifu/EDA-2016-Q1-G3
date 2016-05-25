@@ -1,4 +1,4 @@
-package flight;
+package FlightAssistant;
 
 
 public class Flight {
@@ -25,7 +25,7 @@ public class Flight {
     /**
      * Concatenate airline and flightnumber to generate unique identifier
      *
-     * @return string representation of flight
+     * @return string representation of FlightAssistant
      */
     public String getCode() {
         return "#" + this.airline + this.flightNumber;
@@ -67,7 +67,7 @@ public class Flight {
     /**
      * Unique identifier to each flight
      *
-     * @return int hashcode of string unique to each flight
+     * @return int hashcode of string unique to each FlightAssistant
      */
     public int hashCode() {
         return this.getCode().hashCode();

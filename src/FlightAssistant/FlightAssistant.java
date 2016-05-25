@@ -1,6 +1,6 @@
-package flight;
+package FlightAssistant;
 
-public class Main {
+public class FlightAssistant {
 
     public static void main(String[] args) {
         System.out.println("Hello World");

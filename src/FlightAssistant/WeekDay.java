@@ -1,4 +1,4 @@
-package flight;
+package FlightAssistant;
 
 
 public enum WeekDay {

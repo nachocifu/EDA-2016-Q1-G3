@@ -1,4 +1,4 @@
-package flight;
+package FlightAssistant;
 
 import java.util.HashMap;
 import java.util.HashSet;
