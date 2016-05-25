@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 
-public class Airport {
+class Airport {
 	
 	private double MAX_LON = 90.0;
 	private double MIN_LON = -90.0;

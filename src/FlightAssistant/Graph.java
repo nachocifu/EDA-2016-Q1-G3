@@ -3,7 +3,7 @@ package FlightAssistant;
 
 import java.util.HashMap;
 
-public class Graph {
+class Graph {
 
     private HashMap<String,Airport> airports;
 

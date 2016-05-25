@@ -1,7 +1,7 @@
 package FlightAssistant;
 
 
-public class Flight {
+class Flight {
 
     private Long flightTime;
     private Long departureTime;

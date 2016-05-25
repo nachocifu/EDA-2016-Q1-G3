@@ -1,7 +1,7 @@
 package FlightAssistant;
 
 
-public enum WeekDay {
+enum WeekDay {
     MONDAY(0), TUESDAY(1), WENDSDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
     private int numDay;
