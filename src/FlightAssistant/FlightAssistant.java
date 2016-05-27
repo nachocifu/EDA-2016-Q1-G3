@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
+import Outputs.OutputConsole;
+import Outputs.OutputFormat;
+import Outputs.OutputWriter;
+
 public class FlightAssistant {
 
     private AviationGraph aviationGraph;

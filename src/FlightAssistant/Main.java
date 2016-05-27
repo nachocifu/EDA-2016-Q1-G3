@@ -6,6 +6,10 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
 
+import Outputs.OutputConsole;
+import Outputs.OutputFile;
+import Outputs.OutputFormat;
+
 public class Main {
 
     public static void main(String[] args) {

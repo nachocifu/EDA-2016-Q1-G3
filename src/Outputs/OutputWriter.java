@@ -1,4 +1,4 @@
-package FlightAssistant;
+package Outputs;
 
 
 public interface OutputWriter {

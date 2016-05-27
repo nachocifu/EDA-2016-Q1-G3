@@ -10,6 +10,7 @@ class Airport {
 	private double MIN_LON = -90.0;
 	private double MAX_LAT = 180.0;
 	private double MIN_LAT = -180.0;
+	private int MAX_CHARACTERS = 3;
 	
 	private String code;
 	private Float latitude;
@@ -27,7 +28,7 @@ class Airport {
 	 * @throws IllegalArgumentException
      */
 	public Airport(String code, Float lat, Float lon){
-		if (code == null || code.length() > 3 || lat > MAX_LON || lat < MIN_LON
+		if (code == null || code.length() > MAX_CHARACTERS || lat > MAX_LON || lat < MIN_LON
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
 		}
@@ -68,7 +69,9 @@ class Airport {
 	 *
 	 * @return string
      */
-	public String toString() { return this.code; }
+	public String toString() { 
+		return this.code; 
+	}
 
 	public String listDepartureFlights() {
 		StringBuilder sb = new StringBuilder();
@@ -88,4 +91,15 @@ class Airport {
 
 		return sb.toString();
 	}
+	
+	/**
+	 * Return void
+	 * 
+	 * @param Flight flight to add
+	 */
+	 public void addFrom(Flight flight){
+		 if(flight == null)
+			 throw new IllegalArgumentException();
+		 from.add(flight);
+	 }
 }

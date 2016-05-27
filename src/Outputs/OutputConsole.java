@@ -1,5 +1,6 @@
-package FlightAssistant;
+package Outputs;
 
+import FlightAssistant.Flight;
 
 public class OutputConsole implements OutputWriter {
 

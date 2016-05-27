@@ -1,4 +1,6 @@
-package FlightAssistant;
+package Outputs;
+
+import FlightAssistant.Flight;
 
 public interface OutputFormat {
 

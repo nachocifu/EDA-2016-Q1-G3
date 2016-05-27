@@ -13,8 +13,9 @@ class Flight {
 
     public Flight(Long flightTime, Long departureTime, WeekDay departureDay,
                   Airport destination, String airline, Integer flightNumber) {
-        this.flightTime = flightTime;
-
+        if(flightTime < 0 || departureTime < 0)
+        	throw new IllegalArgumentException();
+    	this.flightTime = flightTime;
         this.departureTime = departureTime;
         this.departureDay = departureDay;
         this.destination = destination;
@@ -36,18 +37,26 @@ class Flight {
      *
      * @return Long duration in minutes
      */
-    public Long getFlightTime() { return flightTime; }
+    public Long getFlightTime() { 
+    	return flightTime; 
+    }
 
     /**
      * Get departure time in minutes
      *
      * @return
      */
-    public Long getDepartureTime() { return departureTime; }
+    public Long getDepartureTime() { 
+    	return departureTime; 
+    }
 
-    public WeekDay getDepartureDay() { return departureDay; }
+    public WeekDay getDepartureDay() { 
+    	return departureDay; 
+    }
 
-    public Airport getDestination() { return destination; }
+    public Airport getDestination() { 
+    	return destination; 
+    }
 
     /**
      * Equality test
@@ -73,7 +82,9 @@ class Flight {
         return this.getCode().hashCode();
     }
 
-    public String toString() { return this.getCode(); }
+    public String toString() { 
+    	return this.getCode();
+    }
 
     public String getAirline() {
         return airline;
