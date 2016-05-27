@@ -88,4 +88,14 @@ class Airport {
 
 		return sb.toString();
 	}
+        
+        public HashSet<Flight> getOutboundFlights(){
+            HashSet<Flight> outboundFlights = new HashSet<Flight> ();
+            for(Airport each: to.keySet()) {
+                for(Flight flight: to.get(each)){
+                    outboundFlights.add(flight);
+                }
+            }
+            return outboundFlights;
+        }
 }
