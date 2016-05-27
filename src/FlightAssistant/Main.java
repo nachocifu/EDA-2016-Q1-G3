@@ -16,7 +16,7 @@ public class Main {
 
         FlightAssistant flightAssistant = new FlightAssistant();
 
-        if ( args !=  null && args.length > 0) {
+        if (args !=  null && args.length > 0) {
             System.out.println("Invocacion desde shell");
         } else {
             System.out.println("Invocacion pidiendo command-line");

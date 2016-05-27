@@ -4,6 +4,9 @@ package FlightAssistant;
 enum WeekDay {
     MONDAY(0), TUESDAY(1), WENDSDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
+	private Long HOURS = (long) 24;
+	private Long MINUTES = (long) 60;
+	
     private int numDay;
 
     public static WeekDay getWeekDay(String string){
@@ -33,6 +36,10 @@ enum WeekDay {
 
     int distanceInDays(WeekDay other) {
         return ( other.numDay - this.numDay );
+    }
+    
+    Long distanceInMinuts(WeekDay other){
+    	return distanceInDays(other) * HOURS * MINUTES;
     }
 
 }

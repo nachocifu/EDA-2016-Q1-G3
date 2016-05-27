@@ -32,6 +32,7 @@ class Airport {
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
 		}
+		
 		this.code = code;
 		this.latitude = lat;
 		this.longitude = lon;

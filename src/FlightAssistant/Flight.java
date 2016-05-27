@@ -13,14 +13,32 @@ class Flight {
 
     public Flight(Long flightTime, Long departureTime, WeekDay departureDay,
                   Airport destination, String airline, Integer flightNumber) {
-        if(flightTime < 0 || departureTime < 0)
+        if(checks(flightTime, departureTime, departureDay, destination, airline, flightNumber))
         	throw new IllegalArgumentException();
-    	this.flightTime = flightTime;
+        this.flightTime = flightTime;
         this.departureTime = departureTime;
         this.departureDay = departureDay;
         this.destination = destination;
         this.airline = airline;
         this.flightNumber = flightNumber;
+    }
+    
+    /*
+     * @param same as constructor
+     * Returns True if there is any parameter wrong
+     */
+    private Boolean checks(Long flightTime, Long departureTime, WeekDay departureDay,
+                           Airport destination, String airline, Integer flightNumber){
+    	boolean flag = false;
+    	if(flightTime < 0 || departureTime < 0)
+    		return true;
+    	for(WeekDay day : WeekDay.values()){
+    		if(departureDay == day)
+    			flag = true;
+    	}
+    	if(!flag)
+    		return true;
+    	return false;
     }
 
     /**
