@@ -8,48 +8,24 @@ import java.util.Scanner;
 public class FlightAssistant {
 
     private AviationGraph aviationGraph;
+    private OutputWriter outputWriter;
 
 
-    public static void main(String[] args) {
 
-        if ( args !=  null && args.length > 0)
-            System.out.println("Invocacion desde shell");
-        else
-            System.out.println("Invocacion pidiendo command-line");
-
-        while( true ) {
-            LinkedList<String> input = getInputFromCommandLine();
-            parseCommand(input);
-        }
+    public FlightAssistant(){
+        //set defaults
+        this.outputWriter = new OutputConsole();
+        this.aviationGraph = new AviationGraph();
     }
 
-    private static LinkedList<String> getInputFromCommandLine() {
-        // create a scanner so we can read the command-line input
-        Scanner scanner = new Scanner(System.in);
 
-        // get their input as a String
-        String input = scanner.nextLine();
-
-        return new LinkedList<String>(Arrays.asList(input.split(" ")));
+    public void setOutputFormat(OutputFormat outputFormat) {
+        this.outputWriter.setFormat(outputFormat);
     }
 
-    private static void parseCommand(LinkedList<String> input) {
-        switch ( input.poll() ) {
-            case "insert":
-                break;
-            case "delete":
-                break;
-            case "outputFormat":
-
-                break;
-            case "output":
-                break;
-            case "findRoute":
-                break;
-            default:
-                System.out.println("Invalid input");
-                return;
-        }
+    public void changeOutput(OutputWriter writer) {
+        this.outputWriter.setFormat(writer.getFormat());
+        this.outputWriter = writer;
     }
 
 

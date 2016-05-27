@@ -74,4 +74,12 @@ class Flight {
     }
 
     public String toString() { return this.getCode(); }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public Integer getFlightNumber() {
+        return flightNumber;
+    }
 }
