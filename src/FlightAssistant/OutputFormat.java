@@ -1,22 +1,10 @@
 package FlightAssistant;
 
-enum OutputFormat {
-    TEXT("text"), KML("KML");
+public interface OutputFormat {
 
-    private String code;
+    public String formatFlightString(Flight flight);
 
-    OutputFormat(String code) {
-        this.code = code;
-    }
+    public String alertNotFound();
 
-    public static OutputFormat getFormatFromString(String string){
-        switch (string){
-            case "text":
-                return TEXT;
-            case "KML":
-                return KML;
-            default:
-                return null;
-        }
-    }
+    public String writeHeader(Float price, Long flightTime, Long totalTime);
 }

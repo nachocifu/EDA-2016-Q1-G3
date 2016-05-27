@@ -68,7 +68,7 @@ public class Main {
             case "delete":
                 aux = input.poll();
                 if ( aux != null )
-                    switch (input.poll()) {
+                    switch ( aux ) {
                         case "airport":
                             message = "ok";
     //                        flightAssistant.deleteAirport(String code);
@@ -92,7 +92,7 @@ public class Main {
             case "output":
                 aux = input.poll();
                 if ( aux != null )
-                    switch (input.poll()) {
+                    switch ( aux ) {
                         case "stdout":
                             message = "ok";
                             flightAssistant.changeOutput( new OutputConsole() );

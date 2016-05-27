@@ -1,8 +1,5 @@
 package FlightAssistant;
 
-import com.sun.glass.ui.SystemClipboard;
-import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
-
 
 public class OutputConsole implements OutputWriter {
 
@@ -20,7 +17,6 @@ public class OutputConsole implements OutputWriter {
         this.builder = null;
     }
 
-    @Override
     public void writeFlight(Flight flight) {
         //Aca estoy escribiendo con formato text habria que armar algo
         // con el objeto format para diferenciar KML y text usando interfaces
@@ -28,11 +24,7 @@ public class OutputConsole implements OutputWriter {
         //Check if builder has been started
         if ( this.builder == null ) this.start();
 
-        this.builder.append("origin" +
-                " # " + flight.getAirline() +
-                " # " + flight.getFlightNumber() +
-                " # " + flight.getDestination() +
-                System.lineSeparator());
+        this.builder.append(this.outputFormat.formatFlightString(flight));
     }
 
     @Override
@@ -40,23 +32,18 @@ public class OutputConsole implements OutputWriter {
         return this.outputFormat;
     }
 
-    @Override
     public void writeNotFound() {
         //Check if builder has been started
         if ( this.builder == null ) this.start();
 
-        this.builder.append("NotFound");
+        this.builder.append(outputFormat.alertNotFound());
     }
 
-    @Override
     public void writeHeader(Float price, Long flightTime, Long totalTime) {
         //Check if builder has been started
         if ( this.builder == null ) this.start();
 
-        this.builder.append("Precio#" + price + System.lineSeparator() +
-                            "TiempoVuelo#" + flightTime + System.lineSeparator() +
-                            "TiempoTotal#" + totalTime + System.lineSeparator() +
-                            System.lineSeparator());
+        this.builder.append(outputFormat.writeHeader(price, flightTime, totalTime));
     }
 
     @Override

@@ -18,26 +18,15 @@ public class OutputFile implements OutputWriter {
 
     @Override
     public OutputFormat getFormat() {
-        return null;
-    }
-
-    @Override
-    public void writeNotFound() {
-
-    }
-
-    @Override
-    public void writeHeader(Float price, Long flightTime, Long totalTime) {
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void setFormat(OutputFormat format) {
-
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    
+    
 
-    @Override
-    public void writeFlight(Flight flight) {
-        //escribir vuelo al buffer en el formato correspondiente
-    }
 }
