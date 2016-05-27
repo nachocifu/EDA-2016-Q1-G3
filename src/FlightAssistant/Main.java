@@ -1,11 +1,9 @@
 package FlightAssistant;
 
-
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-
 import Outputs.OutputConsole;
 import Outputs.OutputFile;
 import Outputs.OutputFormat;
@@ -115,6 +113,7 @@ public class Main {
             case "print-flights":
                 message = "Printing all flights";
                 break;
+            case "saveAndExit":
             case "exit":
             case "bye":
             case "goodbye":

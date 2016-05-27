@@ -1,6 +1,5 @@
 package FlightAssistant;
 
-
 import java.util.HashMap;
 
 class AviationGraph {
@@ -46,11 +45,12 @@ class AviationGraph {
 
         Airport destination = this.airports.get(destinationAirport);
         Airport origin = this.airports.get(originAirport);
-        Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), destination, airline, flightNumber);
-
+        Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), 
+        		                   destination, airline, flightNumber);
         // agregar FlightAssistant a los to en origin
-
         // agregar origin a los from de destinatin.
     }
+    
+
 
 }

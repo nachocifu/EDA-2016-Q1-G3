@@ -15,7 +15,6 @@ public class FlightAssistant {
         this.aviationGraph = new AviationGraph();
     }
 
-
     public void setOutputFormat(OutputFormat outputFormat) {
         this.outputWriter.setFormat(outputFormat);
     }

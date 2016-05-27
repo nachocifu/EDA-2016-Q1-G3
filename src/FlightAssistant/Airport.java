@@ -1,5 +1,6 @@
 package FlightAssistant;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -15,8 +16,9 @@ class Airport {
 	private String code;
 	private Float latitude;
 	private Float longitude;
-	private HashMap<Airport,HashSet<Flight>> to;
-	private HashSet<Flight> from;
+	private HashMap<Airport,HashSet<Flight>> outboundFlights;
+	private HashSet<Flight> inboundFlights;
+	private boolean tag;
 
 
 	/**
@@ -77,7 +79,7 @@ class Airport {
 	public String listDepartureFlights() {
 		StringBuilder sb = new StringBuilder();
 
-		Iterator<HashSet<Flight>> iteratorSets = this.to.values().iterator();
+		Iterator<HashSet<Flight>> iteratorSets = this.outboundFlights.values().iterator();
 
 		Flight flight;
 		while (iteratorSets.hasNext()) {
@@ -101,6 +103,23 @@ class Airport {
 	 public void addFrom(Flight flight){
 		 if(flight == null)
 			 throw new IllegalArgumentException();
-		 from.add(flight);
+		 inboundFlights.add(flight);
 	 }
+	 
+	 public ArrayList<Flight> getOutboundFlights(){
+		 //TODO: sea cual sea la impl. va a devovler una lista
+		 return null;
+	 }
+	 
+	 public void tag(){
+		 tag = true;
+	 }
+	 
+	 public void unTag(){
+		 tag = false;
+	 }
+	 
+	 public boolean isTagged(){
+	    	return tag;
+	    }
 }

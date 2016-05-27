@@ -7,13 +7,17 @@ class Flight {
     private Long departureTime;
     private WeekDay departureDay;
     private Airport destination;
+    private Airport origin;
     private String airline;
     private Integer flightNumber;
+    private Double price;
 
 
     public Flight(Long flightTime, Long departureTime, WeekDay departureDay,
-                  Airport destination, String airline, Integer flightNumber) {
-        if(checks(flightTime, departureTime, departureDay, destination, airline, flightNumber))
+                  Airport destination, Airport origin, String airline, 
+                  Integer flightNumber, Double price) {
+        if(checks(flightTime, departureTime, departureDay, destination, origin,
+        		  airline, flightNumber, price))
         	throw new IllegalArgumentException();
         this.flightTime = flightTime;
         this.departureTime = departureTime;
@@ -21,6 +25,8 @@ class Flight {
         this.destination = destination;
         this.airline = airline;
         this.flightNumber = flightNumber;
+        this.price = price;
+        this.origin = origin;
     }
     
     /*
@@ -28,9 +34,10 @@ class Flight {
      * Returns True if there is any parameter wrong
      */
     private Boolean checks(Long flightTime, Long departureTime, WeekDay departureDay,
-                           Airport destination, String airline, Integer flightNumber){
+                           Airport destination, Airport origin, String airline, 
+                           Integer flightNumber, Double price){
     	boolean flag = false;
-    	if(flightTime < 0 || departureTime < 0)
+    	if(flightTime < 0 || departureTime < 0 || price < 0)
     		return true;
     	for(WeekDay day : WeekDay.values()){
     		if(departureDay == day)
@@ -111,4 +118,9 @@ class Flight {
     public Integer getFlightNumber() {
         return flightNumber;
     }
+    
+    public boolean isTagged(){
+    	return tag;
+    }
+
 }
