@@ -1,8 +1,9 @@
-package FlightAssistant;
+package Stopovers;
 
-import java.util.Comparator;
+import FlightAssistant.Airport;
+import FlightAssistant.Flight;
 
-public class Stopover{
+public interface Stopover{
 	Double criteriaWeight;
 	Airport airport;
 	Flight flight;

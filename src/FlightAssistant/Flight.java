@@ -118,9 +118,8 @@ class Flight {
     public Integer getFlightNumber() {
         return flightNumber;
     }
-    
-    public boolean isTagged(){
-    	return tag;
-    }
 
+    public Double getPrice(){
+    	return price;
+    }
 }
