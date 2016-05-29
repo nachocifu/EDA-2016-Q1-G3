@@ -1,5 +1,6 @@
 package Stopovers;
 
+
 public class StopoverTime extends Stopover {
 
 	public StopoverTime(Airport air, Flight fli){
