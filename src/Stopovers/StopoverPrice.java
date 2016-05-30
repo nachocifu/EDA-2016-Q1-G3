@@ -1,12 +1,16 @@
 package Stopovers;
 
+import FlightAssistant.Airport;
+import FlightAssistant.Flight;
+
 public class StopoverPrice extends Stopover{
 
 	public StopoverPrice(Airport air, Flight fli){
 		super(air,fli);
 		setCriteria(fli.getPrice());
 	}
-	
+
+
 	public int compareTo(StopoverPrice other){
 		if(other == null)
 			throw new IllegalArgumentException();

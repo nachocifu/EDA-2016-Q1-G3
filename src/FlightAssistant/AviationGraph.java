@@ -2,7 +2,7 @@ package FlightAssistant;
 
 import java.util.HashMap;
 
-class AviationGraph {
+public class AviationGraph {
 
     private HashMap<String,Airport> airports;
 
