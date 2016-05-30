@@ -44,8 +44,19 @@ public class Stopover implements Comparable<Stopover>{
             return flights;
         }
 	
-        public void printStopover() {
+        public void printStopoverWithPrice() {
             System.out.println("Se llego a " + finalDestination.toString() + " con precio: " + criteriaWeight.toString());
+            System.out.println("Atraves de:" );
+            for(Flight each: this.flights) {
+                System.out.println(each.toString());
+            }
+        }
+        
+        public void printStopoverWithTime() {
+            int dias = (int) (criteriaWeight/(24*60));
+            int horas = (int) ((criteriaWeight-(dias*24*60))/60);
+            int minutos = (int) ((criteriaWeight-(dias*24*60))-(horas*60));
+            System.out.println("Se llego a " + finalDestination.toString() + " en: " + dias + " dias " + horas + " horas " + minutos + " minutos");
             System.out.println("Atraves de:" );
             for(Flight each: this.flights) {
                 System.out.println(each.toString());

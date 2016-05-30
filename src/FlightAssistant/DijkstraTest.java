@@ -22,10 +22,10 @@ public class DijkstraTest {
         s.addFlight(new Flight(11.0, 5.0, MONDAY, a, s, "StoA", Integer.MIN_VALUE, 1.0));
         s.addFlight(new Flight(11.0, 5.0, MONDAY, b, s, "StoB", Integer.MIN_VALUE, 4.0));
         s.addFlight(new Flight(11.0, 5.0, MONDAY, c, s, "StoC", Integer.MIN_VALUE, 2.0));
-        s.addFlight(new Flight(30.0, 5.0, MONDAY, d, s, "StoD", Integer.MIN_VALUE, 7.0));
+        s.addFlight(new Flight(1800.0, 5.0, MONDAY, d, s, "StoD", Integer.MIN_VALUE, 7.0));
         a.addFlight(new Flight(11.0, 5.0, MONDAY, b, a, "AtoB", Integer.MIN_VALUE, 3.0));
         a.addFlight(new Flight(11.0, 5.0, MONDAY, c, a, "AtoC", Integer.MIN_VALUE, 9.0));
-        a.addFlight(new Flight(11.0, 16.0, MONDAY, d, a, "AtoD", Integer.MIN_VALUE, 3.0));
+        a.addFlight(new Flight(11.0, 16.0, TUESDAY, d, a, "AtoD", Integer.MIN_VALUE, 3.0));
         b.addFlight(new Flight(11.0, 5.0, MONDAY, a, b, "BtoA", Integer.MIN_VALUE, 3.0));
         b.addFlight(new Flight(11.0, 5.0, MONDAY, c, b, "BtoC", Integer.MIN_VALUE, 2.0));
         b.addFlight(new Flight(11.0, 5.0, WEDNESDAY, d, b, "BtoD", Integer.MIN_VALUE, 6.0));
@@ -36,21 +36,21 @@ public class DijkstraTest {
         d.addFlight(new Flight(11.0, 5.0, MONDAY, b, d, "DtoB", Integer.MIN_VALUE, 6.0));
         d.addFlight(new Flight(11.0, 5.0, MONDAY, c, d, "DtoC", Integer.MIN_VALUE, 4.0));
         Stopover sa = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, a, null);
-        sa.printStopover();
+        sa.printStopoverWithPrice();
         a.unTag();
         b.unTag();
         c.unTag();
         d.unTag();
         s.unTag();
         Stopover sb = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, b, null);
-        sb.printStopover();
+        sb.printStopoverWithPrice();
         a.unTag();
         b.unTag();
         c.unTag();
         d.unTag();
         s.unTag();
         Stopover sc = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, c, null);
-        if(sc != null) {sc.printStopover();}
+        if(sc != null) {sc.printStopoverWithPrice();}
         a.unTag();
         b.unTag();
         c.unTag();
@@ -60,6 +60,6 @@ public class DijkstraTest {
         
         
         
-        if(sd != null) {sd.printStopover();}
+        if(sd != null) {sd.printStopoverWithTime();}
     }
 }

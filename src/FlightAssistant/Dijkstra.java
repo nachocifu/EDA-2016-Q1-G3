@@ -84,7 +84,10 @@ public class Dijkstra {
             if(prevFlights.isEmpty()) {
                 return 0.0;
             }
-            Double timeStopped = Math.abs(departingFlight.getDepartureTime() - prevFlights.getLast().getArrivalTime());
+            Double timeStopped = (departingFlight.getDepartureTime() - prevFlights.getLast().getArrivalTime());
+            if(timeStopped < 0) {
+                timeStopped = 24*60*7  - timeStopped;
+            }
             System.out.println(timeStopped.toString());
             return timeStopped;
         }
