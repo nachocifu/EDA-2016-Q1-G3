@@ -1,11 +1,10 @@
-package FlightAssistant;
+package Stopovers;
 
-import java.util.Comparator;
 
-public class Stopover{
-	Double criteriaWeight;
-	Airport airport;
-	Flight flight;
+public abstract class Stopover{
+	private Double criteriaWeight;
+	private Airport airport;
+	private Flight flight;
 	
 	public Stopover(Airport air, Double weight, Flight fli){
 		if(weight < 0 || air == null)
@@ -21,6 +20,12 @@ public class Stopover{
 	
 	public Flight getFlight(){
 		return flight;
+	}
+	
+	public void setWeight(Double weight){
+		if(weight < 0)
+			throw new IllegalArgumentException();
+		criteriaWeight = weight;
 	}
 	
 }

@@ -2,6 +2,8 @@ package FlightAssistant;
 
 import java.util.PriorityQueue;
 
+import Stopovers.Stopover;
+
 public class Dijkstra {
 	
 	private Double MIN = 0.0;
@@ -30,6 +32,11 @@ public class Dijkstra {
 		return null;
 	}
 	
+	/**
+	 * @param 
+	 * 
+	 * 
+	 */
 	private void clearMarks(){
 		
 	}
