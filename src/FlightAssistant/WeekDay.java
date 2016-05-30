@@ -2,10 +2,10 @@ package FlightAssistant;
 
 
 enum WeekDay {
-    MONDAY(0), TUESDAY(1), WENDSDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
+    MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
-	private Long HOURS = (long) 24;
-	private Long MINUTES = (long) 60;
+	private Double HOURS = 24.0;
+	private Double MINUTES = 60.0;
 	
     private int numDay;
 
@@ -16,7 +16,7 @@ enum WeekDay {
             case "Ma":
                 return TUESDAY;
             case "Mi":
-                return WENDSDAY;
+                return WEDNESDAY;
             case "Ju":
                 return THURSDAY;
             case "Vi":
@@ -38,8 +38,11 @@ enum WeekDay {
         return ( other.numDay - this.numDay );
     }
     
-    Long distanceInMinuts(WeekDay other){
+    public Double distanceInMinutes(WeekDay other){
     	return distanceInDays(other) * HOURS * MINUTES;
+    }
+    public Double getDaysInMinutes() {
+        return this.numDay*HOURS*MINUTES;
     }
 
 }

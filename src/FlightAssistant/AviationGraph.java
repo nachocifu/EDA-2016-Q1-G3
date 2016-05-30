@@ -2,7 +2,7 @@ package FlightAssistant;
 
 import java.util.HashMap;
 
-class AviationGraph {
+public class AviationGraph {
 
     private HashMap<String,Airport> airports;
 
@@ -33,20 +33,20 @@ class AviationGraph {
         sb.append(System.lineSeparator());
         for (Airport airport : this.airports.values()) {
             sb.append("Flights departing from " + airport + System.lineSeparator());
-            sb.append(airport.listDepartureFlights() + System.lineSeparator());
+            sb.append(airport.getOutboundFlights().toString()+ System.lineSeparator());
         }
         sb.append(System.lineSeparator());
         sb.append(System.lineSeparator());
         return sb.toString();
     }
 
-    public void insertFlight(Long flightTime, Long departureTime, String departureDay,
-                             String destinationAirport, String originAirport, String airline, Integer flightNumber){
+    public void insertFlight(Double flightTime, Double departureTime, String departureDay,
+                             String destinationAirport, String originAirport, String airline, Integer flightNumber, Double price){
 
         Airport destination = this.airports.get(destinationAirport);
         Airport origin = this.airports.get(originAirport);
         Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), 
-        		                   destination, airline, flightNumber);
+        		                   destination, origin, airline, flightNumber, price);
         // agregar FlightAssistant a los to en origin
         // agregar origin a los from de destinatin.
     }

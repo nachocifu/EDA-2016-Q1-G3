@@ -1,10 +1,11 @@
 package FlightAssistant;
 
 
-class Flight {
+public class Flight {
 
-    private Long flightTime;
-    private Long departureTime;
+    private Double flightTime;
+    private Double departureTime;
+    private Double arrivalTime;
     private WeekDay departureDay;
     private Airport destination;
     private Airport origin;
@@ -12,16 +13,27 @@ class Flight {
     private Integer flightNumber;
     private Double price;
 
-
-    public Flight(Long flightTime, Long departureTime, WeekDay departureDay,
+/**
+ * 
+ * @param flightTime
+ * @param departureTime asumiendo que el dia arranca en 00 se pasa en minutos desde que arranca el dia. Para el horario exacto se le suma el horario que sale más el dia que sale
+ * @param departureDay
+ * @param destination
+ * @param origin
+ * @param airline
+ * @param flightNumber
+ * @param price 
+ */
+    public Flight(Double flightTime, Double departureTime, WeekDay departureDay,
                   Airport destination, Airport origin, String airline, 
                   Integer flightNumber, Double price) {
-        if(checks(flightTime, departureTime, departureDay, destination, origin,
-        		  airline, flightNumber, price))
-        	throw new IllegalArgumentException();
+//        if(checks(flightTime, departureTime, departureDay, destination, origin,
+//        		  airline, flightNumber, price))
+//        	throw new IllegalArgumentException();
         this.flightTime = flightTime;
-        this.departureTime = departureTime;
         this.departureDay = departureDay;
+        this.departureTime = departureTime + departureDay.getDaysInMinutes();
+        this.arrivalTime = this.departureTime + this.flightTime;
         this.destination = destination;
         this.airline = airline;
         this.flightNumber = flightNumber;
@@ -48,6 +60,10 @@ class Flight {
     	return false;
     }
 
+    public Airport getOrigin() {
+        return this.origin;
+    }
+    
     /**
      * Concatenate airline and flightnumber to generate unique identifier
      *
@@ -62,7 +78,7 @@ class Flight {
      *
      * @return Long duration in minutes
      */
-    public Long getFlightTime() { 
+    public Double getFlightTime() { 
     	return flightTime; 
     }
 
@@ -71,7 +87,7 @@ class Flight {
      *
      * @return
      */
-    public Long getDepartureTime() { 
+    public Double getDepartureTime() { 
     	return departureTime; 
     }
 
@@ -82,7 +98,11 @@ class Flight {
     public Airport getDestination() { 
     	return destination; 
     }
-
+    
+    public Double getArrivalTime() {
+        return this.arrivalTime;
+    }
+    
     /**
      * Equality test
      *
@@ -110,16 +130,29 @@ class Flight {
     public String toString() { 
     	return this.getCode();
     }
-
+    
+    public Double getPriority(String priority) {
+        if(priority.equals("ft")) {
+            return (Double)getFlightTime();
+        }
+        else{
+            return getPrice();
+        }
+    }
+    
+    public String whereTo() {
+        return "From: " + origin.toString() + " To: " + destination.toString();
+    }
+    
     public String getAirline() {
-        return airline;
+        return this.airline;
     }
 
     public Integer getFlightNumber() {
-        return flightNumber;
+        return this.flightNumber;
     }
 
     public Double getPrice(){
-    	return price;
+    	return this.price;
     }
 }

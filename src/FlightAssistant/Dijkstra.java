@@ -3,35 +3,92 @@ package FlightAssistant;
 import java.util.PriorityQueue;
 
 import Stopovers.Stopover;
+import Stopovers.StopoverPrice;
+import java.util.LinkedList;
 
 public class Dijkstra {
 	
 	private Double MIN = 0.0;
 
-	public DijkstraResult algorithm(Airport origin, Airport target, Priority<Airport> priority){
-		DijkstraResult result = new DijkstraResult();
+	public static Stopover getShortestPathFromAToBWithFixedWeights(Airport origin, Airport target, Priority priority){
 		if(origin == null || target == null)
-			return result;
-		clearMarks();
+			return null;
+		//clearMarks();
+                LinkedList<Flight> prevFlights = new LinkedList<Flight> ();
 		PriorityQueue<Stopover> queue = new PriorityQueue<>();
-		queue.offer(new Stopover(origin,MIN,null));
+		Stopover dbgassist = null;
+                queue.offer(new Stopover(origin,0.0));
 		while(!queue.isEmpty()){
 			Stopover currentStop = queue.poll();
-			while(currentStop.airport.isTagged()){
-				queue.poll();
+			while(currentStop.getFinalDestination().isTagged() && !queue.isEmpty()){
+				currentStop = queue.poll();
 			}
-			result.addPath(currentStop.flight);
-			currentStop.airport.tag();
-			for(Flight each : currentStop.airport.getOutboundFlights()){
-				if(!each.getDestination().isTagged()){
-					queue.offer(new Stopover(each.getDestination(),
-								each.getFlightTime() + currentStop.getWeight(), each));
-				}
+                        if(currentStop.getFinalDestination().equals(target)) {
+                            System.out.println("Se encontro: " + currentStop.toString() + "<<<<<<<<<<<<<<<<<<<<<<<<<");
+                            return currentStop;
+                        }
+			currentStop.getFinalDestination().tag();
+                        //System.out.println("Entre al for ---------------------------------------------------");
+                        prevFlights = currentStop.getFlights();
+                        //System.out.println("Los vuelos previos fueron" + prevFlights.toString());
+		for(Flight each : currentStop.getFinalDestination().getOutboundFlights()){
+                            if(!each.getDestination().isTagged()){
+                          //      System.out.println("Los vuelos previos fueron" + prevFlights.toString());
+                                dbgassist = new Stopover(prevFlights, each.getDestination(), each, each.getPriority("ft") + currentStop.getWeight());
+                                queue.offer(dbgassist);
+                            //    System.out.println(dbgassist.getFlights().toString());
+                              //  System.out.println("Ofreci: " + dbgassist.toString());
+                            }
 			}
 		}
+                System.out.println("No se encontro nada");
 		return null;
 	}
 	
+        public static Stopover getShortestPathFromAToBWithTotalTime(Airport origin, Airport target){
+		if(origin == null || target == null)
+			return null;
+		//clearMarks();
+                LinkedList<Flight> prevFlights = new LinkedList<Flight> ();
+		PriorityQueue<Stopover> queue = new PriorityQueue<>();
+		Stopover dbgassist = null;
+                queue.offer(new Stopover(origin,0.0));
+		while(!queue.isEmpty()){
+			Stopover currentStop = queue.poll();
+			while(currentStop.getFinalDestination().isTagged() && !queue.isEmpty()){
+				currentStop = queue.poll();
+			}
+                        if(currentStop.getFinalDestination().equals(target)) {
+                            System.out.println("Se encontro: " + currentStop.toString() + "<<<<<<<<<<<<<<<<<<<<<<<<<");
+                            return currentStop;
+                        }
+			currentStop.getFinalDestination().tag();
+                        //System.out.println("Entre al for ---------------------------------------------------");
+                        prevFlights = currentStop.getFlights();
+                        //System.out.println("Los vuelos previos fueron" + prevFlights.toString());
+		for(Flight each : currentStop.getFinalDestination().getOutboundFlights()){
+                            if(!each.getDestination().isTagged()){
+                          //      System.out.println("Los vuelos previos fueron" + prevFlights.toString());
+                                dbgassist = new Stopover(prevFlights, each.getDestination(), each, (Dijkstra.getTimeAtTheAirport(each, prevFlights))+each.getFlightTime() + currentStop.getWeight());
+                                queue.offer(dbgassist);
+                            //    System.out.println(dbgassist.getFlights().toString());
+                              //  System.out.println("Ofreci: " + dbgassist.toString());
+                            }
+			}
+		}
+                System.out.println("No se encontro nada");
+		return null;
+	}
+        
+        public static Double getTimeAtTheAirport(Flight departingFlight, LinkedList<Flight> prevFlights) {
+            if(prevFlights.isEmpty()) {
+                return 0.0;
+            }
+            Double timeStopped = Math.abs(departingFlight.getDepartureTime() - prevFlights.getLast().getArrivalTime());
+            System.out.println(timeStopped.toString());
+            return timeStopped;
+        }
+        
 	/**
 	 * @param 
 	 * 
