@@ -1,7 +1,7 @@
 package FlightAssistant;
 
 
-class Flight {
+public class Flight {
 
     private Long flightTime;
     private Long departureTime;
@@ -16,9 +16,9 @@ class Flight {
     public Flight(Long flightTime, Long departureTime, WeekDay departureDay,
                   Airport destination, Airport origin, String airline, 
                   Integer flightNumber, Double price) {
-        if(checks(flightTime, departureTime, departureDay, destination, origin,
-        		  airline, flightNumber, price))
-        	throw new IllegalArgumentException();
+//        if(checks(flightTime, departureTime, departureDay, destination, origin,
+//        		  airline, flightNumber, price))
+//        	throw new IllegalArgumentException();
         this.flightTime = flightTime;
         this.departureTime = departureTime;
         this.departureDay = departureDay;
@@ -48,6 +48,10 @@ class Flight {
     	return false;
     }
 
+    public Airport getOrigin() {
+        return this.origin;
+    }
+    
     /**
      * Concatenate airline and flightnumber to generate unique identifier
      *
@@ -110,7 +114,11 @@ class Flight {
     public String toString() { 
     	return this.getCode();
     }
-
+    
+    public String whereTo() {
+        return "From: " + origin.toString() + " To: " + destination.toString();
+    }
+    
     public String getAirline() {
         return airline;
     }

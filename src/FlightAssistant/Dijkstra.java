@@ -3,32 +3,38 @@ package FlightAssistant;
 import java.util.PriorityQueue;
 
 import Stopovers.Stopover;
+import Stopovers.StopoverPrice;
 
 public class Dijkstra {
 	
 	private Double MIN = 0.0;
 
-	public DijkstraResult algorithm(Airport origin, Airport target, Priority<Airport> priority){
-		DijkstraResult result = new DijkstraResult();
+	public static Stopover algorithm(Airport origin, Airport target, Priority<Airport> priority){
 		if(origin == null || target == null)
-			return result;
-		clearMarks();
+			return null;
+		//clearMarks();
 		PriorityQueue<Stopover> queue = new PriorityQueue<>();
-		queue.offer(new Stopover(origin,MIN,null));
+		queue.offer(new Stopover(origin,0.0));
 		while(!queue.isEmpty()){
 			Stopover currentStop = queue.poll();
-			while(currentStop.airport.isTagged()){
+			while(currentStop.getFinalDestination().isTagged() && !queue.isEmpty()){
 				queue.poll();
 			}
-			result.addPath(currentStop.flight);
-			currentStop.airport.tag();
-			for(Flight each : currentStop.airport.getOutboundFlights()){
+                        if(currentStop.getFinalDestination().equals(target)) {
+                            System.out.println("Se encontro: " + currentStop.toString());
+                            return currentStop;
+                        }
+			currentStop.getFinalDestination().tag();
+                        System.out.println("Entre al for");	
+		for(Flight each : currentStop.getFinalDestination().getOutboundFlights()){
 				if(!each.getDestination().isTagged()){
-					queue.offer(new Stopover(each.getDestination(),
-								each.getFlightTime() + currentStop.getWeight(), each));
+				                                System.out.println(each.whereTo());	
+                                    queue.offer(new Stopover(currentStop, each.getDestination(), each, each.getPrice() + currentStop.getWeight()));                                    
 				}
+                                System.out.println(queue.peek().toString());
 			}
 		}
+                System.out.println("No se encontro nada");
 		return null;
 	}
 	
