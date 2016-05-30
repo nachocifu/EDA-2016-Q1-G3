@@ -24,4 +24,10 @@ public interface Stopover{
 		return flight;
 	}
 	
+	public void setWeight(Double weight){
+		if(weight < 0)
+			throw new IllegalArgumentException();
+		criteriaWeight = weight;
+	}
+	
 }
