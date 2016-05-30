@@ -1,12 +1,10 @@
 package Stopovers;
 
-import FlightAssistant.Airport;
-import FlightAssistant.Flight;
 
-public interface Stopover{
-	Double criteriaWeight;
-	Airport airport;
-	Flight flight;
+public abstract class Stopover{
+	private Double criteriaWeight;
+	private Airport airport;
+	private Flight flight;
 	
 	public Stopover(Airport air, Double weight, Flight fli){
 		if(weight < 0 || air == null)
