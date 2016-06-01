@@ -1,5 +1,7 @@
 package FlightAssistant;
 
+import Priorities.Priority;
+import Stopovers.Stopover;
 import java.util.HashMap;
 
 public class AviationGraph {
@@ -51,6 +53,17 @@ public class AviationGraph {
         // agregar origin a los from de destinatin.
     }
     
+    public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
+        this.clearMarks();
+        return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
+    }
+    
+    public void clearMarks() {
+        for (String keys: airports.keySet())
+            airports.get(keys).unTag();
+        
+        
+    }
 
 
 }

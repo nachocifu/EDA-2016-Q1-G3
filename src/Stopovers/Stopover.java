@@ -4,7 +4,7 @@ import java.util.LinkedList;
 
 public class Stopover implements Comparable<Stopover>{
 	private Double criteriaWeight;
-        private Airport finalDestination;
+        private Airport currentStop;
 	private LinkedList<Flight> flights;
 
 	
@@ -12,14 +12,14 @@ public class Stopover implements Comparable<Stopover>{
 		if(weight < 0 || airport == null)
 			throw new IllegalArgumentException();
 		this.criteriaWeight = weight;
-		this.finalDestination = airport;
+		this.currentStop = airport;
 		this.flights = new LinkedList<>();
                 
 	}
 	
         public Stopover(LinkedList<Flight> previousStops, Airport finalDestination,Flight newFlight, Double weight){
 		criteriaWeight = weight;
-		this.finalDestination = finalDestination;
+		this.currentStop = finalDestination;
                 this.flights = new LinkedList<>();
                 this.flights.addAll(previousStops);
                 this.flights.add(newFlight);
@@ -36,8 +36,8 @@ public class Stopover implements Comparable<Stopover>{
 		criteriaWeight = weight;
 	}
         
-        public Airport getFinalDestination() {
-            return this.finalDestination;
+        public Airport getCurrentStop() {
+            return this.currentStop;
         }
         
         public LinkedList<Flight> getFlights() {
@@ -45,7 +45,7 @@ public class Stopover implements Comparable<Stopover>{
         }
 	
         public void printStopoverWithPrice() {
-            System.out.println("Se llego a " + finalDestination.toString() + " con precio: " + criteriaWeight.toString());
+            System.out.println("Se llego a " + currentStop.toString() + " con precio: " + criteriaWeight.toString());
             System.out.println("Atraves de:" );
             for(Flight each: this.flights) {
                 System.out.println(each.toString());
@@ -56,7 +56,7 @@ public class Stopover implements Comparable<Stopover>{
             int dias = (int) (criteriaWeight/(24*60));
             int horas = (int) ((criteriaWeight-(dias*24*60))/60);
             int minutos = (int) ((criteriaWeight-(dias*24*60))-(horas*60));
-            System.out.println("Se llego a " + finalDestination.toString() + " en: " + dias + " dias " + horas + " horas " + minutos + " minutos");
+            System.out.println("Se llego a " + currentStop.toString() + " en: " + dias + " dias " + horas + " horas " + minutos + " minutos");
             System.out.println("Atraves de:" );
             for(Flight each: this.flights) {
                 System.out.println(each.toString());
@@ -65,9 +65,9 @@ public class Stopover implements Comparable<Stopover>{
         
         public String toString(){
             if(flights.isEmpty()) {
-                return "Arrancamos desde: " + finalDestination.toString();
+                return "Arrancamos desde: " + currentStop.toString();
             }
-            String str = "Desde: " + flights.getFirst().getOrigin().toString() + " Hasta " + finalDestination + " por: " + criteriaWeight.toString();
+            String str = "Desde: " + flights.getFirst().getOrigin().toString() + " Hasta " + currentStop + " por: " + criteriaWeight.toString();
             return str;
         }
     @Override

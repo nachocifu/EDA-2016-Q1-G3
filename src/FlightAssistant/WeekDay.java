@@ -45,4 +45,7 @@ enum WeekDay {
         return this.numDay*HOURS*MINUTES;
     }
 
+    public static Double getMinutesInAWeek() {
+         return 24.0*60.0*7.0;
+    }
 }

@@ -18,7 +18,8 @@ public class Airport {
 	private Float latitude;
 	private Float longitude;
 	private LinkedList<Flight> outboundFlights;
-	private HashSet<Flight> inboundFlights;
+        private HashSet<Airport> posibleOutboundFlightsDestination;
+	private HashSet<Airport> posibleInboundFlightsOrigin;
 	private boolean tag;
 
 
@@ -40,6 +41,8 @@ public class Airport {
 		this.latitude = lat;
 		this.longitude = lon;
                 this.outboundFlights = new LinkedList<Flight>();
+                this.posibleInboundFlightsOrigin = new HashSet<Airport> ();
+                this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
 	}
 
 	/**
@@ -80,6 +83,7 @@ public class Airport {
         
         public void addFlight(Flight flight) {
             this.outboundFlights.add(flight);
+            this.posibleOutboundFlightsDestination.add(flight.getDestination());
         }
 
 //	public String listDepartureFlights() {
@@ -109,24 +113,28 @@ public class Airport {
 	 public void addFrom(Flight flight){
 		 if(flight == null)
 			 throw new IllegalArgumentException();
-		 inboundFlights.add(flight);
+		 posibleInboundFlightsOrigin.add(flight.getOrigin());
 	 }
 	 
 	 public LinkedList<Flight> getOutboundFlights(){
 		 //TODO: sea cual sea la impl. va a devovler una lista
-		 return outboundFlights;
+		 return this.outboundFlights;
 	 }
+         
+         public HashSet<Airport> getPosibleOutboundDestination() {
+             return this.posibleOutboundFlightsDestination;
+         }
 	 
 	 public void tag(){
-		 tag = true;
+		 this.tag = true;
 	 }
 	 
 	 public void unTag(){
-		 tag = false;
+		 this.tag = false;
 	 }
 	 
 	 public boolean isTagged(){
-	    	return tag;
+	    	return this.tag;
 	    }
 }
 

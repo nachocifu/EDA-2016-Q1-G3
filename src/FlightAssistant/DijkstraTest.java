@@ -6,6 +6,8 @@
 package FlightAssistant;
 
 import static FlightAssistant.WeekDay.*;
+import Priorities.PriorityFlightTime;
+import Priorities.PriorityTotalTime;
 import Stopovers.Stopover;
 
 /**
@@ -35,28 +37,28 @@ public class DijkstraTest {
         d.addFlight(new Flight(11.0, 5.0, MONDAY, a, d, "DtoA", Integer.MIN_VALUE, 4.0));
         d.addFlight(new Flight(11.0, 5.0, MONDAY, b, d, "DtoB", Integer.MIN_VALUE, 6.0));
         d.addFlight(new Flight(11.0, 5.0, MONDAY, c, d, "DtoC", Integer.MIN_VALUE, 4.0));
-        Stopover sa = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, a, null);
+        Stopover sa = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, a, new PriorityFlightTime());
         sa.printStopoverWithPrice();
         a.unTag();
         b.unTag();
         c.unTag();
         d.unTag();
         s.unTag();
-        Stopover sb = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, b, null);
+        Stopover sb = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, b, new PriorityFlightTime());
         sb.printStopoverWithPrice();
         a.unTag();
         b.unTag();
         c.unTag();
         d.unTag();
         s.unTag();
-        Stopover sc = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, c, null);
+        Stopover sc = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, c, new PriorityFlightTime());
         if(sc != null) {sc.printStopoverWithPrice();}
         a.unTag();
         b.unTag();
         c.unTag();
         d.unTag();
         s.unTag();
-        Stopover sd = Dijkstra.getShortestPathFromAToBWithTotalTime(s, d);
+        Stopover sd = Dijkstra.getShortestPathFromAToBWithFixedWeights(s, d, new PriorityTotalTime());
         
         
         

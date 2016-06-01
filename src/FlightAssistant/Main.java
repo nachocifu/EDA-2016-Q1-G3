@@ -99,6 +99,9 @@ public class Main {
                             message = "ok";
                             flightAssistant.changeOutput( new OutputConsole() );
                             break;
+                        case "findBestPath":
+                            message = "ok";
+                            flightAssistant.getBestPath("AR", "BR", "ft");
                         case "file":
                             message = "ok";
                             String file = input.poll();
