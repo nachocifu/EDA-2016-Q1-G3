@@ -6,6 +6,8 @@ public class Stopover implements Comparable<Stopover>{
 	private Double criteriaWeight;
         private Airport currentStop;
 	private LinkedList<Flight> flights;
+	private int HOURS_PER_DAY = 24;
+	private int MINUTES_PER_HOUR = 60;
 
 	
 	public Stopover(Airport airport, Double weight){
@@ -53,9 +55,9 @@ public class Stopover implements Comparable<Stopover>{
         }
         
         public void printStopoverWithTime() {
-            int dias = (int) (criteriaWeight/(24*60));
-            int horas = (int) ((criteriaWeight-(dias*24*60))/60);
-            int minutos = (int) ((criteriaWeight-(dias*24*60))-(horas*60));
+            int dias = (int) (criteriaWeight/(HOURS_PER_DAY*MINUTES_PER_HOUR));
+            int horas = (int) ((criteriaWeight-(dias*HOURS_PER_DAY*MINUTES_PER_HOUR))/MINUTES_PER_HOUR);
+            int minutos = (int) ((criteriaWeight-(dias*HOURS_PER_DAY*MINUTES_PER_HOUR))-(horas*MINUTES_PER_HOUR));
             System.out.println("Se llego a " + currentStop.toString() + " en: " + dias + " dias " + horas + " horas " + minutos + " minutos");
             System.out.println("Atraves de:" );
             for(Flight each: this.flights) {
@@ -72,6 +74,6 @@ public class Stopover implements Comparable<Stopover>{
         }
     @Override
     public int compareTo(Stopover o) {
-        return (int)(this.criteriaWeight - o.getWeight()) ;//To change body of generated methods, choose Tools | Templates.
+        return (int)(this.criteriaWeight - o.getWeight()) ;
     }
 }

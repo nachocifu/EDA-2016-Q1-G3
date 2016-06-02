@@ -8,14 +8,12 @@ import java.util.LinkedList;
 
 public class Dijkstra {
 	
-	private Double MIN = 0.0;
+	private static Double MIN = 0.0;
 
-
-        
 	public static Stopover getShortestPathFromAToBWithFixedWeights(Airport origin, Airport target, Priority priority){
 		if(origin == null || target == null)
 			return null;
-		//clearMarks();
+		clearMarks();
                 LinkedList<Flight> prevFlights = new LinkedList<Flight>();
 		PriorityQueue<Stopover> queue = new PriorityQueue<>();
 		Stopover dbgassist = null;
@@ -25,10 +23,10 @@ public class Dijkstra {
 			while(currentStop.getCurrentStop().isTagged() && !queue.isEmpty()){
 				currentStop = queue.poll();
 			}
-                        if(currentStop.getCurrentStop().equals(target)) {
+            				if(currentStop.getCurrentStop().equals(target)) {
                             System.out.println("Se encontro: " + currentStop.toString() + "<<<<<<<<<<<<<<<<<<<<<<<<<");
                             return currentStop;
-                        }
+            				}
 			currentStop.getCurrentStop().tag();
                         //System.out.println("Entre al for ---------------------------------------------------");
                         prevFlights = currentStop.getFlights();
@@ -50,11 +48,11 @@ public class Dijkstra {
        
         public static Double getTimeAtTheAirport(Flight departingFlight, LinkedList<Flight> prevFlights) {
             if(prevFlights.isEmpty()) {
-                return 0.0;
+                return MIN;
             }
             Double timeStopped = (departingFlight.getDepartureTime() - prevFlights.getLast().getArrivalTime());
             if(timeStopped < 0) {
-                timeStopped = WeekDay.getMinutesInAWeek()  - timeStopped;
+                timeStopped = WeekDay.getMinutesInAWeek() - timeStopped;
             }
             System.out.println(timeStopped.toString());
             return timeStopped;
@@ -65,7 +63,7 @@ public class Dijkstra {
 	 * 
 	 * 
 	 */
-	private void clearMarks(){
-		
+	private static void clearMarks(){
+		AviationGraph.clearMarks();
 	}
 }

@@ -137,9 +137,6 @@ public class Main {
                 endExecution = true;
                 message = "Good Bye";
                 break;
-            case "test":
-                System.out.println(Main.getParameterFromString(input.poll()));
-                break;
         }
         System.out.println(message);
         return endExecution;

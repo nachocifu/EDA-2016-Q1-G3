@@ -96,5 +96,4 @@ public class FlightAssistant {
 
         return list;
     }
-    
 }

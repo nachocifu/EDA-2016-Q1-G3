@@ -1,17 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package FlightAssistant;
+package DataStructure;
 
 import java.util.Comparator;
 import java.util.LinkedList;
 
-/**
- *
- * @author amoragues
- */
+import FlightAssistant.Flight;
+
 public class BTreeValue {
 
     private BTreeValueNode first;   //LeftValue
