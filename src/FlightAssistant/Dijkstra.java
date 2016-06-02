@@ -4,7 +4,6 @@ import Priorities.Priority;
 import java.util.PriorityQueue;
 
 import Stopovers.Stopover;
-import Stopovers.StopoverPrice;
 import java.util.LinkedList;
 
 public class Dijkstra {

@@ -4,51 +4,65 @@ import FlightAssistant.Flight;
 
 public class OutputConsole implements OutputWriter {
 
-    private OutputFormat outputFormat;
-    private StringBuilder builder;
+    private OutputFormater outputFormat;
+    private StringBuilder builderHeaders;
+    private StringBuilder builderFlights;
+    private Boolean noResults = false;
 
     @Override
     public void start() {
-        this.builder = new StringBuilder();
+        this.builderHeaders = new StringBuilder();
+        this.builderFlights = new StringBuilder();
     }
 
     @Override
     public void finish() {
-        System.out.println(this.builder);
-        this.builder = null;
+        //Check if builder has been started and flag is down
+        if ( this.builderFlights == null || this.builderHeaders ==null ) {
+            this.start();
+            this.noResults = false;
+        }
+
+        System.out.println( this.builderHeaders.toString() + this.builderFlights.toString() );
+        this.builderFlights = null;
+        this.builderHeaders = null;
     }
 
     public void writeFlight(Flight flight) {
-        //Aca estoy escribiendo con formato text habria que armar algo
-        // con el objeto format para diferenciar KML y text usando interfaces
+        //Check if builder has been started and flag is down
+        if ( this.builderFlights == null || this.builderHeaders ==null || this.noResults ) {
+            this.start();
+            this.noResults = false;
+        }
 
-        //Check if builder has been started
-        if ( this.builder == null ) this.start();
-
-        this.builder.append(this.outputFormat.formatFlightString(flight));
+        this.builderFlights.append(this.outputFormat.writeFlight(flight));
     }
 
     @Override
-    public OutputFormat getFormat() {
+    public OutputFormater getFormat() {
         return this.outputFormat;
     }
 
     public void writeNotFound() {
-        //Check if builder has been started
-        if ( this.builder == null ) this.start();
+        //Clear builders set message and raise flag
+        this.start();
+        this.noResults = true;
 
-        this.builder.append(outputFormat.alertNotFound());
+        this.builderHeaders.append(outputFormat.alertNotFound());
     }
 
-    public void writeHeader(Float price, Long flightTime, Long totalTime) {
-        //Check if builder has been started
-        if ( this.builder == null ) this.start();
+    public void writeHeader(Double price, Double flightTime, Double totalTime) {
+        //Check if builder has been started and flag is down
+        if ( this.builderFlights == null || this.builderHeaders ==null || this.noResults ) {
+            this.start();
+            this.noResults = false;
+        }
 
-        this.builder.append(outputFormat.writeHeader(price, flightTime, totalTime));
+        this.builderHeaders.append(outputFormat.writeHeader(price, flightTime, totalTime));
     }
 
     @Override
-    public void setFormat(OutputFormat format) {
+    public void setFormat(OutputFormater format) {
         this.outputFormat = format;
     }
 }

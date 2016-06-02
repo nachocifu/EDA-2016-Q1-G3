@@ -6,7 +6,7 @@ import java.util.Queue;
 import java.util.Scanner;
 import Outputs.OutputConsole;
 import Outputs.OutputFile;
-import Outputs.OutputFormat;
+import Outputs.TextFormat;
 
 public class Main {
 
@@ -48,7 +48,7 @@ public class Main {
     private static Boolean parseCommand(Queue<String> input, FlightAssistant flightAssistant) {
         String message = "Invalid Input";
         Boolean endExecution = false;
-        String aux;
+        String aux, aux1, aux2;
         switch ( input.poll() ) {
             case "insert":
                 aux = input.poll();
@@ -85,11 +85,16 @@ public class Main {
                     }
                 break;
             case "outputFormat":
-                OutputFormat newFormat = OutputFormat.valueOf(input.poll());
-                if ( newFormat != null ) {
-                    message = "ok";
-                    flightAssistant.setOutputFormat(newFormat);
-                }
+                aux = input.poll();
+                if ( aux != null )
+                    switch ( aux ) {
+                        case "KML":
+                            message = "ok";
+                            break;
+                        case "text":
+                            flightAssistant.setOutputFormat( new TextFormat() );
+                            break;
+                    }
                 break;
             case "output":
                 aux = input.poll();
@@ -99,15 +104,24 @@ public class Main {
                             message = "ok";
                             flightAssistant.changeOutput( new OutputConsole() );
                             break;
-                        case "findBestPath":
-                            message = "ok";
-                            flightAssistant.getBestPath("AR", "BR", "ft");
                         case "file":
                             message = "ok";
                             String file = input.poll();
                             if ( file != null ) flightAssistant.changeOutput( new OutputFile( file ) );
                             break;
                     }
+                break;
+            case "findBestPath":
+                aux = input.poll();
+                aux1 = input.poll();
+                aux2 = input.poll();
+                if ( aux != null || aux1 != null || aux2 != null ) {
+                    flightAssistant.getBestPath(
+                            getParameterFromString(aux),
+                            getParameterFromString(aux1),
+                            getParameterFromString(aux2));
+                    message = "ok";
+                }
                 break;
             case "print-airports":
                 message = "Printing all airports";
@@ -123,9 +137,30 @@ public class Main {
                 endExecution = true;
                 message = "Good Bye";
                 break;
+            case "test":
+                System.out.println(Main.getParameterFromString(input.poll()));
+                break;
         }
         System.out.println(message);
         return endExecution;
+    }
+
+    /**
+     * Returns parameter in string or empty string if null.
+     * Parameter is anything after first '=' symbol or entire string if no '='.
+     *
+     * @param string String
+     * @return String
+     */
+    private static String getParameterFromString(String string) {
+        if ( string == null ) return "";
+
+        Integer auxNum;
+        auxNum = string.indexOf('=');
+        if ( auxNum < 0 )
+            return string;
+
+        return string.substring(++auxNum);
     }
 
 }
