@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package FlightAssistant;
+package DataStructure;
 
 import java.util.Comparator;
 import java.util.LinkedList;
+
+import FlightAssistant.Flight;
 
 /**
  *
