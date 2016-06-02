@@ -16,7 +16,9 @@ public class Flight {
 /**
  * 
  * @param flightTime
- * @param departureTime asumiendo que el dia arranca en 00 se pasa en minutos desde que arranca el dia. Para el horario exacto se le suma el horario que sale más el dia que sale
+ * @param departureTime 
+ * Asumiendo que el dia arranca en 00 se pasa en minutos desde que arranca el dia. 
+ * Para el horario exacto se le suma el horario que sale más el dia que sale.
  * @param departureDay
  * @param destination
  * @param origin

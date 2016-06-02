@@ -23,7 +23,5 @@ public class FlightAssistant {
         this.outputWriter.setFormat(writer.getFormat());
         this.outputWriter = writer;
     }
-
-    public 
     
 }

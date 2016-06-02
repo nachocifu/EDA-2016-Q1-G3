@@ -7,7 +7,6 @@ import java.util.HashMap;
 public class AviationGraph {
 
     private static HashMap<String,Airport> airports;
-    private static AviationGraph aviationGraph = new AviationGraph();
     private AviationGraph() {
         airports = new HashMap<String, Airport>();
     }
