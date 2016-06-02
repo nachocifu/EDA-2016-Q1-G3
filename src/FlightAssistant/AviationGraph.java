@@ -8,7 +8,7 @@ public class AviationGraph {
 
     private HashMap<String,Airport> airports;
 
-    public AviationGraph() {
+    private AviationGraph() {
         airports = new HashMap<String, Airport>();
     }
 
@@ -54,15 +54,13 @@ public class AviationGraph {
     }
     
     public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
-        this.clearMarks();
+        clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
     }
     
     public void clearMarks() {
         for (String keys: airports.keySet())
-            airports.get(keys).unTag();
-        
-        
+            airports.get(keys).unTag();   
     }
 
 
