@@ -6,21 +6,21 @@ import java.util.HashMap;
 
 public class AviationGraph {
 
-    private HashMap<String,Airport> airports;
-
+    private static HashMap<String,Airport> airports;
+    private static AviationGraph aviationGraph = new AviationGraph();
     private AviationGraph() {
         airports = new HashMap<String, Airport>();
     }
 
     public void insertAirport(String code, Float lat, Float lon){
         Airport airport = new Airport(code,lat,lon);
-        this.airports.put(airport.getCode(), airport);
+        AviationGraph.airports.put(airport.getCode(), airport);
     }
 
     public String listAirports() {
         StringBuilder sb = new StringBuilder();
         sb.append(System.lineSeparator());
-        for (Airport each : this.airports.values()) {
+        for (Airport each : AviationGraph.airports.values()) {
             sb.append(each + "  Lat: " + each.getLatitude() + "  Lon: " + each.getLongitude());
             sb.append(System.lineSeparator());
         }
@@ -33,7 +33,7 @@ public class AviationGraph {
         StringBuilder sb = new StringBuilder();
         sb.append(System.lineSeparator() + "---> Listing all flights <---");
         sb.append(System.lineSeparator());
-        for (Airport airport : this.airports.values()) {
+        for (Airport airport : AviationGraph.airports.values()) {
             sb.append("Flights departing from " + airport + System.lineSeparator());
             sb.append(airport.getOutboundFlights().toString()+ System.lineSeparator());
         }
@@ -45,8 +45,8 @@ public class AviationGraph {
     public void insertFlight(Double flightTime, Double departureTime, String departureDay,
                              String destinationAirport, String originAirport, String airline, Integer flightNumber, Double price){
 
-        Airport destination = this.airports.get(destinationAirport);
-        Airport origin = this.airports.get(originAirport);
+        Airport destination = AviationGraph.airports.get(destinationAirport);
+        Airport origin = AviationGraph.airports.get(originAirport);
         Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), 
         		                   destination, origin, airline, flightNumber, price);
         // agregar FlightAssistant a los to en origin
@@ -58,7 +58,7 @@ public class AviationGraph {
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
     }
     
-    public void clearMarks() {
+    public static void clearMarks() {
         for (String keys: airports.keySet())
             airports.get(keys).unTag();   
     }
