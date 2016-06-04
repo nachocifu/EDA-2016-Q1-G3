@@ -40,7 +40,10 @@ public class FlightAssistant {
         this.outputWriter = writer;
     }
 
-    public void getBestPath(String originString, String destinationString, String priotityString) {
+    public void getBestPath(String originString, String destinationString, String priotityString, String weekdays) {
+        if ( weekdays != null )
+            weekdays.split("-"); //array of all posible departure days.
+
         //llamada al dijkstra
 
         //cuando termina manda
@@ -175,7 +178,7 @@ public class FlightAssistant {
         return list;
     }
 
-    public void deleteAFlight(String code) {
+    public void deleteFlight(String code) {
         throw new NotImplementedException();
     }
 
@@ -301,5 +304,13 @@ public class FlightAssistant {
 //
 //        this.outputAirports(allAirports);
 
+    }
+
+    public void deleteAllAirports() {
+        throw new NotImplementedException();
+    }
+
+    public void deleteAllFlights() {
+        throw new NotImplementedException();
     }
 }

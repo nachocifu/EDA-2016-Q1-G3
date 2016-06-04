@@ -9,6 +9,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
+
+import Outputs.KmlFormat;
 import Outputs.OutputConsole;
 import Outputs.OutputFile;
 import Outputs.TextFormat;
@@ -113,11 +115,21 @@ public class Main {
                             message = "ok";
                             aux = input.poll();
                             if ( aux != null )
-                                flightAssistant.deleteAFlight(aux);
+                                flightAssistant.deleteFlight(aux);
                             break;
                         case "all":
-                            message = "ok";
-                            break;
+                            aux = input.poll();
+                            if ( aux != null )
+                                switch ( aux ) {
+                                    case "airport":
+                                        flightAssistant.deleteAllAirports();
+                                        message = "ok";
+                                        break;
+                                    case "flight":
+                                        flightAssistant.deleteAllFlights();
+                                        message = "ok";
+                                        break;
+                                }
                     }
                 break;
             case "outputFormat":
@@ -125,7 +137,7 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "KML":
-                            message = "ok";
+                            flightAssistant.setOutputFormat( new KmlFormat() );
                             break;
                         case "text":
                             flightAssistant.setOutputFormat( new TextFormat() );
@@ -155,9 +167,10 @@ public class Main {
                 aux2 = input.poll();
                 if ( aux != null || aux1 != null || aux2 != null ) {
                     flightAssistant.getBestPath(
-                            getParameterFromString(aux),
-                            getParameterFromString(aux1),
-                            getParameterFromString(aux2));
+                            getParameterFromString(aux.trim()),
+                            getParameterFromString(aux1.trim()),
+                            getParameterFromString(aux2.trim()),
+                            getParameterFromString(input.poll()));
                     message = "ok";
                 }
                 break;
