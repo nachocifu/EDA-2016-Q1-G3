@@ -1,5 +1,6 @@
 package Outputs;
 
+import FlightAssistant.Airport;
 import FlightAssistant.Flight;
 
 public class TextFormat implements OutputFormater {
@@ -39,6 +40,20 @@ public class TextFormat implements OutputFormater {
                 .append("TiempoTotal#")
                 .append(totalTime)
                 .append(System.lineSeparator())
+                .append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String write(Airport airport) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(airport.getCode())
+                .append("#Lat:")
+                .append(airport.getLatitude())
+                .append("#Longitud:")
+                .append(airport.getLongitude())
                 .append(System.lineSeparator());
 
         return sb.toString();

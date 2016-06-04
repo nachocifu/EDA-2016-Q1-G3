@@ -161,12 +161,13 @@ public class Main {
                     message = "ok";
                 }
                 break;
-            case "print-airports":
-                message = "Printing all airports";
-
+            case "findAllAirports":
+                flightAssistant.findAllAirports();
+                message = "ok";
                 break;
-            case "print-flights":
-                message = "Printing all flights";
+            case "findAllFlights":
+                flightAssistant.findAllFlights();
+                message = "ok";
                 break;
             case "saveAndExit":
 

@@ -1,5 +1,6 @@
 package Outputs;
 
+import FlightAssistant.Airport;
 import FlightAssistant.Flight;
 
 public class OutputConsole implements OutputWriter {
@@ -35,6 +36,17 @@ public class OutputConsole implements OutputWriter {
         this.builder.append(this.outputFormat.writeFlight(flight));
 
         return true;
+    }
+
+    @Override
+    public Boolean write(Airport airport) {
+
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(this.outputFormat.write(airport));
+
+        return true;
+
     }
 
     @Override

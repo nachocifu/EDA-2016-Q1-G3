@@ -4,6 +4,8 @@ import Outputs.OutputConsole;
 import Outputs.OutputFormater;
 import Outputs.OutputWriter;
 import Outputs.TextFormat;
+import Stopovers.Stopover;
+import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.nio.file.Path;
@@ -40,48 +42,106 @@ public class FlightAssistant {
         //llamada al dijkstra
 
         //cuando termina manda
-        System.err.println("getBestPath llama a outputFlightPath");
-        this.outputFlightPath(this.forTestingGetFlights());
+        System.err.println("getBestPath llama a output solo de flights pq no tengo un stopover");
+        this.outputFlights(this.forTestingGetFlights());
     }
 
     /**
-     * Send flights to selected output with current output format.
+     * Send stopover to selected output with current output format.
      *
-     * @param flights Iterable<Flights>
+     * @param stopover Stopover
      */
-    private void outputFlightPath(Iterable<Flight> flights) {
+    private void outputBestPath(Stopover stopover) {
         Double price = 0.0;
         Double flightTime = 0.0;
         Double totalTime = 0.0;
+        Boolean error = false;
 
         //Start writing
-        if ( ! this.outputWriter.start() ) {
-            System.err.println("Unable to start writer to output. Discarding all !!!.");
-            this.outputWriter.discardAll();
-            return;
-        }
+        if ( ! this.outputWriter.start() ) error = true;
 
         //Write Headers
-        if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) {
-            System.err.println("Unable to write headers to output. Discarding all !!!");
+        if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
+
+        //Write Flights
+        if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
+
+
+        //Check for error and finish Writing
+        checkErrorsAndFinishWritingToOutput(error);
+
+    }
+
+    /**
+     * Send list of flights to selected output with current output format
+     *
+     * @param flights Iterable<Flight>
+     */
+    private void outputFlights(Iterable<Flight> flights ){
+        Boolean error = false;
+
+        //Start writing
+        if ( ! this.outputWriter.start() ) error = true;
+
+        //Write Flights
+        if ( ! this.writeToOutputFlights(flights) ) error = true;
+
+
+        //Check for error and finish Writing
+        checkErrorsAndFinishWritingToOutput(error);
+    }
+
+    /**
+     * Send list of airports to selected output with current output format
+     *
+     * @param airports Iterable<Airport>
+     */
+    private void outputAirports(Iterable<Airport> airports ){
+        Boolean error = false;
+
+        //Start writing
+        if ( ! this.outputWriter.start() ) error = true;
+
+        //Write Airports
+        if ( ! this.writeToOutputAirports(airports) ) error = true;
+
+
+        //Check for error and finish Writing
+        checkErrorsAndFinishWritingToOutput(error);
+    }
+
+    private void checkErrorsAndFinishWritingToOutput(Boolean error){
+        //(lazy evaluation)
+        if ( error || ! this.outputWriter.finish() ) {
+            System.err.println("Unable to write to output. Discarding all !!!");
             this.outputWriter.discardAll();
-            return;
         }
+    }
+
+    private Boolean writeToOutputFlights(Iterable<Flight> flights) {
 
         //Write Flights
         for (Flight flight : flights )
             if ( ! this.outputWriter.writeFlight(flight) ) {
                 System.err.println("Unable to write a flight to output. Discarding all !!!");
                 this.outputWriter.discardAll();
-                return;
+                return false;
             }
+        return true;
 
-        //Finish Writing
-        if ( ! this.outputWriter.finish() ) {
-            System.err.println("Unable to finish writer to output. Discarding all !!!");
-            this.outputWriter.discardAll();
-            return;
-        }
+    }
+
+    private Boolean writeToOutputAirports(Iterable<Airport> airports) {
+
+        //Write Airports
+        for (Airport airport : airports )
+            if ( ! this.outputWriter.write(airport) ) {
+                System.err.println("Unable to write an airport to output. Discarding all !!!");
+                this.outputWriter.discardAll();
+                return false;
+            }
+        return true;
+
     }
 
     private Iterable<Flight> forTestingGetFlights(){
@@ -186,5 +246,25 @@ public class FlightAssistant {
 
     public void insertFlight(Path path) {
         throw new NotImplementedException();
+    }
+
+    public void findAllFlights() {
+        throw new NotImplementedException();
+
+//        //Retrieve all flights
+//        Iterable<Flight> allFlights =  .....
+//
+//        this.outputFlights(allFlights);
+
+    }
+
+    public void findAllAirports() {
+        throw new NotImplementedException();
+
+//        //Retrieve all flights
+//        Iterable<Airport> allAirports =  ....
+//
+//        this.outputAirports(allAirports);
+
     }
 }

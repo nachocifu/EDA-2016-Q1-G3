@@ -1,6 +1,7 @@
 package Outputs;
 
 
+import FlightAssistant.Airport;
 import FlightAssistant.Flight;
 
 public interface OutputWriter {
@@ -12,6 +13,7 @@ public interface OutputWriter {
     public Boolean finish();
 
     public Boolean writeFlight(Flight flight);
+    public Boolean write(Airport airport);
 
     public Boolean writeNotFound();
 

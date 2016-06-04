@@ -1,5 +1,6 @@
 package Outputs;
 
+import FlightAssistant.Airport;
 import FlightAssistant.Flight;
 import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
@@ -54,6 +55,19 @@ public class OutputFile implements OutputWriter {
             return false;
         }
 
+    }
+
+    @Override
+    public Boolean write(Airport airport) {
+        //Check if writing is posible
+        if ( ! okForWriting() ) return false;
+
+        try {
+            this.writer.write(this.outputFormat.write(airport));
+            return true;
+        } catch ( IOException e ) {
+            return false;
+        }
     }
 
     @Override
