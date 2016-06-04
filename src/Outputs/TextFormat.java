@@ -22,7 +22,7 @@ public class TextFormat implements OutputFormater {
     }
 
     @Override
-    public String alertNotFound() {
+    public String writeNotFound() {
         return "NotFound" + System.lineSeparator();
     }
 

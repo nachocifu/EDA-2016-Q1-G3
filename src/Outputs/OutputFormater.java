@@ -7,7 +7,7 @@ public interface OutputFormater {
 
     public String writeFlight(Flight flight);
 
-    public String alertNotFound();
+    public String writeNotFound();
 
     public String writeHeader(Double price, Double flightTime, Double totalTime);
 }

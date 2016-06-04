@@ -5,37 +5,36 @@ import FlightAssistant.Flight;
 public class OutputConsole implements OutputWriter {
 
     private OutputFormater outputFormat;
-    private StringBuilder builderHeaders;
-    private StringBuilder builderFlights;
+    private StringBuilder builder;
     private Boolean noResults = false;
 
     @Override
-    public void start() {
-        this.builderHeaders = new StringBuilder();
-        this.builderFlights = new StringBuilder();
+    public Boolean start() {
+        this.builder = new StringBuilder();
+        return true;
     }
 
     @Override
-    public void finish() {
-        //Check if builder has been started and flag is down
-        if ( this.builderFlights == null || this.builderHeaders ==null ) {
-            this.start();
-            this.noResults = false;
+    public Boolean finish() {
+
+        if ( this.builder != null ) {
+
+            System.out.println( this.builder );
+
+            this.builder = null;
+
         }
 
-        System.out.println( this.builderHeaders.toString() + this.builderFlights.toString() );
-        this.builderFlights = null;
-        this.builderHeaders = null;
+        return true;
     }
 
-    public void writeFlight(Flight flight) {
-        //Check if builder has been started and flag is down
-        if ( this.builderFlights == null || this.builderHeaders ==null || this.noResults ) {
-            this.start();
-            this.noResults = false;
-        }
+    public Boolean writeFlight(Flight flight) {
 
-        this.builderFlights.append(this.outputFormat.writeFlight(flight));
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(this.outputFormat.writeFlight(flight));
+
+        return true;
     }
 
     @Override
@@ -43,26 +42,44 @@ public class OutputConsole implements OutputWriter {
         return this.outputFormat;
     }
 
-    public void writeNotFound() {
-        //Clear builders set message and raise flag
-        this.start();
-        this.noResults = true;
+    public Boolean writeNotFound() {
 
-        this.builderHeaders.append(outputFormat.alertNotFound());
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeNotFound());
+
+        return true;
+
     }
 
-    public void writeHeader(Double price, Double flightTime, Double totalTime) {
-        //Check if builder has been started and flag is down
-        if ( this.builderFlights == null || this.builderHeaders ==null || this.noResults ) {
-            this.start();
-            this.noResults = false;
-        }
+    public Boolean writeHeader(Double price, Double flightTime, Double totalTime) {
 
-        this.builderHeaders.append(outputFormat.writeHeader(price, flightTime, totalTime));
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeHeader(price, flightTime, totalTime));
+
+        return true;
+
     }
 
     @Override
     public void setFormat(OutputFormater format) {
-        this.outputFormat = format;
+        if ( format != null )
+            this.outputFormat = format;
+    }
+
+    @Override
+    public Boolean okForWriting(){
+
+        if ( this.builder == null )
+            return this.start();
+
+        return true;
+
+    }
+
+    @Override
+    public void discardAll(){
+        this.builder = null;
     }
 }

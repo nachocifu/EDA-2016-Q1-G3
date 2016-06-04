@@ -1,5 +1,10 @@
 package FlightAssistant;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -7,6 +12,7 @@ import java.util.Scanner;
 import Outputs.OutputConsole;
 import Outputs.OutputFile;
 import Outputs.TextFormat;
+import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
 
 public class Main {
 
@@ -56,11 +62,11 @@ public class Main {
                     switch ( aux ) {
                         case "airport":
                             message = "ok";
-    //                        flightAssistant.insertAirport( new Airport( ...datos... ) );
+//                            flightAssistant.insertAirport( new Airport( ...datos... ) );
                             break;
                         case "flight":
                             message = "ok";
-    //                        flightAssistant.insertFlight( new Airport( ...datos... ) );
+//                            flightAssistant.insertFlight( new Airport( ...datos... ) );
                             break;
                         case "all":
                             message = "ok";
@@ -73,11 +79,15 @@ public class Main {
                     switch ( aux ) {
                         case "airport":
                             message = "ok";
-    //                        flightAssistant.deleteAirport(String code);
+                            aux = input.poll();
+                            if ( aux != null )
+                                flightAssistant.deleteAirport(aux);
                             break;
                         case "flight":
                             message = "ok";
-    //                        flightAssistant.deleteAFlight(String code);
+                            aux = input.poll();
+                            if ( aux != null )
+                                flightAssistant.deleteAFlight(aux);
                             break;
                         case "all":
                             message = "ok";
@@ -107,8 +117,17 @@ public class Main {
                         case "file":
                             message = "ok";
                             String file = input.poll();
-                            if ( file != null ) flightAssistant.changeOutput( new OutputFile( file ) );
-                            break;
+                            if ( file != null ) {
+                                /**
+                                 * COMO DEBERIAMOS HANDLEAR ERRORES EN EL PATH ACA????
+                                 */
+                                try {
+                                    flightAssistant.changeOutput( new OutputFile( Paths.get(file) ) );
+                                } catch ( InvalidPathException e ) {
+                                    message = "Error on output file path.";
+                                }
+                                break;
+                            }
                     }
                 break;
             case "findBestPath":
@@ -131,6 +150,8 @@ public class Main {
                 message = "Printing all flights";
                 break;
             case "saveAndExit":
+
+                break;
             case "exit":
             case "bye":
             case "goodbye":
@@ -138,7 +159,7 @@ public class Main {
                 message = "Good Bye";
                 break;
         }
-        System.out.println(message);
+        System.err.println(message);
         return endExecution;
     }
 

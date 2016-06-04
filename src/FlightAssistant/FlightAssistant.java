@@ -4,6 +4,7 @@ import Outputs.OutputConsole;
 import Outputs.OutputFormater;
 import Outputs.OutputWriter;
 import Outputs.TextFormat;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -30,7 +31,7 @@ public class FlightAssistant {
     }
 
     public void changeOutput(OutputWriter writer) {
-        this.outputWriter.setFormat(writer.getFormat());
+        writer.setFormat(this.outputWriter.getFormat());
         this.outputWriter = writer;
     }
 
@@ -38,6 +39,7 @@ public class FlightAssistant {
         //llamada al dijkstra
 
         //cuando termina manda
+        System.err.println("getBestPath llama a outputFlightPath");
         this.outputFlightPath(this.forTestingGetFlights());
     }
 
@@ -51,21 +53,34 @@ public class FlightAssistant {
         Double flightTime = 0.0;
         Double totalTime = 0.0;
 
-        //Start writer
-        this.outputWriter.start();
-
-        //Process Flights
-        for (Flight flight : flights ) {
-            this.outputWriter.writeFlight(flight);
-            price += flight.getPrice();
-            flightTime = flight.getFlightTime();
+        //Start writing
+        if ( ! this.outputWriter.start() ) {
+            System.err.println("Unable to start writer to output. Discarding all !!!.");
+            this.outputWriter.discardAll();
+            return;
         }
 
-        //Process Headers
-        this.outputWriter.writeHeader(price, flightTime, totalTime);
+        //Write Headers
+        if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) {
+            System.err.println("Unable to write headers to output. Discarding all !!!");
+            this.outputWriter.discardAll();
+            return;
+        }
 
-        //Close Writer
-        this.outputWriter.finish();
+        //Write Flights
+        for (Flight flight : flights )
+            if ( ! this.outputWriter.writeFlight(flight) ) {
+                System.err.println("Unable to write a flight to output. Discarding all !!!");
+                this.outputWriter.discardAll();
+                return;
+            }
+
+        //Finish Writing
+        if ( ! this.outputWriter.finish() ) {
+            System.err.println("Unable to finish writer to output. Discarding all !!!");
+            this.outputWriter.discardAll();
+            return;
+        }
     }
 
     private Iterable<Flight> forTestingGetFlights(){
@@ -95,5 +110,13 @@ public class FlightAssistant {
         list.add(new Flight(11.0, 5.0, MONDAY, c, d, "DtoC", Integer.MIN_VALUE, 4.0));
 
         return list;
+    }
+
+    public void deleteAFlight(String code) {
+        throw new NotImplementedException();
+    }
+
+    public void deleteAirport(String code) {
+        throw new NotImplementedException();
     }
 }
