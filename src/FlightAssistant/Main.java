@@ -182,7 +182,7 @@ public class Main {
                 flightAssistant.findAllFlights();
                 message = "ok";
                 break;
-            case "saveAndExit":
+            case "exitAndSave":
 
                 break;
             case "exit":
