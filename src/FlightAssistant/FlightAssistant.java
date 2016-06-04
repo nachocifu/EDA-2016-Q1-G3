@@ -6,12 +6,14 @@ import Outputs.OutputWriter;
 import Outputs.TextFormat;
 import Stopovers.Stopover;
 import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
+import com.sun.tools.javac.code.Attribute;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import static FlightAssistant.WeekDay.MONDAY;
 import static FlightAssistant.WeekDay.TUESDAY;
@@ -241,7 +243,40 @@ public class FlightAssistant {
     }
 
     public void insertAirport(Path path) {
-        throw new NotImplementedException();
+        BufferedReader reader;
+        String line;
+        Integer lineCount = 1;
+        String[] flightArray;
+
+        try {
+            reader = Files.newBufferedReader(path);
+            line = reader.readLine();
+
+            while (line != null) {
+                System.err.println(line);
+                flightArray = line.split("#");
+
+                try {
+                    if ( flightArray.length != 3 )
+                        throw new IllegalArgumentException();
+
+                    insertAirport( new Airport(
+                            flightArray[0].trim(),
+                            new Float(flightArray[1].trim()),
+                            new Float(flightArray[2].trim()))
+                    );
+                } catch ( IllegalArgumentException e ) {
+                    System.err.println("Error parsing airport on line: " + lineCount);
+                } finally {
+                    lineCount++;
+                    line = reader.readLine();
+                }
+            }
+
+        } catch ( IOException e ) {
+            System.err.println("Error manipulating file.");
+        }
+
     }
 
     public void insertFlight(Path path) {
