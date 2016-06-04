@@ -3,53 +3,62 @@
 //import FlightAssistant.Flight;
 //
 //public class FlightBNode {
+//    private Flight left;
+//    private Flight middle;
+//    private Flight right;
 //    private FlightBNode parent;
-//    private BTreeValue values;
 //    private FlightBNode leftChild;
 //    private FlightBNode middleChild;
 //    private FlightBNode rightChild;
-//    private int spacesFilled;
 //
-//    public FlightBNode(FlightBNode parent) {
-//        this.parent = parent;
-//        this.spacesFilled = 0;
+//    public FlightBNode(FlightBNode parent, Flight leftValue, Flight rightValue){
+//    	this.parent = parent;
+//    	this.left = leftValue;
+//    	this.right = rightValue;
 //    }
 //
-//    public boolean isNodeEmpty() {
-//        return leftValue == null && rightValue== null;
+//    public boolean isLeaf(){
+//    	if(leftChild == null && middleChild == null && rightChild == null)
+//    		return true;
+//    	return false;
 //    }
 //
-//    public void addFlightToNode(Flight flight) {
-//       if(values.size > 2) {
-//           aux = values.getMiddleValue();
-//           if(this.parent == null) {
+//    public void add(){
 //
-//           }
-//           this.parent.addFlightToNode(aux);
-//       }
 //    }
 //
-//    public FlightBNode getLeftChild() {
-//        return this.leftChild;
-//
-//    public FlightBNode getMiddleChild() {
-//        return this.middleChild;
+//    public boolean isFull(){
+//    	if(this.left != null && this.right != null && this.middle != null) {
+//    		return true;
+//    	}
+//    	return false;
 //    }
 //
-//    public FlightBNode getRightChild() {
-//        return this.rightChild;
+//    public Flight getLeft(){
+//    	return this.left;
 //    }
 //
-//    public void setLeftChild(FlightBNode leftChild) {
-//        this.leftChild = leftChild;
+//    public Flight getMiddle(){
+//    	return this.middle;
 //    }
 //
-//    public void setMiddleChild(FlightBNode middleChild) {
-//        this.middleChild = middleChild;
+//    public Flight getRight(){
+//    	return this.right;
 //    }
 //
-//    public void setRightChild(FlightBNode rightChild) {
-//        this.rightChild = rightChild;
+//    public BTreeNode split(FlightBNode node){
+//    	FlightBNode current =  node;
+//    	Flight leftAux;
+//    	Flight middleAux;
+//    	Flight rightAux;
+//    	while(current.isFull()){
+//    			leftAux = current.getLeft();
+//    			rightAux = current.getRight();
+//    			middleAux = current.getMiddle();
+//    			current = current.parent;
+//
+//    	}
+//
 //    }
 //
 //}
