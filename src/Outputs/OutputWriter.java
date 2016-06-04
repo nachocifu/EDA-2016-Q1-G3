@@ -12,7 +12,7 @@ public interface OutputWriter {
     public Boolean start();
     public Boolean finish();
 
-    public Boolean writeFlight(Flight flight);
+    public Boolean write(Flight flight);
     public Boolean write(Airport airport);
 
     public Boolean writeNotFound();

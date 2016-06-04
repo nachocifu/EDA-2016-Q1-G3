@@ -6,7 +6,7 @@ import FlightAssistant.Flight;
 
 public interface OutputFormater {
 
-    public String writeFlight(Flight flight);
+    public String write(Flight flight);
 
     public String writeNotFound();
 

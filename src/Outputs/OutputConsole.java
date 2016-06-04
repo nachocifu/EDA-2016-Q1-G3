@@ -29,11 +29,11 @@ public class OutputConsole implements OutputWriter {
         return true;
     }
 
-    public Boolean writeFlight(Flight flight) {
+    public Boolean write(Flight flight) {
 
         if ( !okForWriting() ) return false;
 
-        this.builder.append(this.outputFormat.writeFlight(flight));
+        this.builder.append(this.outputFormat.write(flight));
 
         return true;
     }

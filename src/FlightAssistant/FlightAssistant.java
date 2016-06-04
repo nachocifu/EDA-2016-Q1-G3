@@ -122,7 +122,7 @@ public class FlightAssistant {
 
         //Write Flights
         for (Flight flight : flights )
-            if ( ! this.outputWriter.writeFlight(flight) ) {
+            if ( ! this.outputWriter.write(flight) ) {
                 System.err.println("Unable to write a flight to output. Discarding all !!!");
                 this.outputWriter.discardAll();
                 return false;

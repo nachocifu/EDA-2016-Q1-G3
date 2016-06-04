@@ -44,12 +44,12 @@ public class OutputFile implements OutputWriter {
     }
 
     @Override
-    public Boolean writeFlight(Flight flight) {
+    public Boolean write(Flight flight) {
         //Check if writing is posible
         if ( ! okForWriting() ) return false;
 
         try {
-            this.writer.write(this.outputFormat.writeFlight(flight));
+            this.writer.write(this.outputFormat.write(flight));
             return true;
         } catch ( IOException e ) {
             return false;

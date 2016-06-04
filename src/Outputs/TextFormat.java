@@ -6,7 +6,7 @@ import FlightAssistant.Flight;
 public class TextFormat implements OutputFormater {
 
     @Override
-    public String writeFlight(Flight flight) {
+    public String write(Flight flight) {
 
         StringBuilder sb = new StringBuilder();
 
