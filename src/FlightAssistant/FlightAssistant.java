@@ -6,6 +6,7 @@ import Outputs.OutputWriter;
 import Outputs.TextFormat;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -117,6 +118,73 @@ public class FlightAssistant {
     }
 
     public void deleteAirport(String code) {
+        throw new NotImplementedException();
+    }
+
+    private void insertFlight(Flight flight ){
+        throw new NotImplementedException();
+    }
+
+    private void insertAirport(Airport airport){
+        throw new NotImplementedException();
+    }
+
+    private Airport findAirportByCode(String code ) {
+        throw new NotImplementedException();
+    }
+
+    public void insertAirport( String code, String lat, String lon ) {
+
+        Float latitud, longitud;
+
+        try {
+            latitud = new Float(lat);
+            longitud = new Float(lon);
+
+            //Validations
+            if ( code == null ) return;
+
+            insertAirport( new Airport(code, latitud, longitud) );
+
+        } catch ( Exception e ) {
+            return;
+        }
+    }
+
+    public void insertFlight(String flightTimeString, String departureTimeString, String departureDayString,
+                             String destinationString, String originString, String airline,
+                             String flightNumberString, String priceString) {
+
+        Double flightTime, departureTime, price;
+        WeekDay departureDay;
+        Airport destination, origin;
+        Integer flightNumber;;
+
+        try {
+            flightTime = new Double(flightTimeString);
+            departureTime = new Double(departureTimeString);
+            price = new Double(priceString);
+            departureDay = WeekDay.valueOf(departureDayString);
+            flightNumber = new Integer(flightNumberString);
+
+            destination = findAirportByCode(destinationString);
+            origin = findAirportByCode(originString);
+
+            //Validations
+            if ( destination == null || origin == null || airline  == null ) return;
+
+            insertFlight( new Flight(flightTime,departureTime,departureDay,destination,origin,airline,flightNumber,price) );
+
+        } catch ( Exception e ) {
+            return;
+        }
+    }
+
+    public void insertAirport(Path path) {
+        throw new NotImplementedException();
+    }
+
+    public void insertFlight(Path path) {
         throw new NotImplementedException();
     }
 }

@@ -55,6 +55,8 @@ public class Main {
         String message = "Invalid Input";
         Boolean endExecution = false;
         String aux, aux1, aux2;
+        Path path;
+
         switch ( input.poll() ) {
             case "insert":
                 aux = input.poll();
@@ -62,15 +64,39 @@ public class Main {
                     switch ( aux ) {
                         case "airport":
                             message = "ok";
-//                            flightAssistant.insertAirport( new Airport( ...datos... ) );
+                            flightAssistant.insertAirport(
+                                    input.poll(),
+                                    input.poll(),       // mirar insert flight
+                                    input.poll()
+                            );
                             break;
                         case "flight":
                             message = "ok";
-//                            flightAssistant.insertFlight( new Airport( ...datos... ) );
+                            flightAssistant.insertFlight(
+                                    input.poll(),
+                                    input.poll(),
+                                    input.poll(),
+                                    input.poll(),       //aca le delegue los chequeos al flightasisstant,,,esta bien? igual el flight no se
+                                    input.poll(),       // puede crear aca pq necesitas acceso al grafo para los origin y destination airports
+                                    input.poll(),
+                                    input.poll(),
+                                    input.poll()
+                            );
                             break;
                         case "all":
-                            message = "ok";
-                            break;
+                            aux = input.poll();
+                            path = stringToPath(input.poll());
+                            if ( aux != null && path != null)
+                                switch ( aux ) {
+                                    case "airport":
+                                        flightAssistant.insertAirport(path); //esta en singular pq el comando es en singular. Sobrecarge el mismo metodo a proposito
+                                        message = "ok";
+                                        break;
+                                    case "flight":
+                                        flightAssistant.insertFlight(path); //esta en singular pq el comando es en singular. Sobrecarge el mismo metodo a proposito
+                                        message = "ok";
+                                        break;
+                                }
                     }
                 break;
             case "delete":
@@ -116,16 +142,9 @@ public class Main {
                             break;
                         case "file":
                             message = "ok";
-                            String file = input.poll();
-                            if ( file != null ) {
-                                /**
-                                 * COMO DEBERIAMOS HANDLEAR ERRORES EN EL PATH ACA????
-                                 */
-                                try {
-                                    flightAssistant.changeOutput( new OutputFile( Paths.get(file) ) );
-                                } catch ( InvalidPathException e ) {
-                                    message = "Error on output file path.";
-                                }
+                            path = stringToPath(input.poll());
+                            if ( path != null ) {
+                                flightAssistant.changeOutput( new OutputFile( path ) );
                                 break;
                             }
                     }
@@ -179,6 +198,15 @@ public class Main {
             return string;
 
         return string.substring(++auxNum);
+    }
+
+    private static Path stringToPath(String string) {
+        if (string == null) return null;
+        try {
+            return Paths.get(string);
+        } catch ( InvalidPathException e ) {
+            return null;
+        }
     }
 
 }
