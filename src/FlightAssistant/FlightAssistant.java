@@ -1,12 +1,13 @@
 package FlightAssistant;
 
+import DataStructure.Storage;
 import Outputs.OutputConsole;
 import Outputs.OutputFormater;
 import Outputs.OutputWriter;
 import Outputs.TextFormat;
+import Persistence.Persistence;
+import Persistence.FilePersistence;
 import Stopovers.Stopover;
-import com.sun.tools.doclets.internal.toolkit.util.DocFinder;
-import com.sun.tools.javac.code.Attribute;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.BufferedReader;
@@ -14,21 +15,21 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-
-import static FlightAssistant.WeekDay.MONDAY;
-import static FlightAssistant.WeekDay.TUESDAY;
-import static FlightAssistant.WeekDay.WEDNESDAY;
+import static FlightAssistant.WeekDay.*;
 
 public class FlightAssistant {
 
     private AviationGraph aviationGraph;
     private OutputWriter outputWriter;
+    private Persistence<Storage> persistence;
 
     public FlightAssistant(){
         //set defaults
         this.outputWriter = new OutputConsole();
         this.outputWriter.setFormat( new TextFormat() );
         this.aviationGraph = new AviationGraph();
+        this.persistence = new FilePersistence<Storage>();
+
     }
 
     public void setOutputFormat(OutputFormater outputFormat) {
@@ -313,4 +314,30 @@ public class FlightAssistant {
     public void deleteAllFlights() {
         throw new NotImplementedException();
     }
+
+    /**
+     * Saves current data structure to where the persistence class has defined
+     *
+     */
+    public void save() {
+//        persistence.save( __STRUCT_WITH_ALL_DATA__ );
+    }
+
+    /**
+     * Loads data structure from where the persistence class has defined
+     *
+     */
+    public void load() {
+//        __STRUCT_WITH_ALL_DATA__
+        this.persistence.load();
+    }
+
+    /**
+     * Change current persistence
+     * @param persistence Persistence
+     */
+    public void changePersistence(Persistence<Storage> persistence) {
+        this.persistence = persistence;
+    }
+
 }

@@ -1,7 +1,9 @@
 package FlightAssistant;
 
 
-enum WeekDay {
+import java.io.Serializable;
+
+enum WeekDay implements Serializable{
     MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
 	private Double HOURS = 24.0;

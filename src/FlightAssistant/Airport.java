@@ -1,12 +1,13 @@
 package FlightAssistant;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class Airport {
+public class Airport implements Serializable{
 	
 	private double MAX_LON = 90.0;
 	private double MIN_LON = -90.0;

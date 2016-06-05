@@ -183,7 +183,7 @@ public class Main {
                 message = "ok";
                 break;
             case "exitAndSave":
-
+                flightAssistant.save();
                 break;
             case "exit":
             case "bye":

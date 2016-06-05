@@ -1,7 +1,9 @@
 package FlightAssistant;
 
 
-public class Flight {
+import java.io.Serializable;
+
+public class Flight implements Serializable {
 
     private Double flightTime;
     private Double departureTime;
