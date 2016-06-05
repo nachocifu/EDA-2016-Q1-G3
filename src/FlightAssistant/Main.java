@@ -184,6 +184,7 @@ public class Main {
                 break;
             case "exitAndSave":
                 flightAssistant.save();
+                message = "ok";
                 break;
             case "exit":
             case "bye":
