@@ -18,6 +18,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import static FlightAssistant.WeekDay.*;
+import Priorities.Priority;
+import Priorities.PriorityFlightTime;
+import Priorities.PriorityPrice;
+import Priorities.PriorityTotalTime;
 
 public class FlightAssistant {
 
@@ -46,12 +50,26 @@ public class FlightAssistant {
     public void getBestPath(String originString, String destinationString, String priotityString, String weekdays) {
         if ( weekdays != null )
             weekdays.split("-"); //array of all posible departure days.
-
+        Airport origin = findAirportByCode(originString);
+        Airport destination = findAirportByCode(destinationString);
+        if(origin == null || destination == null) {
+            return;
+        }
+        Priority priority;
+        switch (priotityString) {
+            case "ft": priority = new PriorityFlightTime();
+                     break;
+            case "tt": priority = new PriorityTotalTime();
+                     break;
+            case "pr": priority = new PriorityPrice();
+                     break;
+            default:
+                return;
+        }
         //llamada al dijkstra
-
+        Stopover result = this.aviationGraph.getBestPath(origin, destination, priority);
         //cuando termina manda
-        System.err.println("getBestPath llama a output solo de flights pq no tengo un stopover");
-        this.outputFlights(this.forTestingGetFlights());
+        this.outputBestPath(result);
     }
 
     /**
@@ -60,20 +78,25 @@ public class FlightAssistant {
      * @param stopover Stopover
      */
     private void outputBestPath(Stopover stopover) {
-        Double price = 0.0;
-        Double flightTime = 0.0;
-        Double totalTime = 0.0;
+        
         Boolean error = false;
 
         //Start writing
         if ( ! this.outputWriter.start() ) error = true;
+        
+        if(stopover == null) {
+            if ( ! this.outputWriter.writeNotFound() ) error = true;
+        }
+        else {
+            //Write Headers
+            Double price = stopover.getTotalPrice();
+            Double flightTime = stopover.getTotalFlightTime();
+            Double totalTime = stopover.getTotalTime();
+            if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
 
-        //Write Headers
-        if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
-
-        //Write Flights
-        if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
-
+            //Write Flights
+            if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
+        }
 
         //Check for error and finish Writing
         checkErrorsAndFinishWritingToOutput(error);
@@ -280,7 +303,6 @@ public class FlightAssistant {
             line = reader.readLine();
 
             while (line != null) {
-
                 vars = line.split("#");
                 try {
                     switch (vars.length){
@@ -312,7 +334,6 @@ public class FlightAssistant {
             this.outputWriter.writeErrorFileHandling(pathString);
             this.outputWriter.finish();
         }
-
     }
 
     public void findAllFlights() {
@@ -354,8 +375,8 @@ public class FlightAssistant {
     public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
         Double timeInMinutes;
         String[] ary = timeString.split(":");
-        String hours = ary[0];
-        String minutes = ary[1];
+        String hours = ary[0] + ".0";    //Se agrega el .0 para que pueda parsearse como Double 
+        String minutes = ary[1] + ".0";  //Se agrega el .0 para que pueda parsearse como Double
         timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes) + weekday.distanceInMinutes(MONDAY);
         return timeInMinutes;
     }    

@@ -8,6 +8,7 @@ public class Stopover implements Comparable<Stopover>{
 	private LinkedList<Flight> flights;
 	private int HOURS_PER_DAY = 24;
 	private int MINUTES_PER_HOUR = 60;
+        private Double MINUTES_IN_A_WEEK = 24.0 * 60.0 * 7.0;
 
 	
 	public Stopover(Airport airport, Double weight){
@@ -72,6 +73,37 @@ public class Stopover implements Comparable<Stopover>{
             String str = "Desde: " + flights.getFirst().getOrigin().toString() + " Hasta " + currentStop + " por: " + criteriaWeight.toString();
             return str;
         }
+        
+        public Double getTotalFlightTime() {
+            Double result = 0.0;
+            for(Flight each: this.flights) {
+                result += each.getFlightTime();
+            }
+            return result;
+        }
+        
+        public Double getTotalTime() {
+            Double result = 0.0;
+            Double auxAirportTime = this.flights.getFirst().getDepartureTime();
+            for(Flight each: this.flights) {
+                auxAirportTime = each.getDepartureTime() - auxAirportTime;
+                if(auxAirportTime < 0) {
+                auxAirportTime = MINUTES_IN_A_WEEK - auxAirportTime;
+            }
+                result += each.getFlightTime() + auxAirportTime;
+                auxAirportTime = each.getArrivalTime();
+            }
+            return result;
+        }
+        
+        public Double getTotalPrice() {
+            Double result = 0.0;
+            for(Flight each: this.flights) {
+                result += each.getPrice();
+            }
+            return result;
+        }
+        
     @Override
     public int compareTo(Stopover o) {
         return (int)(this.criteriaWeight - o.getWeight()) ;

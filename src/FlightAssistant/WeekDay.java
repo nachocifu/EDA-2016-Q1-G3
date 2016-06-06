@@ -3,7 +3,7 @@ package FlightAssistant;
 
 import java.io.Serializable;
 
-enum WeekDay implements Serializable{
+public enum WeekDay implements Serializable{
     MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
 	private Double HOURS = 24.0;
@@ -48,6 +48,6 @@ enum WeekDay implements Serializable{
     }
 
     public static Double getMinutesInAWeek() {
-         return 24.0*60.0*7.0;
+         return (24.0 * 60.0 * 7.0);
     }
 }
