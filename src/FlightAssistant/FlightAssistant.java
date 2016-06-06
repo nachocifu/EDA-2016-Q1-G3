@@ -233,10 +233,7 @@ public class FlightAssistant {
             return;
 
         try {
-//            flightTime = new Double(flightTimeString);
-//            departureTime = new Double(departureTimeString);
-            flightTime = 0.0;
-            departureTime = 0.0;
+            flightTime = stringDurationTimeToDouble(flightTimeString);
             price = new Double(priceString);
 
             flightNumber = new Integer(flightNumberString);
@@ -249,9 +246,12 @@ public class FlightAssistant {
 
             //Parse Days
             for (String dayString : departureDayString.split("-")){
-                day = WeekDay.valueOf(dayString);
-                if (day != null)
-                    insertFlight( new Flight(flightTime,departureTime,day,destination,origin,airline,flightNumber,price) );
+                day = WeekDay.getWeekDay(dayString);
+                if (day != null) {
+                    departureTime = stringDepartureTimeToDouble(departureTimeString, day );
+                    if (departureTime != null)
+                        insertFlight(new Flight(flightTime, departureTime, day, destination, origin, airline, flightNumber, price));
+                }
             }
 
 
@@ -334,7 +334,7 @@ public class FlightAssistant {
         if(timeString.indexOf("h") != -1) {
             String hours = timeString.substring(0, timeString.indexOf("h") - 1);
             String minutes = timeString.substring(timeString.indexOf("h") + 1, timeString.indexOf("m") - 1);
-            timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes);
+            timeInMinutes = Double.parseDouble(hours + ".0")*60 + Double.parseDouble(minutes + ".0");
         }
         else {
             String minutes = timeString.substring(0, timeString.indexOf("m") - 1);
