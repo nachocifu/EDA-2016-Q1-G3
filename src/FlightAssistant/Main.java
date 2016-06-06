@@ -140,7 +140,7 @@ public class Main {
                             break;
                     }
                 break;
-            case "findBestPath":
+            case "findRoute":
                     flightAssistant.getBestPath(
                             getParameterFromString(input.poll()),
                             getParameterFromString(input.poll()),

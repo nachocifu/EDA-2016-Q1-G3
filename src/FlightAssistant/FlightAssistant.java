@@ -256,8 +256,18 @@ public class FlightAssistant {
 
 
 
-    public void insertFromFile(String pathString, String append) {
+    public void insertFromFile(String pathString, String appendParam) {
 
+        if (appendParam != null) {
+            switch (appendParam) {
+                case "--replace-airports":
+                    this.deleteAllAirports();
+                    break;
+                case "--replace-flights":
+                    this.deleteAllAirports();
+                    break;
+            }
+        }
         BufferedReader reader;
         Boolean inconsistencies = false;
         String line;
@@ -275,7 +285,6 @@ public class FlightAssistant {
 
             while (line != null) {
                 vars = line.split("#");
-                try {
                     switch (vars.length){
                         case 3:
                             insertAirport(vars[0], vars[1], vars[2]) ;
@@ -284,15 +293,9 @@ public class FlightAssistant {
                             insertFlight(vars[6], vars[5], vars[2], vars[4], vars[3], vars[0], vars[1], vars[7]);
                             break;
                         default:
-                            throw new IllegalArgumentException();
+                            inconsistencies = true;
                     }
-
-
-                } catch ( IllegalArgumentException e ) {
-                    inconsistencies = true;
-                } finally {
                     line = reader.readLine();
-                }
             }
             if (inconsistencies) {
                 this.outputWriter.start();
