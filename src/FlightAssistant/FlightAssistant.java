@@ -144,7 +144,7 @@ public class FlightAssistant {
     private void checkErrorsAndFinishWritingToOutput(Boolean error){
         //(lazy evaluation)
         if ( error || ! this.outputWriter.finish() ) {
-            System.err.println("Unable to write to output. Discarding all !!!");
+            System.err.println("Unable to write to output. Discarding all !!!"); //If writer cannot output, then output to system error
             this.outputWriter.discardAll();
         }
     }
@@ -154,7 +154,7 @@ public class FlightAssistant {
         //Write Flights
         for (Flight flight : flights )
             if ( ! this.outputWriter.write(flight) ) {
-                System.err.println("Unable to write a flight to output. Discarding all !!!");
+                System.err.println("Unable to write to output. Discarding all !!!"); //If writer cannot output, then output to system error
                 this.outputWriter.discardAll();
                 return false;
             }
@@ -167,41 +167,12 @@ public class FlightAssistant {
         //Write Airports
         for (Airport airport : airports )
             if ( ! this.outputWriter.write(airport) ) {
-                System.err.println("Unable to write an airport to output. Discarding all !!!");
+                System.err.println("Unable to write to output. Discarding all !!!"); //If writer cannot output, then output to system error
                 this.outputWriter.discardAll();
                 return false;
             }
         return true;
 
-    }
-
-    private Iterable<Flight> forTestingGetFlights(){
-        List<Flight> list = new LinkedList<Flight>();
-
-        Airport s = new Airport("s", Float.NaN, Float.NaN);
-        Airport a = new Airport("a", Float.NaN, Float.NaN);
-        Airport b = new Airport("b", Float.NaN, Float.NaN);
-        Airport c = new Airport("c", Float.NaN, Float.NaN);
-        Airport d = new Airport("d", Float.NaN, Float.NaN);
-
-        list.add(new Flight(11.0, 5.0, MONDAY, a, s, "StoA", Integer.MIN_VALUE, 1.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, b, s, "StoB", Integer.MIN_VALUE, 4.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, c, s, "StoC", Integer.MIN_VALUE, 2.0));
-        list.add(new Flight(1800.0, 5.0, MONDAY, d, s, "StoD", Integer.MIN_VALUE, 7.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, b, a, "AtoB", Integer.MIN_VALUE, 3.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, c, a, "AtoC", Integer.MIN_VALUE, 9.0));
-        list.add(new Flight(11.0, 16.0, TUESDAY, d, a, "AtoD", Integer.MIN_VALUE, 3.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, a, b, "BtoA", Integer.MIN_VALUE, 3.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, c, b, "BtoC", Integer.MIN_VALUE, 2.0));
-        list.add(new Flight(11.0, 5.0, WEDNESDAY, d, b, "BtoD", Integer.MIN_VALUE, 6.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, a, c, "CtoA", Integer.MIN_VALUE, 9.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, b, c, "CtoB", Integer.MIN_VALUE, 2.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, d, c, "CtoD", Integer.MIN_VALUE, 4.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, a, d, "DtoA", Integer.MIN_VALUE, 4.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, b, d, "DtoB", Integer.MIN_VALUE, 6.0));
-        list.add(new Flight(11.0, 5.0, MONDAY, c, d, "DtoC", Integer.MIN_VALUE, 4.0));
-
-        return list;
     }
 
     public void deleteFlight(String code) {
