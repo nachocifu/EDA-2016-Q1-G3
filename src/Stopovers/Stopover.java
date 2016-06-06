@@ -72,6 +72,37 @@ public class Stopover implements Comparable<Stopover>{
             String str = "Desde: " + flights.getFirst().getOrigin().toString() + " Hasta " + currentStop + " por: " + criteriaWeight.toString();
             return str;
         }
+        
+        public Double getTotalFlightTime() {
+            Double result = 0.0;
+            for(Flight each: this.flights) {
+                result += each.getFlightTime();
+            }
+            return result;
+        }
+        
+        public Double getTotalTime() {
+            Double result = 0.0;
+            Double auxAirportTime = this.flights.getFirst().getDepartureTime();
+            for(Flight each: this.flights) {
+                auxAirportTime = each.getDepartureTime() - auxAirportTime;
+                if(auxAirportTime < 0) {
+                auxAirportTime = WeekDay.getMinutesInAWeek() - auxAirportTime;
+            }
+                result += each.getFlightTime() + auxAirportTime;
+                auxAirportTime = each.getArrivalTime();
+            }
+            return result;
+        }
+        
+        public Double getTotalPrice() {
+            Double result = 0.0;
+            for(Flight each: this.flights) {
+                result += each.getPrice();
+            }
+            return result;
+        }
+        
     @Override
     public int compareTo(Stopover o) {
         return (int)(this.criteriaWeight - o.getWeight()) ;

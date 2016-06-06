@@ -16,6 +16,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import static FlightAssistant.WeekDay.*;
+import Priorities.Priority;
+import Priorities.PriorityFlightTime;
+import Priorities.PriorityPrice;
+import Priorities.PriorityTotalTime;
 
 public class FlightAssistant {
 
@@ -44,12 +48,27 @@ public class FlightAssistant {
     public void getBestPath(String originString, String destinationString, String priotityString, String weekdays) {
         if ( weekdays != null )
             weekdays.split("-"); //array of all posible departure days.
-
+        Airport origin = findAirportByCode(originString);
+        Airport destination = findAirportByCode(destinationString);
+        if(origin == null || destination == null) {
+            return;
+        }
+        Priority priority;
+        switch (priotityString) {
+            case "ft": priority = new PriorityFlightTime();
+                     break;
+            case "tt": priority = new PriorityTotalTime();
+                     break;
+            case "pr": priority = new PriorityPrice();
+                     break;
+            default:
+                return;
+        }
         //llamada al dijkstra
-
+        Stopover result = this.aviationGraph.getBestPath(origin, destination, priority);
         //cuando termina manda
         System.err.println("getBestPath llama a output solo de flights pq no tengo un stopover");
-        this.outputFlights(this.forTestingGetFlights());
+        this.outputBestPath(result);
     }
 
     /**
@@ -58,9 +77,9 @@ public class FlightAssistant {
      * @param stopover Stopover
      */
     private void outputBestPath(Stopover stopover) {
-        Double price = 0.0;
-        Double flightTime = 0.0;
-        Double totalTime = 0.0;
+        Double price = stopover.getTotalPrice();
+        Double flightTime = stopover.getTotalFlightTime();
+        Double totalTime = stopover.getTotalTime();
         Boolean error = false;
 
         //Start writing
