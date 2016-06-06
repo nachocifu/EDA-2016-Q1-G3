@@ -187,7 +187,7 @@ public class FlightAssistant {
         throw new NotImplementedException();
     }
 
-    private void insertFlight(Flight flight ){
+    private void insertFlight(Flight flight){
         throw new NotImplementedException();
     }
 
