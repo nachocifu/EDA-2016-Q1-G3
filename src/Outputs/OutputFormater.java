@@ -13,4 +13,8 @@ public interface OutputFormater {
     public String writeHeader(Double price, Double flightTime, Double totalTime);
 
     public String write(Airport airport);
+
+    public String writeErrorFileHandling(String pathString);
+
+    public String writeErrorsOnFile(String pathString);
 }

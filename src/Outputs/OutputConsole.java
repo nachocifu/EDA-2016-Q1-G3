@@ -96,12 +96,23 @@ public class OutputConsole implements OutputWriter {
     }
 
     @Override
-    public void writeErrorFileHandling(String pathString) {
+    public Boolean writeErrorFileHandling(String pathString) {
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeErrorFileHandling(pathString));
+
+        return true;
 
     }
 
     @Override
-    public void writeErrorsOnFile(String pathString) {
+    public Boolean writeErrorsOnFile(String pathString) {
+
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeErrorsOnFile(pathString));
+
+        return true;
 
     }
 }

@@ -125,12 +125,14 @@ public class OutputFile implements OutputWriter {
     }
 
     @Override
-    public void writeErrorFileHandling(String pathString) {
-
+    public Boolean writeErrorFileHandling(String pathString) {
+        //Dont write errors to files
+        return true;
     }
 
     @Override
-    public void writeErrorsOnFile(String pathString) {
-
+    public Boolean writeErrorsOnFile(String pathString) {
+        //Dont write errors to files
+        return true;
     }
 }

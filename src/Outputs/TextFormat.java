@@ -58,4 +58,25 @@ public class TextFormat implements OutputFormater {
 
         return sb.toString();
     }
+
+    @Override
+    public String writeErrorFileHandling(String pathString) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("***********").append(System.lineSeparator())
+                .append("ERROR: Unable to handle file.").append(System.lineSeparator())
+                .append("File: ").append(pathString).append(System.lineSeparator())
+                .append("***********").append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String writeErrorsOnFile(String pathString) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("*** WARNING: Found inconsistencies on file ***");
+
+        return sb.toString();
+    }
 }

@@ -265,6 +265,7 @@ public class FlightAssistant {
     public void insertFromFile(String pathString, String append) {
 
         BufferedReader reader;
+        Boolean inconsistencies = false;
         String line;
         String[] vars;
 
@@ -295,14 +296,21 @@ public class FlightAssistant {
 
 
                 } catch ( IllegalArgumentException e ) {
-                    this.outputWriter.writeErrorsOnFile(pathString);
+                    inconsistencies = true;
                 } finally {
                     line = reader.readLine();
                 }
             }
+            if (inconsistencies) {
+                this.outputWriter.start();
+                this.outputWriter.writeErrorsOnFile(pathString);
+                this.outputWriter.finish();
+            }
 
         } catch ( IOException e ) {
+            this.outputWriter.start();
             this.outputWriter.writeErrorFileHandling(pathString);
+            this.outputWriter.finish();
         }
 
     }

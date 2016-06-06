@@ -3,6 +3,7 @@ package Outputs;
 
 import FlightAssistant.Airport;
 import FlightAssistant.Flight;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public interface OutputWriter {
 
@@ -23,7 +24,7 @@ public interface OutputWriter {
 
     public void discardAll();
 
-    public void writeErrorFileHandling(String pathString);
+    public Boolean writeErrorFileHandling(String pathString);
 
-    public void writeErrorsOnFile(String pathString);
+    public Boolean writeErrorsOnFile(String pathString);
 }

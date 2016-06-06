@@ -42,4 +42,14 @@ public class KmlFormat implements OutputFormater {
 
         return sb.toString();
     }
+
+    @Override
+    public String writeErrorFileHandling(String pathString) {
+        return null;
+    }
+
+    @Override
+    public String writeErrorsOnFile(String pathString) {
+        return null;
+    }
 }
