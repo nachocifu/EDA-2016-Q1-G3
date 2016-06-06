@@ -367,8 +367,8 @@ public class FlightAssistant {
     public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
         Double timeInMinutes;
         String[] ary = timeString.split(":");
-        String hours = ary[0];
-        String minutes = ary[1];
+        String hours = ary[0] + ".0";    //Se agrega el .0 para que pueda parsearse como Double 
+        String minutes = ary[1] + ".0";  //Se agrega el .0 para que pueda parsearse como Double
         timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes) + weekday.distanceInMinutes(MONDAY);
         return timeInMinutes;
     }    
