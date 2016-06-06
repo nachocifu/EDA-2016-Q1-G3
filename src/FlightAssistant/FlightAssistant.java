@@ -69,7 +69,6 @@ public class FlightAssistant {
         //llamada al dijkstra
         Stopover result = this.aviationGraph.getBestPath(origin, destination, priority);
         //cuando termina manda
-        System.err.println("getBestPath llama a output solo de flights pq no tengo un stopover");
         this.outputBestPath(result);
     }
 
@@ -79,20 +78,25 @@ public class FlightAssistant {
      * @param stopover Stopover
      */
     private void outputBestPath(Stopover stopover) {
-        Double price = stopover.getTotalPrice();
-        Double flightTime = stopover.getTotalFlightTime();
-        Double totalTime = stopover.getTotalTime();
+        
         Boolean error = false;
 
         //Start writing
         if ( ! this.outputWriter.start() ) error = true;
+        
+        if(stopover == null) {
+            if ( ! this.outputWriter.writeNotFound() ) error = true;
+        }
+        else {
+            //Write Headers
+            Double price = stopover.getTotalPrice();
+            Double flightTime = stopover.getTotalFlightTime();
+            Double totalTime = stopover.getTotalTime();
+            if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
 
-        //Write Headers
-        if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
-
-        //Write Flights
-        if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
-
+            //Write Flights
+            if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
+        }
 
         //Check for error and finish Writing
         checkErrorsAndFinishWritingToOutput(error);
@@ -298,7 +302,6 @@ public class FlightAssistant {
             line = reader.readLine();
 
             while (line != null) {
-
                 vars = line.split("#");
                 try {
                     switch (vars.length){
@@ -323,7 +326,6 @@ public class FlightAssistant {
         } catch ( IOException e ) {
             this.outputWriter.writeErrorFileHandling(pathString);
         }
-
     }
 
     public void findAllFlights() {

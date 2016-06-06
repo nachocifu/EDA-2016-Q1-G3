@@ -8,6 +8,7 @@ public class Stopover implements Comparable<Stopover>{
 	private LinkedList<Flight> flights;
 	private int HOURS_PER_DAY = 24;
 	private int MINUTES_PER_HOUR = 60;
+        private Double MINUTES_IN_A_WEEK = 24.0 * 60.0 * 7.0;
 
 	
 	public Stopover(Airport airport, Double weight){
@@ -87,7 +88,7 @@ public class Stopover implements Comparable<Stopover>{
             for(Flight each: this.flights) {
                 auxAirportTime = each.getDepartureTime() - auxAirportTime;
                 if(auxAirportTime < 0) {
-                auxAirportTime = WeekDay.getMinutesInAWeek() - auxAirportTime;
+                auxAirportTime = MINUTES_IN_A_WEEK - auxAirportTime;
             }
                 result += each.getFlightTime() + auxAirportTime;
                 auxAirportTime = each.getArrivalTime();

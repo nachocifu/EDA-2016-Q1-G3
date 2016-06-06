@@ -48,6 +48,6 @@ public enum WeekDay implements Serializable{
     }
 
     public static Double getMinutesInAWeek() {
-         return 24.0*60.0*7.0;
+         return (24.0 * 60.0 * 7.0);
     }
 }
