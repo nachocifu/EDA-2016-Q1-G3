@@ -12,8 +12,7 @@ public class AviationGraph {
         airports = new HashMap<String, Airport>();
     }
 
-    public void insertAirport(String code, Float lat, Float lon){
-        Airport airport = new Airport(code,lat,lon);
+    public void insertAirport(Airport airport){
         AviationGraph.airports.put(airport.getCode(), airport);
     }
 
@@ -56,6 +55,10 @@ public class AviationGraph {
     public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
         clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
+    }
+    
+    public HashMap<String, Airport> getAirports() {
+        return this.airports;
     }
     
     public static void clearMarks() {
