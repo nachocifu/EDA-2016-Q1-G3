@@ -4,6 +4,7 @@ import Priorities.Priority;
 import Stopovers.Stopover;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 
 public class AviationGraph {
 
@@ -27,17 +28,12 @@ public class AviationGraph {
         return allAirports;
     }
 
-    public String listFlights() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(System.lineSeparator() + "---> Listing all flights <---");
-        sb.append(System.lineSeparator());
-        for (Airport airport : AviationGraph.airports.values()) {
-            sb.append("Flights departing from " + airport + System.lineSeparator());
-            sb.append(airport.getOutboundFlights().toString()+ System.lineSeparator());
+    public Iterable<Flight> findAllFlights() {
+        HashSet<Flight> allFlights = new HashSet<Flight> ();
+        for(Airport each: this.findAllAirports()) {
+            allFlights.addAll(each.getOutboundFlights());
         }
-        sb.append(System.lineSeparator());
-        sb.append(System.lineSeparator());
-        return sb.toString();
+        return allFlights;
     }
 
     public void insertFlight(Double flightTime, Double departureTime, String departureDay,
