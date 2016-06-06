@@ -299,12 +299,7 @@ public class FlightAssistant {
     }
 
     public void findAllAirports() {
-        throw new NotImplementedException();
-
-//        //Retrieve all flights
-//        Iterable<Airport> allAirports =  ....
-//
-//        this.outputAirports(allAirports);
+        this.outputAirports(this.aviationGraph.findAllAirports());
 
     }
 

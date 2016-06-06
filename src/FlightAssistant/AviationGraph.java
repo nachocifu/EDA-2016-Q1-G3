@@ -3,6 +3,7 @@ package FlightAssistant;
 import Priorities.Priority;
 import Stopovers.Stopover;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class AviationGraph {
 
@@ -16,16 +17,14 @@ public class AviationGraph {
         AviationGraph.airports.put(airport.getCode(), airport);
     }
 
-    public String listAirports() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(System.lineSeparator());
-        for (Airport each : AviationGraph.airports.values()) {
-            sb.append(each + "  Lat: " + each.getLatitude() + "  Lon: " + each.getLongitude());
-            sb.append(System.lineSeparator());
+    public Iterable<Airport> findAllAirports() {
+        HashSet<Airport> allAirports = new HashSet<Airport> ();
+        for(String each: this.airports.keySet()) {
+            if(this.getAirports().get(each) != null) {
+                allAirports.add(this.airports.get(each));
+            }
         }
-        sb.append(System.lineSeparator());
-        sb.append(System.lineSeparator());
-        return sb.toString();
+        return allAirports;
     }
 
     public String listFlights() {
