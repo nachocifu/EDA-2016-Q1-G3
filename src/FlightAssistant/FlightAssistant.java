@@ -310,7 +310,7 @@ public class FlightAssistant {
         }
     }
 
-    public Double stringTimeToDouble(String timeString) {
+    public Double stringDurationTimeToDouble(String timeString) {
         Double timeInMinutes;
         if(timeString.indexOf("h") != -1) {
             String hours = timeString.substring(0, timeString.indexOf("h") - 1);
@@ -323,6 +323,17 @@ public class FlightAssistant {
         }
         return timeInMinutes;
     }
+    
+    public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
+        Double timeInMinutes;
+        String[] ary = timeString.split(":");
+        String hours = ary[0];
+        String minutes = ary[1];
+        timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes) + weekday.distanceInMinutes(MONDAY);
+        return timeInMinutes;
+    }    
+    
+    
     
     /**
      * Saves current data structure to where the persistence class has defined
