@@ -225,9 +225,12 @@ public class FlightAssistant {
                              String flightNumberString, String priceString) {
 
         Double flightTime, departureTime, price;
-        WeekDay departureDay;
+        WeekDay day;
         Airport destination, origin;
         Integer flightNumber;
+
+        if (departureDayString == null)
+            return;
 
         try {
 //            flightTime = new Double(flightTimeString);
@@ -235,8 +238,7 @@ public class FlightAssistant {
             flightTime = 0.0;
             departureTime = 0.0;
             price = new Double(priceString);
-//            departureDay = WeekDay.valueOf(departureDayString);
-            departureDay = WeekDay.MONDAY;
+
             flightNumber = new Integer(flightNumberString);
 
             destination = findAirportByCode(destinationString);
@@ -245,7 +247,13 @@ public class FlightAssistant {
             //Validations
             if ( destination == null || origin == null || airline  == null ) return;
 
-            insertFlight( new Flight(flightTime,departureTime,departureDay,destination,origin,airline,flightNumber,price) );
+            //Parse Days
+            for (String dayString : departureDayString.split("-")){
+                day = WeekDay.valueOf(dayString);
+                if (day != null)
+                    insertFlight( new Flight(flightTime,departureTime,day,destination,origin,airline,flightNumber,price) );
+            }
+
 
         } catch ( Exception e ) {
             e.printStackTrace();
@@ -310,12 +318,7 @@ public class FlightAssistant {
     }
 
     public void findAllAirports() {
-        throw new NotImplementedException();
-
-//        //Retrieve all flights
-//        Iterable<Airport> allAirports =  ....
-//
-//        this.outputAirports(allAirports);
+        this.outputAirports(this.aviationGraph.findAllAirports());
 
     }
 
@@ -331,6 +334,20 @@ public class FlightAssistant {
         }
     }
 
+    public Double stringTimeToDouble(String timeString) {
+        Double timeInMinutes;
+        if(timeString.indexOf("h") != -1) {
+            String hours = timeString.substring(0, timeString.indexOf("h") - 1);
+            String minutes = timeString.substring(timeString.indexOf("h") + 1, timeString.indexOf("m") - 1);
+            timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes);
+        }
+        else {
+            String minutes = timeString.substring(0, timeString.indexOf("m") - 1);
+            timeInMinutes = Double.parseDouble(minutes);
+        }
+        return timeInMinutes;
+    }
+    
     /**
      * Saves current data structure to where the persistence class has defined
      *

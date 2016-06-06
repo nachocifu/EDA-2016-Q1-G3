@@ -54,7 +54,6 @@ public class Main {
      * @return
      */
     private static Boolean parseCommand(Queue<String> input, FlightAssistant flightAssistant) {
-        String message = "Invalid Input";
         Boolean endExecution = false;
         String aux;
 
@@ -64,7 +63,6 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "airport":
-                            message = "ok";
                             flightAssistant.insertAirport(
                                     input.poll(),
                                     input.poll(),
@@ -72,7 +70,6 @@ public class Main {
                             );
                             break;
                         case "flight":
-                            message = "ok";
                             flightAssistant.insertFlight(
                                     input.poll(),
                                     input.poll(),
@@ -136,7 +133,6 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "stdout":
-                            message = "ok";
                             flightAssistant.changeOutput( new OutputConsole() );
                             break;
                         case "file":
@@ -153,24 +149,19 @@ public class Main {
                 break;
             case "findAllAirports":
                 flightAssistant.findAllAirports();
-                message = "ok";
                 break;
             case "findAllFlights":
                 flightAssistant.findAllFlights();
-                message = "ok";
                 break;
             case "exitAndSave":
                 flightAssistant.save();
-                message = "ok";
                 break;
             case "exit":
             case "bye":
             case "goodbye":
                 endExecution = true;
-                message = "Good Bye";
                 break;
         }
-        System.err.println(message);
         return endExecution;
     }
 
