@@ -320,6 +320,20 @@ public class FlightAssistant {
         }
     }
 
+    public Double stringTimeToDouble(String timeString) {
+        Double timeInMinutes;
+        if(timeString.indexOf("h") != -1) {
+            String hours = timeString.substring(0, timeString.indexOf("h") - 1);
+            String minutes = timeString.substring(timeString.indexOf("h") + 1, timeString.indexOf("m") - 1);
+            timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes);
+        }
+        else {
+            String minutes = timeString.substring(0, timeString.indexOf("m") - 1);
+            timeInMinutes = Double.parseDouble(minutes);
+        }
+        return timeInMinutes;
+    }
+    
     /**
      * Saves current data structure to where the persistence class has defined
      *
