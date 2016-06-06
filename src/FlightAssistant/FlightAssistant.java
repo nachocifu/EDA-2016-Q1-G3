@@ -186,22 +186,20 @@ public class FlightAssistant {
     }
 
     public void deleteAirport(String code) {
-        throw new NotImplementedException();
+        this.aviationGraph.getAirports().put(code, null);
     }
 
-    private void insertFlight(Flight flight ){
-        System.err.println("Llego a insertFlight un flight con codigo: " + flight.getCode());
-//        throw new NotImplementedException();
+    private void insertFlight(Flight flight){
+        Airport airportToPut = flight.getOrigin();
+        this.aviationGraph.getAirports().get(airportToPut.getCode()).addFlight(flight);
     }
 
     private void insertAirport(Airport airport){
-        System.err.println("Llego a insertAirport un aeropuerto con codigo: " + airport.getCode());
-//        throw new NotImplementedException();
+        this.aviationGraph.insertAirport(airport);
     }
 
-    private Airport findAirportByCode(String code ) {
-        return null;
-//        throw new NotImplementedException();
+    private Airport findAirportByCode(String code) {
+        return this.aviationGraph.getAirports().get(code);
     }
 
     public void insertAirport( String code, String lat, String lon ) {
@@ -322,11 +320,15 @@ public class FlightAssistant {
     }
 
     public void deleteAllAirports() {
-        throw new NotImplementedException();
+        for(String each: this.aviationGraph.getAirports().keySet()) {
+            this.aviationGraph.getAirports().put(each, null);
+        }
     }
 
     public void deleteAllFlights() {
-        throw new NotImplementedException();
+        for(String each: this.aviationGraph.getAirports().keySet()) {
+            this.aviationGraph.getAirports().get(each).deleteAllFlights();
+        }
     }
 
     /**

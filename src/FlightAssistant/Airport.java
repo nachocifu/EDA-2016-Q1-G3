@@ -87,6 +87,10 @@ public class Airport implements Serializable{
             this.posibleOutboundFlightsDestination.add(flight.getDestination());
         }
 
+        public void removeFlight(Flight flight) {
+            this.outboundFlights.remove(flight);
+        }
+        
 //	public String listDepartureFlights() {
 //		StringBuilder sb = new StringBuilder();
 //
@@ -121,6 +125,10 @@ public class Airport implements Serializable{
 		 //TODO: sea cual sea la impl. va a devovler una lista
 		 return this.outboundFlights;
 	 }
+         
+         public void deleteAllFlights() {
+             this.outboundFlights = new LinkedList<Flight>() ;
+         }
          
          public HashSet<Airport> getPosibleOutboundDestination() {
              return this.posibleOutboundFlightsDestination;

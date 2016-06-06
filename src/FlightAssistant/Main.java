@@ -85,8 +85,14 @@ public class Main {
                             );
                             break;
                         case "all":
-                            input.poll();
-                            flightAssistant.insertFromFile(input.poll(), input.poll());
+                            aux = input.poll();
+                            if ( aux != null )
+                                switch (aux) {
+                                    case "flight":
+                                    case "airport":
+                                        flightAssistant.insertFromFile(input.poll(), input.poll());
+                                        break;
+                                }
                             break;
                     }
                 break;
