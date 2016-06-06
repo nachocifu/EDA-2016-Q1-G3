@@ -23,4 +23,7 @@ public interface OutputWriter {
 
     public void discardAll();
 
+    public void writeErrorFileHandling(String pathString);
+
+    public void writeErrorsOnFile(String pathString);
 }

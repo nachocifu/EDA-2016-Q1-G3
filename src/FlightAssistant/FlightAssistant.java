@@ -13,7 +13,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import static FlightAssistant.WeekDay.*;
 
@@ -188,15 +190,18 @@ public class FlightAssistant {
     }
 
     private void insertFlight(Flight flight ){
-        throw new NotImplementedException();
+        System.err.println("Llego a insertFlight un flight con codigo: " + flight.getCode());
+//        throw new NotImplementedException();
     }
 
     private void insertAirport(Airport airport){
-        throw new NotImplementedException();
+        System.err.println("Llego a insertAirport un aeropuerto con codigo: " + airport.getCode());
+//        throw new NotImplementedException();
     }
 
     private Airport findAirportByCode(String code ) {
-        throw new NotImplementedException();
+        return null;
+//        throw new NotImplementedException();
     }
 
     public void insertAirport( String code, String lat, String lon ) {
@@ -224,13 +229,16 @@ public class FlightAssistant {
         Double flightTime, departureTime, price;
         WeekDay departureDay;
         Airport destination, origin;
-        Integer flightNumber;;
+        Integer flightNumber;
 
         try {
-            flightTime = new Double(flightTimeString);
-            departureTime = new Double(departureTimeString);
+//            flightTime = new Double(flightTimeString);
+//            departureTime = new Double(departureTimeString);
+            flightTime = 0.0;
+            departureTime = 0.0;
             price = new Double(priceString);
-            departureDay = WeekDay.valueOf(departureDayString);
+//            departureDay = WeekDay.valueOf(departureDayString);
+            departureDay = WeekDay.MONDAY;
             flightNumber = new Integer(flightNumberString);
 
             destination = findAirportByCode(destinationString);
@@ -242,49 +250,55 @@ public class FlightAssistant {
             insertFlight( new Flight(flightTime,departureTime,departureDay,destination,origin,airline,flightNumber,price) );
 
         } catch ( Exception e ) {
-            return;
+            e.printStackTrace();
         }
     }
 
-    public void insertAirport(Path path) {
+
+
+    public void insertFromFile(String pathString, String append) {
+
         BufferedReader reader;
         String line;
-        Integer lineCount = 1;
-        String[] flightArray;
+        String[] vars;
+
+        Path path = stringToPath(pathString);
+        if (path == null){
+            this.outputWriter.writeErrorFileHandling(pathString);
+            return;
+        }
 
         try {
             reader = Files.newBufferedReader(path);
             line = reader.readLine();
 
             while (line != null) {
-                System.err.println(line);
-                flightArray = line.split("#");
 
+                vars = line.split("#");
                 try {
-                    if ( flightArray.length != 3 )
-                        throw new IllegalArgumentException();
+                    switch (vars.length){
+                        case 3:
+                            insertAirport(vars[0], vars[1], vars[2]) ;
+                            break;
+                        case 8:
+                            insertFlight(vars[6], vars[5], vars[2], vars[4], vars[3], vars[0], vars[1], vars[7]);
+                            break;
+                        default:
+                            throw new IllegalArgumentException();
+                    }
 
-                    insertAirport( new Airport(
-                            flightArray[0].trim(),
-                            new Float(flightArray[1].trim()),
-                            new Float(flightArray[2].trim()))
-                    );
+
                 } catch ( IllegalArgumentException e ) {
-                    System.err.println("Error parsing airport on line: " + lineCount);
+                    this.outputWriter.writeErrorsOnFile(pathString);
                 } finally {
-                    lineCount++;
                     line = reader.readLine();
                 }
             }
 
         } catch ( IOException e ) {
-            System.err.println("Error manipulating file.");
+            this.outputWriter.writeErrorFileHandling(pathString);
         }
 
-    }
-
-    public void insertFlight(Path path) {
-        throw new NotImplementedException();
     }
 
     public void findAllFlights() {
@@ -338,6 +352,15 @@ public class FlightAssistant {
      */
     public void changePersistence(Persistence<Storage> persistence) {
         this.persistence = persistence;
+    }
+
+    private static Path stringToPath(String string) {
+        if (string == null) return null;
+        try {
+            return Paths.get(string);
+        } catch ( InvalidPathException e ) {
+            return null;
+        }
     }
 
 }

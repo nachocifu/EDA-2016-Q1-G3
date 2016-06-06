@@ -56,8 +56,7 @@ public class Main {
     private static Boolean parseCommand(Queue<String> input, FlightAssistant flightAssistant) {
         String message = "Invalid Input";
         Boolean endExecution = false;
-        String aux, aux1, aux2;
-        Path path;
+        String aux;
 
         switch ( input.poll() ) {
             case "insert":
@@ -68,7 +67,7 @@ public class Main {
                             message = "ok";
                             flightAssistant.insertAirport(
                                     input.poll(),
-                                    input.poll(),       // mirar insert flight
+                                    input.poll(),
                                     input.poll()
                             );
                             break;
@@ -78,27 +77,17 @@ public class Main {
                                     input.poll(),
                                     input.poll(),
                                     input.poll(),
-                                    input.poll(),       //aca le delegue los chequeos al flightasisstant,,,esta bien? igual el flight no se
-                                    input.poll(),       // puede crear aca pq necesitas acceso al grafo para los origin y destination airports
+                                    input.poll(),
+                                    input.poll(),
                                     input.poll(),
                                     input.poll(),
                                     input.poll()
                             );
                             break;
                         case "all":
-                            aux = input.poll();
-                            path = stringToPath(input.poll());
-                            if ( aux != null && path != null)
-                                switch ( aux ) {
-                                    case "airport":
-                                        flightAssistant.insertAirport(path); //esta en singular pq el comando es en singular. Sobrecarge el mismo metodo a proposito
-                                        message = "ok";
-                                        break;
-                                    case "flight":
-                                        flightAssistant.insertFlight(path); //esta en singular pq el comando es en singular. Sobrecarge el mismo metodo a proposito
-                                        message = "ok";
-                                        break;
-                                }
+                            input.poll();
+                            flightAssistant.insertFromFile(input.poll(), input.poll());
+                            break;
                     }
                 break;
             case "delete":
@@ -106,16 +95,10 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "airport":
-                            message = "ok";
-                            aux = input.poll();
-                            if ( aux != null )
-                                flightAssistant.deleteAirport(aux);
+                            flightAssistant.deleteAirport(input.poll());
                             break;
                         case "flight":
-                            message = "ok";
-                            aux = input.poll();
-                            if ( aux != null )
-                                flightAssistant.deleteFlight(aux);
+                            flightAssistant.deleteFlight(input.poll());
                             break;
                         case "all":
                             aux = input.poll();
@@ -123,11 +106,9 @@ public class Main {
                                 switch ( aux ) {
                                     case "airport":
                                         flightAssistant.deleteAllAirports();
-                                        message = "ok";
                                         break;
                                     case "flight":
                                         flightAssistant.deleteAllFlights();
-                                        message = "ok";
                                         break;
                                 }
                     }
@@ -153,26 +134,16 @@ public class Main {
                             flightAssistant.changeOutput( new OutputConsole() );
                             break;
                         case "file":
-                            message = "ok";
-                            path = stringToPath(input.poll());
-                            if ( path != null ) {
-                                flightAssistant.changeOutput( new OutputFile( path ) );
-                                break;
-                            }
+                            flightAssistant.changeOutput( new OutputFile( input.poll() ) );
+                            break;
                     }
                 break;
             case "findBestPath":
-                aux = input.poll();
-                aux1 = input.poll();
-                aux2 = input.poll();
-                if ( aux != null || aux1 != null || aux2 != null ) {
                     flightAssistant.getBestPath(
-                            getParameterFromString(aux.trim()),
-                            getParameterFromString(aux1.trim()),
-                            getParameterFromString(aux2.trim()),
+                            getParameterFromString(input.poll()),
+                            getParameterFromString(input.poll()),
+                            getParameterFromString(input.poll()),
                             getParameterFromString(input.poll()));
-                    message = "ok";
-                }
                 break;
             case "findAllAirports":
                 flightAssistant.findAllAirports();
@@ -212,16 +183,7 @@ public class Main {
         if ( auxNum < 0 )
             return string;
 
-        return string.substring(++auxNum);
-    }
-
-    private static Path stringToPath(String string) {
-        if (string == null) return null;
-        try {
-            return Paths.get(string);
-        } catch ( InvalidPathException e ) {
-            return null;
-        }
+        return string.substring(++auxNum).trim();
     }
 
 }
