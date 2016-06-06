@@ -2,11 +2,13 @@ package FlightAssistant;
 
 import Priorities.Priority;
 import Stopovers.Stopover;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-public class AviationGraph {
+public class AviationGraph implements Serializable{
 
     private static HashMap<String,Airport> airports;
 

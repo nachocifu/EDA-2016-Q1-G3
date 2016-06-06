@@ -39,7 +39,6 @@ public class FilePersistence<E> implements Persistence<E> {
             fileIn.close();
         }catch(IOException i) {
             System.err.print(i.getStackTrace());
-            i.printStackTrace();
         }catch(ClassNotFoundException c) {
             System.err.print(c.getStackTrace());
         } finally {

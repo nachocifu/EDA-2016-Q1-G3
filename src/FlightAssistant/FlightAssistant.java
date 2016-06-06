@@ -27,14 +27,14 @@ public class FlightAssistant {
 
     private AviationGraph aviationGraph;
     private OutputWriter outputWriter;
-    private Persistence<Storage> persistence;
+    private Persistence persistence;
 
     public FlightAssistant(){
         //set defaults
         this.outputWriter = new OutputConsole();
         this.outputWriter.setFormat( new TextFormat() );
         this.aviationGraph = new AviationGraph();
-        this.persistence = new FilePersistence<Storage>();
+        this.persistence = new FilePersistence<AviationGraph>();
 
     }
 
@@ -362,7 +362,7 @@ public class FlightAssistant {
      *
      */
     public void save() {
-//        persistence.save( __STRUCT_WITH_ALL_DATA__ );
+        persistence.save( this.aviationGraph );
     }
 
     /**
@@ -370,8 +370,12 @@ public class FlightAssistant {
      *
      */
     public void load() {
-//        __STRUCT_WITH_ALL_DATA__
-        this.persistence.load();
+
+        AviationGraph graph = (AviationGraph) this.persistence.load();
+
+        if(graph != null)
+            this.aviationGraph = graph;
+
     }
 
     /**

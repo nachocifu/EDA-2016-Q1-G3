@@ -22,8 +22,12 @@ public class Main {
 
         FlightAssistant flightAssistant = new FlightAssistant();
 
+        //Load saved data if exists
+        flightAssistant.load();
+
         if (args !=  null && args.length > 0) {
             System.out.println("Invocacion desde shell");
+            parseCommand(new LinkedList<>(Arrays.asList(args)),flightAssistant);
         } else {
             System.out.println("Invocacion pidiendo command-line");
 
