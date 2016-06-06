@@ -94,4 +94,14 @@ public class OutputConsole implements OutputWriter {
     public void discardAll(){
         this.builder = null;
     }
+
+    @Override
+    public void writeErrorFileHandling(String pathString) {
+
+    }
+
+    @Override
+    public void writeErrorsOnFile(String pathString) {
+
+    }
 }

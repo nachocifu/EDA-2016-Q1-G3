@@ -8,14 +8,15 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class OutputFile implements OutputWriter {
 
-    private Path path;
+    private String path;
     private BufferedWriter writer;
     private OutputFormater outputFormat;
 
-    public OutputFile( Path path){
+    public OutputFile(String path){
         this.path = path;
     }
 
@@ -23,7 +24,7 @@ public class OutputFile implements OutputWriter {
     public Boolean start() {
         //Create buffered writer
         try {
-            writer = Files.newBufferedWriter(this.path);
+            writer = Files.newBufferedWriter(Paths.get(this.path));
             return true;
         } catch (IOException e) {
             return false;
@@ -121,5 +122,15 @@ public class OutputFile implements OutputWriter {
     @Override
     public void discardAll(){
         this.writer = null;
+    }
+
+    @Override
+    public void writeErrorFileHandling(String pathString) {
+
+    }
+
+    @Override
+    public void writeErrorsOnFile(String pathString) {
+
     }
 }
