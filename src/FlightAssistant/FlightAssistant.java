@@ -289,12 +289,7 @@ public class FlightAssistant {
     }
 
     public void findAllFlights() {
-        throw new NotImplementedException();
-
-//        //Retrieve all flights
-//        Iterable<Flight> allFlights =  .....
-//
-//        this.outputFlights(allFlights);
+        this.outputFlights(this.aviationGraph.findAllFlights());
 
     }
 
