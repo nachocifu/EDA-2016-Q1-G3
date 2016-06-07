@@ -26,7 +26,7 @@ public class Dijkstra {
 				currentStop = queue.poll();
 			}
             				if(currentStop.getCurrentStop().equals(target)) {
-                            System.out.println("Se encontro: " + currentStop.toString() + "<<<<<<<<<<<<<<<<<<<<<<<<<");
+                            System.out.println("Se encontro: " + currentStop.toString() + "Tiempo =" + (System.currentTimeMillis() - time));
                             return currentStop;
             				}
 			currentStop.getCurrentStop().tag();
@@ -44,7 +44,7 @@ public class Dijkstra {
 			}
 		}
                 System.out.println("No se encontro nada");
-                System.out.println(System.currentTimeMillis() - time);
+                System.out.println("Tiempo =" + (System.currentTimeMillis() - time));
 		return null;
 	}
 	
