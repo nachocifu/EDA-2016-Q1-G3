@@ -114,11 +114,11 @@ public class Flight implements Serializable {
      * @return boolean if o equals this
      */
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (this == o)
+        	return true;
+        if (o == null || getClass() != o.getClass())
+        	return false;
         Flight flight = (Flight) o;
-
         return this.getCode().equals(flight.getCode());
     }
 

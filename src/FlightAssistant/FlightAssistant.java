@@ -17,7 +17,6 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 
 import Priorities.Priority;
 import Priorities.PriorityFlightTime;
@@ -207,22 +206,10 @@ public class FlightAssistant implements GraphManager {
 
     }
 
-    public void insertAirport( String code, String lat, String lon ) {
+    public void insertAirport(String[] params) {
 
-        Float latitud, longitud;
+        this.airportParser.parse(params, this);
 
-        try {
-            latitud = new Float(lat);
-            longitud = new Float(lon);
-
-            //Validations
-            if ( code == null ) return;
-
-            insert( new Airport(code, latitud, longitud) );
-
-        } catch ( Exception e ) {
-            return;
-        }
     }
 
     public void insertFlight(String[] params) {
@@ -241,7 +228,6 @@ public class FlightAssistant implements GraphManager {
         Boolean inconsistencies = false;
         String line;
         String[] vars;
-        List results;
 
         Path path = stringToPath(pathString);
         if (path == null){
