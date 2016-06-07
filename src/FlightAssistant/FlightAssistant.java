@@ -5,6 +5,7 @@ import Outputs.OutputConsole;
 import Outputs.OutputFormater;
 import Outputs.OutputWriter;
 import Outputs.TextFormat;
+import Parser.*;
 import Persistence.Persistence;
 import Persistence.FilePersistence;
 import Stopovers.Stopover;
@@ -16,18 +17,20 @@ import java.nio.file.Files;
 import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import static FlightAssistant.WeekDay.*;
+import java.util.List;
+
 import Priorities.Priority;
 import Priorities.PriorityFlightTime;
 import Priorities.PriorityPrice;
 import Priorities.PriorityTotalTime;
 
-public class FlightAssistant {
+public class FlightAssistant implements GraphManager {
 
     private AviationGraph aviationGraph;
     private OutputWriter outputWriter;
     private Persistence persistence;
+    private Parser<Flight> flightParser;
+    private Parser<Airport> airportParser;
 
     public FlightAssistant(){
         //set defaults
@@ -35,7 +38,8 @@ public class FlightAssistant {
         this.outputWriter.setFormat( new TextFormat() );
         this.aviationGraph = new AviationGraph();
         this.persistence = new FilePersistence<AviationGraph>();
-
+        this.flightParser = new FlightParser();
+        this.airportParser = new AirPortParser();
     }
 
     public void setOutputFormat(OutputFormater outputFormat) {
@@ -183,17 +187,24 @@ public class FlightAssistant {
         this.aviationGraph.getAirports().put(code, null);
     }
 
-    private void insertFlight(Flight flight){
+    private void insert(Flight flight){
         Airport airportToPut = flight.getOrigin();
         this.aviationGraph.getAirports().get(airportToPut.getCode()).addFlight(flight);
     }
 
-    private void insertAirport(Airport airport){
+    private void insert(Airport airport){
         this.aviationGraph.insertAirport(airport);
     }
 
-    private Airport findAirportByCode(String code) {
-        return this.aviationGraph.getAirports().get(code);
+    public void add(Flight flight){
+
+        if (this.aviationGraph.isOk(flight)) this.insert(flight);
+    }
+
+    public void add(Airport airport){
+
+        if (this.aviationGraph.isOk(airport)) this.insert(airport);
+
     }
 
     public void insertAirport( String code, String lat, String lon ) {
@@ -207,71 +218,30 @@ public class FlightAssistant {
             //Validations
             if ( code == null ) return;
 
-            insertAirport( new Airport(code, latitud, longitud) );
+            insert( new Airport(code, latitud, longitud) );
 
         } catch ( Exception e ) {
             return;
         }
     }
 
-    public void insertFlight(String flightTimeString, String departureTimeString, String departureDayString,
-                             String destinationString, String originString, String airline,
-                             String flightNumberString, String priceString) {
+    public void insertFlight(String[] params) {
 
-        Double flightTime, departureTime, price;
-        WeekDay day;
-        Airport destination, origin;
-        Integer flightNumber;
+        this.flightParser.parse(params, this);
 
-        if (departureDayString == null)
-            return;
-
-        try {
-            flightTime = stringDurationTimeToDouble(flightTimeString);
-            price = new Double(priceString);
-
-            flightNumber = new Integer(flightNumberString);
-
-            destination = findAirportByCode(destinationString);
-            origin = findAirportByCode(originString);
-
-            //Validations
-            if ( destination == null || origin == null || airline  == null ) return;
-
-            //Parse Days
-            for (String dayString : departureDayString.split("-")){
-                day = WeekDay.getWeekDay(dayString);
-                if (day != null) {
-                    departureTime = stringDepartureTimeToDouble(departureTimeString, day );
-                    if (departureTime != null)
-                        insertFlight(new Flight(flightTime, departureTime, day, destination, origin, airline, flightNumber, price));
-                }
-            }
-
-
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
     }
 
 
 
-    public void insertFromFile(String pathString, String appendParam) {
 
-        if (appendParam != null) {
-            switch (appendParam) {
-                case "--replace-airports":
-                    this.deleteAllAirports();
-                    break;
-                case "--replace-flights":
-                    this.deleteAllAirports();
-                    break;
-            }
-        }
+    public void insertFromFile(String pathString,Parser parser) {
+
+
         BufferedReader reader;
         Boolean inconsistencies = false;
         String line;
         String[] vars;
+        List results;
 
         Path path = stringToPath(pathString);
         if (path == null){
@@ -285,17 +255,10 @@ public class FlightAssistant {
 
             while (line != null) {
                 vars = line.split("#");
-                    switch (vars.length){
-                        case 3:
-                            insertAirport(vars[0], vars[1], vars[2]) ;
-                            break;
-                        case 8:
-                            insertFlight(vars[6], vars[5], vars[2], vars[4], vars[3], vars[0], vars[1], vars[7]);
-                            break;
-                        default:
-                            inconsistencies = true;
-                    }
-                    line = reader.readLine();
+
+                if( parser.parse(vars, this) ) inconsistencies = true;
+
+                line = reader.readLine();
             }
             if (inconsistencies) {
                 this.outputWriter.start();
@@ -331,29 +294,6 @@ public class FlightAssistant {
             this.aviationGraph.getAirports().get(each).deleteAllFlights();
         }
     }
-
-    public Double stringDurationTimeToDouble(String timeString) {
-        Double timeInMinutes;
-        if(timeString.indexOf("h") != -1) {
-            String hours = timeString.substring(0, timeString.indexOf("h") - 1);
-            String minutes = timeString.substring(timeString.indexOf("h") + 1, timeString.indexOf("m") - 1);
-            timeInMinutes = Double.parseDouble(hours + ".0")*60 + Double.parseDouble(minutes + ".0");
-        }
-        else {
-            String minutes = timeString.substring(0, timeString.indexOf("m") - 1);
-            timeInMinutes = Double.parseDouble(minutes);
-        }
-        return timeInMinutes;
-    }
-    
-    public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
-        Double timeInMinutes;
-        String[] ary = timeString.split(":");
-        String hours = ary[0] + ".0";    //Se agrega el .0 para que pueda parsearse como Double 
-        String minutes = ary[1] + ".0";  //Se agrega el .0 para que pueda parsearse como Double
-        timeInMinutes = Double.parseDouble(hours)*60 + Double.parseDouble(minutes) + weekday.distanceInMinutes(MONDAY);
-        return timeInMinutes;
-    }    
     
     
     
@@ -395,4 +335,8 @@ public class FlightAssistant {
         }
     }
 
+    @Override
+    public Airport findAirportByCode(String code) {
+        return this.aviationGraph.getAirports().get(code);
+    }
 }

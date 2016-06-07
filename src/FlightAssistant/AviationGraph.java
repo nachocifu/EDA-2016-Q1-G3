@@ -64,4 +64,11 @@ public class AviationGraph implements Serializable{
     }
 
 
+    public boolean isOk(Flight flight) {
+        return true;
+    }
+
+    public boolean isOk(Airport airport) {
+        return true;
+    }
 }

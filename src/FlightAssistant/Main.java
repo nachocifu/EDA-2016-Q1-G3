@@ -14,6 +14,8 @@ import Outputs.KmlFormat;
 import Outputs.OutputConsole;
 import Outputs.OutputFile;
 import Outputs.TextFormat;
+import Parser.AirPortParser;
+import Parser.FlightParser;
 import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
 
 public class Main {
@@ -74,24 +76,17 @@ public class Main {
                             );
                             break;
                         case "flight":
-                            flightAssistant.insertFlight(
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll()
-                            );
+                            flightAssistant.insertFlight((String[]) input.toArray());
                             break;
                         case "all":
                             aux = input.poll();
                             if ( aux != null )
                                 switch (aux) {
                                     case "flight":
+                                        flightAssistant.insertFromFile(input.poll(), new FlightParser());
+                                        break;
                                     case "airport":
-                                        flightAssistant.insertFromFile(input.poll(), input.poll());
+                                        flightAssistant.insertFromFile(input.poll(), new AirPortParser());
                                         break;
                                 }
                             break;
