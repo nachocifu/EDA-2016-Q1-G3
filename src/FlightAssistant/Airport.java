@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.TreeMap;
 
 public class Airport implements Serializable{
 	
@@ -14,14 +15,31 @@ public class Airport implements Serializable{
 	private double MAX_LAT = 180.0;
 	private double MIN_LAT = -180.0;
 	private int MAX_CHARACTERS = 3;
+	private int DAYS = 7;
 	
 	private String code;
 	private Float latitude;
 	private Float longitude;
-	private LinkedList<Flight> outboundFlights;
+	private TreeMap<Order,Flight> outboundFlights;
     private HashSet<Airport> posibleOutboundFlightsDestination;
 	private HashSet<Airport> posibleInboundFlightsOrigin;
 	private boolean tag;
+	
+	private class Order{
+		//La clase Order el unico fin que tiene es que el arbol se ordene acorde al tiempo de salida
+		//Si ponemos TreeMap<Double,Flight>no se admitirian 2 vuelos que salen a la misma hora.
+		
+		String str;
+		Double time;
+		
+		public Order(String str, Double time){
+			this.str = str;
+			this.time = time;
+		}
+		
+		public double getTime(){
+			return time;
+		}
 
 
 	/**
