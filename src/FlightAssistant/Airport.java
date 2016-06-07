@@ -2,6 +2,8 @@ package FlightAssistant;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -20,15 +22,11 @@ public class Airport implements Serializable{
 	private String code;
 	private Float latitude;
 	private Float longitude;
-	private TreeMap<Order,Flight> outboundFlights;
-    private HashSet<Airport> posibleOutboundFlightsDestination;
+	private TreeMap<Order,Flight>[] flightsPerDay;
 	private HashSet<Airport> posibleInboundFlightsOrigin;
 	private boolean tag;
 	
-	private class Order{
-		//La clase Order el unico fin que tiene es que el arbol se ordene acorde al tiempo de salida
-		//Si ponemos TreeMap<Double,Flight>no se admitirian 2 vuelos que salen a la misma hora.
-		
+	private static class Order{
 		String str;
 		Double time;
 		
@@ -40,7 +38,17 @@ public class Airport implements Serializable{
 		public double getTime(){
 			return time;
 		}
-
+		
+		@Override
+		public boolean equals(Object obj) {
+			if(obj == null)
+				return false;
+			if(obj.getClass().equals(this.getClass()))
+				return false;
+			Order or = (Order) obj;
+			return or.str.equals(this.str);
+		}
+	}
 
 	/**
 	 * Contructor
@@ -54,14 +62,28 @@ public class Airport implements Serializable{
 		if (code == null || code.length() > MAX_CHARACTERS || lat > MAX_LON || lat < MIN_LON
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
-		}	
-		this.code = code;
-		this.latitude = lat;
-		this.longitude = lon;
-        this.outboundFlights = new LinkedList<Flight>();
+		}
+        this.flightsPerDay = new TreeMap[DAYS];
+        initializeFlightsPerDay();
+        this.code = code;
+	this.latitude = lat;
+	this.longitude = lon;
+        //this.outboundFlights = new TreeMap<Order,Flight>();
         this.posibleInboundFlightsOrigin = new HashSet<Airport> ();
-        this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
+        //this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
 	}
+        
+        private void initializeFlightsPerDay(){
+            for(int i = 0; i < DAYS; i++){
+                flightsPerDay[i] = new TreeMap<Order,Flight>(new Comparator<Order>(){
+                    @Override
+                    public int compare(Order t, Order t1) {
+                        return (int) (t.getTime() - t1.getTime());
+                    }
+                    
+                });
+            }
+        }
 
 	/**
 	 * Return Airport code
@@ -100,13 +122,15 @@ public class Airport implements Serializable{
 	}
         
     public void addFlight(Flight flight){
-        this.outboundFlights.add(flight);
-        this.posibleOutboundFlightsDestination.add(flight.getDestination());
+        //this.outboundFlights.put(new Order(flight.getCode(), flight.getDepartureTime()),flight);
+        //this.posibleOutboundFlightsDestination.add(flight.getDestination());
+        this.addFrom(flight);
+        
     }
 
-    public void removeFlight(Flight flight){
-        this.outboundFlights.remove(flight);
-    }
+   // public void removeFlight(Flight flight){
+   //     this.outboundFlights.remove(flight);
+   // }
         
 //	public String listDepartureFlights() {
 //		StringBuilder sb = new StringBuilder();
@@ -132,35 +156,48 @@ public class Airport implements Serializable{
 	 * 
 	 * @param Flight flight to add
 	 */
-	 public void addFrom(Flight flight){
-		 if(flight == null)
-			 throw new IllegalArgumentException();
-		 posibleInboundFlightsOrigin.add(flight.getOrigin());
-	 }
+    public void addFrom(Flight flight){
+	if(flight == null)
+             throw new IllegalArgumentException();
+        Order aux = new Order(flight.getCode(), flight.getDepartureTime());
+        flightsPerDay[WeekDay.getNumberOfDay(flight.getDepartureDay().toString())].put(aux, flight);
+    }
 	 
-	 public LinkedList<Flight> getOutboundFlights(){
-		 //TODO: sea cual sea la impl. va a devovler una lista
-		 return this.outboundFlights;
-	 }
+    public Collection<Flight> getOutboundFlights(){
+	 //TODO: sea cual sea la impl. va a devovler una lista
+	 Collection<Flight> collection = new ArrayList<Flight>();
+         for(int i = 0; i < DAYS; i++){
+             collection.addAll(flightsPerDay[i].values());
+         }
+         return collection;
+    }
          
      public void deleteAllFlights(){
-         this.outboundFlights = new LinkedList<Flight>() ;
+         initializeFlightsPerDay();
      }
+     
+     //public HashSet<Airport> getPosibleInboundFlightsOrigins() {
          
-     public HashSet<Airport> getPosibleOutboundDestination(){
-         return this.posibleOutboundFlightsDestination;
-     }
+     //}
+     
+    // public HashSet<Airport> getPosibleOutboundDestinations(){
+    //     HashSet<Airport> outboundDestinations = new HashSet <Airport>();
+    //     for(Flight each: this.outboundFlights.values()) {
+    //         outboundDestinations.add(each.getDestination());
+     //    }
+     //    return outboundDestinations;
+     //}
 	 
-	 public void tag(){
-		 this.tag = true;
-	 }
+    public void tag(){
+	this.tag = true;
+    }
 	 
-	 public void unTag(){
-		 this.tag = false;
-	 }
+    public void unTag(){
+        this.tag = false;
+    }
 	 
-	 public boolean isTagged(){
-		 return this.tag;
-	 }
+    public boolean isTagged(){
+	 return this.tag;
+    }
 }
 

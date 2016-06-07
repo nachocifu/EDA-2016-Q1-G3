@@ -4,6 +4,7 @@ import Priorities.Priority;
 import java.util.PriorityQueue;
 
 import Stopovers.Stopover;
+import java.awt.BorderLayout;
 import java.util.LinkedList;
 
 public class Dijkstra {
@@ -11,7 +12,8 @@ public class Dijkstra {
 	private static Double MIN = 0.0;
 
 	public static Stopover getShortestPathFromAToBWithFixedWeights(Airport origin, Airport target, Priority priority){
-		if(origin == null || target == null)
+	long time = System.currentTimeMillis();
+            if(origin == null || target == null)
 			return null;
 		clearMarks();
                 LinkedList<Flight> prevFlights = new LinkedList<Flight>();
@@ -42,6 +44,7 @@ public class Dijkstra {
 			}
 		}
                 System.out.println("No se encontro nada");
+                System.out.println(System.currentTimeMillis() - time);
 		return null;
 	}
 	
