@@ -19,7 +19,7 @@ public class Airport implements Serializable{
 	private Float latitude;
 	private Float longitude;
 	private LinkedList<Flight> outboundFlights;
-        private HashSet<Airport> posibleOutboundFlightsDestination;
+    private HashSet<Airport> posibleOutboundFlightsDestination;
 	private HashSet<Airport> posibleInboundFlightsOrigin;
 	private boolean tag;
 
@@ -36,14 +36,13 @@ public class Airport implements Serializable{
 		if (code == null || code.length() > MAX_CHARACTERS || lat > MAX_LON || lat < MIN_LON
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
-		}
-		
+		}	
 		this.code = code;
 		this.latitude = lat;
 		this.longitude = lon;
-                this.outboundFlights = new LinkedList<Flight>();
-                this.posibleInboundFlightsOrigin = new HashSet<Airport> ();
-                this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
+        this.outboundFlights = new LinkedList<Flight>();
+        this.posibleInboundFlightsOrigin = new HashSet<Airport> ();
+        this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
 	}
 
 	/**
@@ -60,7 +59,7 @@ public class Airport implements Serializable{
 	 *
 	 * @return latitud
      */
-	public Float getLatitude() {
+	public Float getLatitude(){
 		return latitude;
 	}
 
@@ -69,7 +68,7 @@ public class Airport implements Serializable{
 	 *
 	 * @return longitud
      */
-	public Float getLongitude() {
+	public Float getLongitude(){
 		return longitude;
 	}
 
@@ -78,18 +77,18 @@ public class Airport implements Serializable{
 	 *
 	 * @return string
      */
-	public String toString() { 
+	public String toString(){ 
 		return this.code; 
 	}
         
-        public void addFlight(Flight flight) {
-            this.outboundFlights.add(flight);
-            this.posibleOutboundFlightsDestination.add(flight.getDestination());
-        }
+    public void addFlight(Flight flight){
+        this.outboundFlights.add(flight);
+        this.posibleOutboundFlightsDestination.add(flight.getDestination());
+    }
 
-        public void removeFlight(Flight flight) {
-            this.outboundFlights.remove(flight);
-        }
+    public void removeFlight(Flight flight){
+        this.outboundFlights.remove(flight);
+    }
         
 //	public String listDepartureFlights() {
 //		StringBuilder sb = new StringBuilder();
@@ -126,13 +125,13 @@ public class Airport implements Serializable{
 		 return this.outboundFlights;
 	 }
          
-         public void deleteAllFlights() {
-             this.outboundFlights = new LinkedList<Flight>() ;
-         }
+     public void deleteAllFlights(){
+         this.outboundFlights = new LinkedList<Flight>() ;
+     }
          
-         public HashSet<Airport> getPosibleOutboundDestination() {
-             return this.posibleOutboundFlightsDestination;
-         }
+     public HashSet<Airport> getPosibleOutboundDestination(){
+         return this.posibleOutboundFlightsDestination;
+     }
 	 
 	 public void tag(){
 		 this.tag = true;
@@ -143,7 +142,7 @@ public class Airport implements Serializable{
 	 }
 	 
 	 public boolean isTagged(){
-	    	return this.tag;
-	    }
+		 return this.tag;
+	 }
 }
 
