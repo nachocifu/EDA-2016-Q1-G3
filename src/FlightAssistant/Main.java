@@ -69,11 +69,7 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "airport":
-                            flightAssistant.insertAirport(
-                                    input.poll(),
-                                    input.poll(),
-                                    input.poll()
-                            );
+                            flightAssistant.insertAirport((String[]) input.toArray());
                             break;
                         case "flight":
                             flightAssistant.insertFlight((String[]) input.toArray());
