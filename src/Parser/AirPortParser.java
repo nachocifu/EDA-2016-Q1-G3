@@ -31,10 +31,10 @@ public class AirPortParser extends Parser<Airport> {
 
         //Validations
         if ( code == null || latitud == null || longitud == null ) return inconsistencies;
-            manager.add( new Airport(code, latitud, longitud) );
 
 
-        return true;
+        manager.add( new Airport(code, latitud, longitud) );
+        return !inconsistencies;
     }
 
 }

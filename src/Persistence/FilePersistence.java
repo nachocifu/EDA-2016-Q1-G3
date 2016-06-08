@@ -5,6 +5,7 @@ import java.io.*;
 
 public class FilePersistence<E> implements Persistence<E> {
 
+    //File used for saving by this implementation of Persistance
     private String FILE = "src/Storage/filePersistance.ser";
 
     @Override
@@ -18,10 +19,8 @@ public class FilePersistence<E> implements Persistence<E> {
             fileOut.close();
             return true;
         } catch ( FileNotFoundException i ) {
-            i.printStackTrace();
             return false;
         } catch( IOException i ) {
-            i.printStackTrace();
             return false;
         }
 
@@ -38,12 +37,12 @@ public class FilePersistence<E> implements Persistence<E> {
             in.close();
             fileIn.close();
         }catch(IOException i) {
-            System.err.print(i.getStackTrace());
+            return null;
         }catch(ClassNotFoundException c) {
-            System.err.print(c.getStackTrace());
-        } finally {
-            return e;
+            return null;
         }
+
+        return e;
     }
 
 }

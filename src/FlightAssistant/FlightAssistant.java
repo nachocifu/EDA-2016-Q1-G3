@@ -240,9 +240,11 @@ public class FlightAssistant implements GraphManager {
             line = reader.readLine();
 
             while (line != null) {
-                vars = line.split("#");
 
-                if( parser.parse(vars, this) ) inconsistencies = true;
+                if ( !line.isEmpty() ) {
+                    vars = line.split("#");
+                    if (parser.parse(vars, this)) inconsistencies = true;
+                }
 
                 line = reader.readLine();
             }
@@ -288,7 +290,11 @@ public class FlightAssistant implements GraphManager {
      *
      */
     public void save() {
-        persistence.save( this.aviationGraph );
+        if ( ! persistence.save( this.aviationGraph ) ) {
+            this.outputWriter.start();
+            this.outputWriter.writeErrorSaving();
+            this.outputWriter.finish();
+        }
     }
 
     /**
@@ -301,6 +307,11 @@ public class FlightAssistant implements GraphManager {
 
         if(graph != null)
             this.aviationGraph = graph;
+        else {
+            this.outputWriter.start();
+            this.outputWriter.writeUnableToLoadState();
+            this.outputWriter.finish();
+        }
 
     }
 

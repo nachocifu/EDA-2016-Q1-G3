@@ -17,4 +17,8 @@ public interface OutputFormater {
     public String writeErrorFileHandling(String pathString);
 
     public String writeErrorsOnFile(String pathString);
+
+    public String writeErrorSaving();
+
+    public String writeUnableToLoadState();
 }

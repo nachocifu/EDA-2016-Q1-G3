@@ -27,4 +27,8 @@ public interface OutputWriter {
     public Boolean writeErrorFileHandling(String pathString);
 
     public Boolean writeErrorsOnFile(String pathString);
+
+    public Boolean writeErrorSaving();
+
+    public Boolean writeUnableToLoadState();
 }

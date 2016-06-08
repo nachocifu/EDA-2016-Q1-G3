@@ -79,4 +79,26 @@ public class TextFormat implements OutputFormater {
 
         return sb.toString();
     }
+
+    @Override
+    public String writeErrorSaving() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("***********").append(System.lineSeparator())
+                .append("ERROR: Unable to save current state").append(System.lineSeparator())
+                .append("***********").append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String writeUnableToLoadState() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("*** WARNING: Unable to recover saved state ***");
+
+        return sb.toString();
+
+    }
 }

@@ -126,13 +126,25 @@ public class OutputFile implements OutputWriter {
 
     @Override
     public Boolean writeErrorFileHandling(String pathString) {
-        //Dont write errors to files
+        //This implementation of writer dosnt write errors to files
         return true;
     }
 
     @Override
     public Boolean writeErrorsOnFile(String pathString) {
-        //Dont write errors to files
+        //This implementation of writer dosnt write errors to files
+        return true;
+    }
+
+    @Override
+    public Boolean writeErrorSaving() {
+        //This implementation of writer dosnt write errors to files
+        return true;
+    }
+
+    @Override
+    public Boolean writeUnableToLoadState() {
+        //This implementation of writer dosnt write errors to files
         return true;
     }
 }

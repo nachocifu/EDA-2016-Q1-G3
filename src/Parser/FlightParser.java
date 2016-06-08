@@ -53,10 +53,13 @@ public class FlightParser extends Parser<Flight> {
                 departureTime = stringDepartureTimeToDouble(departureTimeString, day );
                 if (departureTime != null)
                     manager.add( new Flight(flightTime, departureTime, day, destination, origin, airline, flightNumber, price) );
-            }
+                else
+                    inconsistencies = false;
+            } else
+                inconsistencies = false;
         }
 
-        return inconsistencies;
+        return !inconsistencies;
     }
 
 }

@@ -115,4 +115,26 @@ public class OutputConsole implements OutputWriter {
         return true;
 
     }
+
+    @Override
+    public Boolean writeErrorSaving() {
+
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeErrorSaving());
+
+        return true;
+
+    }
+
+    @Override
+    public Boolean writeUnableToLoadState() {
+
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeUnableToLoadState());
+
+        return true;
+
+    }
 }

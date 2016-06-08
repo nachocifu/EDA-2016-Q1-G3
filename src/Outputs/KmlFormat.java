@@ -45,11 +45,21 @@ public class KmlFormat implements OutputFormater {
 
     @Override
     public String writeErrorFileHandling(String pathString) {
-        return null;
+        return "";
     }
 
     @Override
     public String writeErrorsOnFile(String pathString) {
-        return null;
+        return "";
+    }
+
+    @Override
+    public String writeErrorSaving() {
+        return "";
+    }
+
+    @Override
+    public String writeUnableToLoadState() {
+        return "";
     }
 }

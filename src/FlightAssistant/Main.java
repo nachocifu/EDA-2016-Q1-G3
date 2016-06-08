@@ -28,11 +28,8 @@ public class Main {
         flightAssistant.load();
 
         if (args !=  null && args.length > 0) {
-            System.out.println("Invocacion desde shell");
             parseCommand(new LinkedList<>(Arrays.asList(args)),flightAssistant);
         } else {
-            System.out.println("Invocacion pidiendo command-line");
-
             Boolean endExecution = false;
             while ( !endExecution ) {
                 LinkedList<String> input = getInputFromCommandLine();
