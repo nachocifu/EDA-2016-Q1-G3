@@ -16,6 +16,7 @@ import Outputs.OutputFile;
 import Outputs.TextFormat;
 import Parser.AirPortParser;
 import Parser.FlightParser;
+import Parser.Parser;
 import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
 
 public class Main {
@@ -66,10 +67,10 @@ public class Main {
                 if ( aux != null )
                     switch ( aux ) {
                         case "airport":
-                            flightAssistant.insertAirport((String[]) input.toArray());
+                            flightAssistant.insertAirport(Parser.toStringArray(input.toArray()));
                             break;
                         case "flight":
-                            flightAssistant.insertFlight((String[]) input.toArray());
+                            flightAssistant.insertFlight(Parser.toStringArray(input.toArray()));
                             break;
                         case "all":
                             aux = input.poll();

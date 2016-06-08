@@ -31,4 +31,13 @@ public abstract class Parser<E> {
         return timeInMinutes;
     }
 
+    public static String[] toStringArray (Object[] objectArray) {
+        String [] stringArray = new String[objectArray.length];
+        int i = 0;
+        for(Object each: objectArray) {
+            stringArray[i] = (String)each;
+            i++;
+        }
+        return stringArray;
+    }
 }
