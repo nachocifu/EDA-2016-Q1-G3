@@ -240,19 +240,7 @@ public class Airport implements Serializable{
      public void deleteAllFlights(){
          initializeFlightsPerDay();
      }
-     
-     //public HashSet<Airport> getPosibleInboundFlightsOrigins() {
-         
-     //}
-     
-    // public HashSet<Airport> getPosibleOutboundDestinations(){
-    //     HashSet<Airport> outboundDestinations = new HashSet <Airport>();
-    //     for(Flight each: this.outboundFlights.values()) {
-    //         outboundDestinations.add(each.getDestination());
-     //    }
-     //    return outboundDestinations;
-     //}
-	 
+
     public void tag(){
 	this.tag = true;
     }
