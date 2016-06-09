@@ -67,7 +67,7 @@ public class OutputConsole implements OutputWriter {
     public Boolean writeHeader(Double price, Double flightTime, Double totalTime) {
 
         if ( !okForWriting() ) return false;
-
+        
         this.builder.append(outputFormat.writeHeader(price, flightTime, totalTime));
 
         return true;

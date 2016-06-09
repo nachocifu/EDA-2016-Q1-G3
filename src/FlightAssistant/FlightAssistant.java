@@ -51,8 +51,11 @@ public class FlightAssistant implements GraphManager {
     }
 
     public void getBestPath(String originString, String destinationString, String priotityString, String weekdays) {
-        if ( weekdays != null )
-            weekdays.split("-"); //array of all posible departure days.
+        WeekDay[] weekdayArray = null;
+        if (!weekdays.isEmpty()) {
+            System.out.println(weekdays);
+            weekdayArray = Parser.parseWeekdays(weekdays);
+        }
         Airport origin = findAirportByCode(originString);
         Airport destination = findAirportByCode(destinationString);
         if(origin == null || destination == null) {
@@ -69,9 +72,14 @@ public class FlightAssistant implements GraphManager {
             default:
                 return;
         }
+        Stopover result;
         //llamada al dijkstra
-        Stopover result = this.aviationGraph.getBestPath(origin, destination, priority);
-        //cuando termina manda
+        if(weekdayArray == null)
+            result = this.aviationGraph.getBestPath(origin, destination, priority);
+        else {
+            result = this.aviationGraph.getBestPath(origin, destination, priority, weekdayArray);
+        }
+//cuando termina manda
         this.outputBestPath(result);
     }
 
@@ -178,8 +186,15 @@ public class FlightAssistant implements GraphManager {
 
     }
 
-    public void deleteFlight(String code) {
-        throw new NotImplementedException();
+    public void deleteFlight(String airline, String flightNum) {
+        String code = "#" + airline + flightNum;
+        Flight aux = this.aviationGraph.getFlights().get(code);
+        System.out.println("Entro al deleteFlight");
+        if(aux != null) {
+            System.out.println("aux no dio null");
+            this.aviationGraph.getAirports().get(aux.getOrigin().getCode()).removeFlight(aux);
+            this.aviationGraph.getFlights().put(code, null);
+        }
     }
 
     public void deleteAirport(String code) {
@@ -189,6 +204,7 @@ public class FlightAssistant implements GraphManager {
     private void insert(Flight flight){
         Airport airportToPut = flight.getOrigin();
         this.aviationGraph.getAirports().get(airportToPut.getCode()).addFlight(flight);
+        this.aviationGraph.getFlights().put(flight.getCode(), flight);
     }
 
     private void insert(Airport airport){

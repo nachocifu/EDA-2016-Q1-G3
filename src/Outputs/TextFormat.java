@@ -2,6 +2,7 @@ package Outputs;
 
 import FlightAssistant.Airport;
 import FlightAssistant.Flight;
+import Parser.Parser;
 
 public class TextFormat implements OutputFormater {
 
@@ -35,10 +36,10 @@ public class TextFormat implements OutputFormater {
                 .append(price)
                 .append(System.lineSeparator())
                 .append("TiempoVuelo#")
-                .append(flightTime)
+                .append(Parser.timeInMinutesToHoursAndMinutes(flightTime))
                 .append(System.lineSeparator())
                 .append("TiempoTotal#")
-                .append(totalTime)
+                .append(Parser.timeInMinutesToHoursAndMinutes(totalTime))
                 .append(System.lineSeparator())
                 .append(System.lineSeparator());
 

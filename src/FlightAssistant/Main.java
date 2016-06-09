@@ -94,7 +94,7 @@ public class Main {
                             flightAssistant.deleteAirport(input.poll());
                             break;
                         case "flight":
-                            flightAssistant.deleteFlight(input.poll());
+                            flightAssistant.deleteFlight(input.poll(), input.poll());
                             break;
                         case "all":
                             aux = input.poll();

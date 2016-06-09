@@ -10,9 +10,9 @@ public abstract class Parser<E> {
 
     public Double stringDurationTimeToDouble(String timeString) {
         Double timeInMinutes;
-        if(timeString.indexOf("h") != -1) {
-            String hours = timeString.substring(0, timeString.indexOf("h") - 1);
-            String minutes = timeString.substring(timeString.indexOf("h") + 1, timeString.indexOf("m") - 1);
+        if(timeString.indexOf('h') > 0) {
+            String hours = timeString.substring(0, timeString.indexOf('h'));
+            String minutes = timeString.substring(timeString.indexOf('h') + 1, timeString.indexOf('m'));
             timeInMinutes = Double.parseDouble(hours + ".0")*60 + Double.parseDouble(minutes + ".0");
         }
         else {
@@ -31,6 +31,33 @@ public abstract class Parser<E> {
         return timeInMinutes;
     }
 
+    public static String timeInMinutesToHoursAndMinutes(Double timeInMinutes) {
+        String hours;
+        String minutes;
+        Double hoursDouble = timeInMinutes/60.0;
+        hours = Double.toString(hoursDouble);
+        hours = hours.substring(0, hours.indexOf('.'));
+        hoursDouble = new Double(hours);
+        Double minutesDouble = timeInMinutes - hoursDouble*60.0;
+        minutes = Double.toString(minutesDouble);
+        minutes = minutes.substring(0, minutes.indexOf('.'));
+        return hours+"h"+minutes+"m"; 
+    }
+    
+    public static WeekDay[] parseWeekdays(String weekdays) {
+        if(weekdays == null) {
+            return null;
+        }
+        String [] ary = weekdays.split("-"); //array of all posible departure days.
+        WeekDay [] weekdaysArray = new WeekDay[ary.length];
+        int i = 0;
+        for(String each: ary) {
+            weekdaysArray[i] = (WeekDay.getWeekDay(each));
+            System.out.println(WeekDay.getWeekDay(each));
+        }
+        return weekdaysArray;
+    }
+    
     public static String[] toStringArray (Object[] objectArray) {
         String [] stringArray = new String[objectArray.length];
         int i = 0;

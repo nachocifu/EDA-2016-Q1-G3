@@ -1,5 +1,12 @@
 package FlightAssistant;
 
+import static FlightAssistant.WeekDay.FRIDAY;
+import static FlightAssistant.WeekDay.MONDAY;
+import static FlightAssistant.WeekDay.SATURDAY;
+import static FlightAssistant.WeekDay.SUNDAY;
+import static FlightAssistant.WeekDay.THURSDAY;
+import static FlightAssistant.WeekDay.TUESDAY;
+import static FlightAssistant.WeekDay.WEDNESDAY;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -128,29 +135,19 @@ public class Airport implements Serializable{
         
     }
 
-   // public void removeFlight(Flight flight){
-   //     this.outboundFlights.remove(flight);
-   // }
+   public void removeFlight(Flight flight){
+        if(flight == null)
+             throw new IllegalArgumentException();
+        Order aux = new Order(flight.getCode(), flight.getDepartureTime());
+        for(TreeMap<Order, Flight> each: this.flightsPerDay) {
+            if(each.containsKey(aux)) {
+                each.remove(aux);
+                System.out.println("Borrado");
+            }
+        }
+    }
         
-//	public String listDepartureFlights() {
-//		StringBuilder sb = new StringBuilder();
-//
-//		Iterator<HashSet<Flight>> iteratorSets = this.outboundFlights.values().iterator();
-//
-//		Flight flight;
-//		while (iteratorSets.hasNext()) {
-//			HashSet<Flight> set = iteratorSets.next();
-//			Iterator<Flight> itr = set.iterator();
-//			while ( itr.hasNext() ) {
-//				flight = itr.next();
-//				sb.append(flight);
-//				sb.append(System.lineSeparator());
-//			}
-//		}
-//
-//		return sb.toString();
-//	}
-	
+
 	/**
 	 * Return void
 	 * 
@@ -171,7 +168,35 @@ public class Airport implements Serializable{
          }
          return collection;
     }
-         
+    
+        public Collection<Flight> getOutboundFlightsByDayOfDeparture(WeekDay[] weekdays){
+	 Collection<Flight> collection = new ArrayList<Flight>();
+         for(WeekDay each: weekdays){
+         if(each == null);
+         else{
+            switch (each){
+            case MONDAY:
+                collection.addAll(this.flightsPerDay[0].values());
+            case TUESDAY:
+                collection.addAll(this.flightsPerDay[1].values());
+            case WEDNESDAY:
+                collection.addAll(this.flightsPerDay[2].values());
+            case THURSDAY:
+                collection.addAll(this.flightsPerDay[3].values());
+            case FRIDAY:
+                collection.addAll(this.flightsPerDay[4].values());
+            case SATURDAY:
+                collection.addAll(this.flightsPerDay[5].values());
+            case SUNDAY:
+                collection.addAll(this.flightsPerDay[6].values());
+            default:
+                ;
+        }
+       }
+      }
+      return collection;
+    }
+    
      public void deleteAllFlights(){
          initializeFlightsPerDay();
      }

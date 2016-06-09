@@ -11,9 +11,12 @@ import java.util.LinkedList;
 public class AviationGraph implements Serializable{
 
     private static HashMap<String,Airport> airports;
-
+    private static HashMap<String,Flight> flights;
+    
     public AviationGraph() {
-        airports = new HashMap<String, Airport>();
+        this.airports = new HashMap<String, Airport>();
+        this.flights = new HashMap<String, Flight>();
+        
     }
 
     public void insertAirport(Airport airport){
@@ -37,7 +40,11 @@ public class AviationGraph implements Serializable{
         }
         return allFlights;
     }
-
+    
+    public HashMap<String, Flight> getFlights() {
+        return this.flights;
+    }
+    
     public void insertFlight(Double flightTime, Double departureTime, String departureDay,
                              String destinationAirport, String originAirport, String airline, Integer flightNumber, Double price){
 
@@ -52,6 +59,11 @@ public class AviationGraph implements Serializable{
     public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
         clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
+    }
+    
+    public Stopover getBestPath(Airport origin, Airport target, Priority priority, WeekDay [] weekdays) {
+        clearMarks();
+        return Dijkstra.getShortestPathFromAToBWithFixedWeightsDepartingSpecificDays(origin, target, priority, weekdays);
     }
     
     public HashMap<String, Airport> getAirports() {
