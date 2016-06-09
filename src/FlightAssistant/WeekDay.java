@@ -9,7 +9,7 @@ public enum WeekDay implements Serializable{
 	private Double HOURS = 24.0;
 	private Double MINUTES = 60.0;
 	
-    private int numDay;
+    private Integer numDay;
 
     public static WeekDay getWeekDay(String string){
         switch (string){

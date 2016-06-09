@@ -29,9 +29,9 @@ public class Airport implements Serializable{
 	private Float longitude;
 	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
 	private HashSet<Airport> inboundFlightsOrigin;
-	private boolean tag;
+	private Boolean tag;
 	
-	private class Order{
+	private class Order implements Serializable{
 		String str;
 		Double time;
 		

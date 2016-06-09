@@ -146,9 +146,15 @@ public class Main {
             case "findAllFlights":
                 flightAssistant.findAllFlights();
                 break;
-            case "exitAndSave":
+            case "save":
                 flightAssistant.save();
                 break;
+            case "load":
+                flightAssistant.load();
+                break;
+            case "exitAndSave":
+            case "saveAndExit":
+                flightAssistant.save();
             case "exit":
             case "bye":
             case "goodbye":

@@ -16,8 +16,8 @@ public abstract class Parser<E> {
             timeInMinutes = Double.parseDouble(hours + ".0")*60 + Double.parseDouble(minutes + ".0");
         }
         else {
-            String minutes = timeString.substring(0, timeString.indexOf("m") - 1);
-            timeInMinutes = Double.parseDouble(minutes);
+            String minutes = timeString.substring(0, timeString.indexOf('m'));
+            timeInMinutes = Double.parseDouble(minutes + ".0");
         }
         return timeInMinutes;
     }

@@ -3,8 +3,8 @@ package Persistence;
 
 public interface Persistence<E> {
 
-    public boolean save(E obj);
+    Boolean save(E obj);
 
-    public E load();
+    E load();
 
 }

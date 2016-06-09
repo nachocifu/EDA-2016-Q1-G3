@@ -9,7 +9,7 @@ public class FilePersistence<E> implements Persistence<E> {
     private String FILE = "src/Storage/filePersistance.ser";
 
     @Override
-    public boolean save(E obj) {
+    public Boolean save(E obj) {
 
         try {
             FileOutputStream fileOut = new FileOutputStream(FILE);
@@ -19,10 +19,11 @@ public class FilePersistence<E> implements Persistence<E> {
             fileOut.close();
             return true;
         } catch ( FileNotFoundException i ) {
-            return false;
+            i.printStackTrace();
         } catch( IOException i ) {
-            return false;
+            i.printStackTrace();
         }
+        return false;
 
     }
 
@@ -37,9 +38,9 @@ public class FilePersistence<E> implements Persistence<E> {
             in.close();
             fileIn.close();
         }catch(IOException i) {
-            return null;
+            i.printStackTrace();
         }catch(ClassNotFoundException c) {
-            return null;
+            c.printStackTrace();
         }
 
         return e;
