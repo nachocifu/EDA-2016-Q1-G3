@@ -199,7 +199,9 @@ public class FlightAssistant implements GraphManager {
 
     public void deleteAirport(String code) {
         Airport airportToDelete = this.aviationGraph.getAirports().get(code);
-        for(Airport each: airportToDelete.getInboundDestinationOrigins())
+        for(Airport each: airportToDelete.getInboundFlightsOrigins()) {
+            
+        }
         this.aviationGraph.getAirports().put(code, null);
     }
 
