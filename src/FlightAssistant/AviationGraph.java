@@ -10,8 +10,8 @@ import java.util.LinkedList;
 
 public class AviationGraph implements Serializable{
 
-    private static HashMap<String,Airport> airports;
-    private static HashMap<String,Flight> flights;
+    private HashMap<String,Airport> airports;
+    private HashMap<String,Flight> flights;
     
     public AviationGraph() {
         this.airports = new HashMap<String, Airport>();
@@ -20,7 +20,7 @@ public class AviationGraph implements Serializable{
     }
 
     public void insertAirport(Airport airport){
-        AviationGraph.airports.put(airport.getCode(), airport);
+        this.airports.put(airport.getCode(), airport);
     }
 
     public Iterable<Airport> findAllAirports() {
@@ -48,8 +48,8 @@ public class AviationGraph implements Serializable{
     public void insertFlight(Double flightTime, Double departureTime, String departureDay,
                              String destinationAirport, String originAirport, String airline, Integer flightNumber, Double price){
 
-        Airport destination = AviationGraph.airports.get(destinationAirport);
-        Airport origin = AviationGraph.airports.get(originAirport);
+        Airport destination = this.airports.get(destinationAirport);
+        Airport origin = this.airports.get(originAirport);
         Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), 
         		                   destination, origin, airline, flightNumber, price);
         // agregar FlightAssistant a los to en origin
@@ -57,12 +57,12 @@ public class AviationGraph implements Serializable{
     }
     
     public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
-        clearMarks();
+        this.clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
     }
     
     public Stopover getBestPath(Airport origin, Airport target, Priority priority, WeekDay [] weekdays) {
-        clearMarks();
+        this.clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeightsDepartingSpecificDays(origin, target, priority, weekdays);
     }
     
@@ -70,9 +70,9 @@ public class AviationGraph implements Serializable{
         return this.airports;
     }
     
-    public static void clearMarks() {
-        for (String keys: airports.keySet())
-            airports.get(keys).unTag();   
+    public void clearMarks() {
+        for (String keys: this.airports.keySet())
+            this.airports.get(keys).unTag();   
     }
 
 

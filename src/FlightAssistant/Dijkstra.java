@@ -16,7 +16,7 @@ public class Dijkstra {
         if (origin == null || target == null) {
             return null;
         }
-        clearMarks();
+        //clearMarks();
         LinkedList<Flight> prevFlights = new LinkedList<Flight>();
         PriorityQueue<Stopover> queue = new PriorityQueue<>();
         Stopover dbgassist = null;
@@ -54,7 +54,7 @@ public class Dijkstra {
         if (origin == null || target == null) {
             return null;
         }
-        clearMarks();
+        //clearMarks();
         LinkedList<Flight> prevFlights = new LinkedList<Flight>();
         PriorityQueue<Stopover> queue = new PriorityQueue<>();
         Stopover dbgassist = null;
@@ -119,7 +119,7 @@ public class Dijkstra {
      *
      *
      */
-    private static void clearMarks() {
-        AviationGraph.clearMarks();
+    private static void clearMarks(AviationGraph avGraph) {
+        avGraph.clearMarks();
     }
 }

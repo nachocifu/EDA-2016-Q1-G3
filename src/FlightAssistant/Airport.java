@@ -25,11 +25,12 @@ public class Airport implements Serializable{
 	private double MIN_LAT = -180.0;
 	private int MAX_CHARACTERS = 3;
 	private int DAYS = 7;
+        private final WeekDay[] WEEK = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
 	
 	private String code;
 	private Float latitude;
 	private Float longitude;
-	private TreeMap<Order,Flight>[] flightsPerDay;
+	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
 	private HashSet<Airport> posibleInboundFlightsOrigin;
 	private boolean tag;
 	
@@ -70,7 +71,7 @@ public class Airport implements Serializable{
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
 		}
-        this.flightsPerDay = new TreeMap[DAYS];
+        this.flightsPerDay = new HashMap<WeekDay, TreeMap<Order, Flight>> ();
         initializeFlightsPerDay();
         this.code = code;
 	this.latitude = lat;
@@ -81,15 +82,48 @@ public class Airport implements Serializable{
 	}
         
         private void initializeFlightsPerDay(){
-            for(int i = 0; i < DAYS; i++){
-                flightsPerDay[i] = new TreeMap<Order,Flight>(new Comparator<Order>(){
-                    @Override
-                    public int compare(Order t, Order t1) {
-                        return (int) (t.getTime() - t1.getTime());
-                    }
-                    
-                });
-            }
+            this.flightsPerDay.put(MONDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(TUESDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(WEDNESDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(THURSDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(FRIDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(SATURDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
+            this.flightsPerDay.put(SUNDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
+                @Override
+                public int compare(Order t, Order t1) {
+                    return (int) (t.getTime() - t1.getTime());
+                }
+            }));
         }
 
 	/**
@@ -139,10 +173,11 @@ public class Airport implements Serializable{
         if(flight == null)
              throw new IllegalArgumentException();
         Order aux = new Order(flight.getCode(), flight.getDepartureTime());
-        for(TreeMap<Order, Flight> each: this.flightsPerDay) {
-            if(each.containsKey(aux)) {
-                each.remove(aux);
-                System.out.println("Borrado");
+        TreeMap<Order, Flight> flightsThatDay;
+        for(WeekDay each: this.WEEK) {
+            flightsThatDay = this.flightsPerDay.get(each);
+            if(flightsThatDay.containsKey(aux)) {
+                flightsThatDay.put(aux, null);
             }
         }
     }
@@ -157,38 +192,43 @@ public class Airport implements Serializable{
 	if(flight == null)
              throw new IllegalArgumentException();
         Order aux = new Order(flight.getCode(), flight.getDepartureTime());
-        flightsPerDay[WeekDay.getNumberOfDay(flight.getDepartureDay().toString())].put(aux, flight);
+        flightsPerDay.get(flight.getDepartureDay()).put(aux, flight);
     }
 	 
     public Collection<Flight> getOutboundFlights(){
 	 //TODO: sea cual sea la impl. va a devovler una lista
 	 Collection<Flight> collection = new ArrayList<Flight>();
-         for(int i = 0; i < DAYS; i++){
-             collection.addAll(flightsPerDay[i].values());
-         }
+         collection.addAll(this.flightsPerDay.get(MONDAY).values());
+         collection.addAll(this.flightsPerDay.get(TUESDAY).values());
+         collection.addAll(this.flightsPerDay.get(WEDNESDAY).values());
+         collection.addAll(this.flightsPerDay.get(THURSDAY).values());
+         collection.addAll(this.flightsPerDay.get(FRIDAY).values());
+         collection.addAll(this.flightsPerDay.get(SATURDAY).values());
+         collection.addAll(this.flightsPerDay.get(SUNDAY).values());
          return collection;
     }
     
         public Collection<Flight> getOutboundFlightsByDayOfDeparture(WeekDay[] weekdays){
 	 Collection<Flight> collection = new ArrayList<Flight>();
+            System.out.println(weekdays.length);
          for(WeekDay each: weekdays){
          if(each == null);
-         else{
+         else {
             switch (each){
             case MONDAY:
-                collection.addAll(this.flightsPerDay[0].values());
+                collection.addAll(this.flightsPerDay.get(MONDAY).values());
             case TUESDAY:
-                collection.addAll(this.flightsPerDay[1].values());
+                collection.addAll(this.flightsPerDay.get(TUESDAY).values());
             case WEDNESDAY:
-                collection.addAll(this.flightsPerDay[2].values());
+                collection.addAll(this.flightsPerDay.get(WEDNESDAY).values());
             case THURSDAY:
-                collection.addAll(this.flightsPerDay[3].values());
+                collection.addAll(this.flightsPerDay.get(THURSDAY).values());
             case FRIDAY:
-                collection.addAll(this.flightsPerDay[4].values());
+                collection.addAll(this.flightsPerDay.get(FRIDAY).values());
             case SATURDAY:
-                collection.addAll(this.flightsPerDay[5].values());
+                collection.addAll(this.flightsPerDay.get(SATURDAY).values());
             case SUNDAY:
-                collection.addAll(this.flightsPerDay[6].values());
+                collection.addAll(this.flightsPerDay.get(SUNDAY).values());
             default:
                 ;
         }
