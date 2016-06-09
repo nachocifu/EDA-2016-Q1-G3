@@ -19,22 +19,19 @@ import java.util.TreeMap;
 
 public class Airport implements Serializable{
 	
-	private double MAX_LON = 90.0;
-	private double MIN_LON = -90.0;
-	private double MAX_LAT = 180.0;
-	private double MIN_LAT = -180.0;
-	private int MAX_CHARACTERS = 3;
-	private int DAYS = 7;
-        private final WeekDay[] WEEK = {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};
-	
+	private transient final Double MAX_LON = 90.0;
+	private transient final Double MIN_LON = -90.0;
+	private transient final Double MAX_LAT = 180.0;
+	private transient final Double MIN_LAT = -180.0;
+	private transient final Integer MAX_CHARACTERS = 3;
 	private String code;
 	private Float latitude;
 	private Float longitude;
 	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
 	private HashSet<Airport> posibleInboundFlightsOrigin;
-	private boolean tag;
+	private transient Boolean tag;
 	
-	private static class Order{
+	private class Order{
 		String str;
 		Double time;
 		
@@ -174,7 +171,7 @@ public class Airport implements Serializable{
              throw new IllegalArgumentException();
         Order aux = new Order(flight.getCode(), flight.getDepartureTime());
         TreeMap<Order, Flight> flightsThatDay;
-        for(WeekDay each: this.WEEK) {
+        for(WeekDay each: WeekDay.values()) {
             flightsThatDay = this.flightsPerDay.get(each);
             if(flightsThatDay.containsKey(aux)) {
                 flightsThatDay.put(aux, null);
@@ -186,7 +183,7 @@ public class Airport implements Serializable{
 	/**
 	 * Return void
 	 * 
-	 * @param Flight flight to add
+	 * @param flight Flight to add
 	 */
     public void addFrom(Flight flight){
 	if(flight == null)
@@ -212,8 +209,7 @@ public class Airport implements Serializable{
 	 Collection<Flight> collection = new ArrayList<Flight>();
             System.out.println(weekdays.length);
          for(WeekDay each: weekdays){
-         if(each == null);
-         else {
+         if(each != null) {
             switch (each){
             case MONDAY:
                 collection.addAll(this.flightsPerDay.get(MONDAY).values());
@@ -229,8 +225,6 @@ public class Airport implements Serializable{
                 collection.addAll(this.flightsPerDay.get(SATURDAY).values());
             case SUNDAY:
                 collection.addAll(this.flightsPerDay.get(SUNDAY).values());
-            default:
-                ;
         }
        }
       }
