@@ -22,6 +22,7 @@ import Priorities.Priority;
 import Priorities.PriorityFlightTime;
 import Priorities.PriorityPrice;
 import Priorities.PriorityTotalTime;
+import java.util.LinkedList;
 
 public class FlightAssistant implements GraphManager {
 
@@ -193,16 +194,25 @@ public class FlightAssistant implements GraphManager {
         if(aux != null) {
             System.out.println("aux no dio null");
             this.aviationGraph.getAirports().get(aux.getOrigin().getCode()).removeFlight(aux);
-            this.aviationGraph.getFlights().put(code, null);
+            this.aviationGraph.getFlights().remove(code);
         }
     }
 
     public void deleteAirport(String code) {
         Airport airportToDelete = this.aviationGraph.getAirports().get(code);
+        LinkedList<Flight> flightsToDelete = new LinkedList<Flight> ();
+        System.out.println(airportToDelete.getInboundFlightsOrigins());
         for(Airport each: airportToDelete.getInboundFlightsOrigins()) {
-            
+            for(Flight flightsInOrigins: each.getOutboundFlights()) {
+                if(flightsInOrigins.getDestination().equals(airportToDelete)) {
+                    flightsToDelete.add(flightsInOrigins);
+                }
+            }
+            for(Flight flightsToDeleteFound: flightsToDelete) {
+                this.deleteFlight(flightsToDeleteFound.getAirline(), flightsToDeleteFound.getFlightNumber().toString());
+            }
         }
-        this.aviationGraph.getAirports().put(code, null);
+        this.aviationGraph.getAirports().remove(code);
     }
 
     private void insert(Flight flight){
