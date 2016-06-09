@@ -29,7 +29,7 @@ public class Airport implements Serializable{
 	private Float longitude;
 	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
 	private HashSet<Airport> inboundFlightsOrigin;
-	private Boolean tag;
+	private transient Boolean tag;
 	
 	private class Order implements Serializable{
 		String str;
@@ -39,7 +39,7 @@ public class Airport implements Serializable{
 			this.str = str;
 			this.time = time;
 		}
-		
+
 		public double getTime(){
 			return time;
 		}
@@ -71,8 +71,9 @@ public class Airport implements Serializable{
         this.flightsPerDay = new HashMap<WeekDay, TreeMap<Order, Flight>> ();
         initializeFlightsPerDay();
         this.code = code;
-	this.latitude = lat;
-	this.longitude = lon;
+        this.latitude = lat;
+        this.longitude = lon;
+        this.tag = true;
         //this.outboundFlights = new TreeMap<Order,Flight>();
         this.inboundFlightsOrigin = new HashSet<Airport> ();
         //this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
