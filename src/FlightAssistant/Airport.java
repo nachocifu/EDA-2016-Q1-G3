@@ -31,7 +31,7 @@ public class Airport implements Serializable{
 	private Float latitude;
 	private Float longitude;
 	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
-	private HashSet<Airport> posibleInboundFlightsOrigin;
+	private HashSet<Airport> inboundFlightsOrigin;
 	private boolean tag;
 	
 	private static class Order{
@@ -77,7 +77,7 @@ public class Airport implements Serializable{
 	this.latitude = lat;
 	this.longitude = lon;
         //this.outboundFlights = new TreeMap<Order,Flight>();
-        this.posibleInboundFlightsOrigin = new HashSet<Airport> ();
+        this.inboundFlightsOrigin = new HashSet<Airport> ();
         //this.posibleOutboundFlightsDestination = new HashSet<Airport> ();
 	}
         
@@ -163,12 +163,18 @@ public class Airport implements Serializable{
 	}
         
     public void addFlight(Flight flight){
-        //this.outboundFlights.put(new Order(flight.getCode(), flight.getDepartureTime()),flight);
-        //this.posibleOutboundFlightsDestination.add(flight.getDestination());
         this.addFrom(flight);
-        
+        flight.getDestination().addInboundFlightOrigin(flight.getOrigin());
     }
 
+    public void addInboundFlightOrigin(Airport airport) {
+        this.inboundFlightsOrigin.add(airport);
+    }
+    
+    public HashSet<Airport> getInboundFlightOrigins() {
+        return this.inboundFlightsOrigin;
+    }
+    
    public void removeFlight(Flight flight){
         if(flight == null)
              throw new IllegalArgumentException();
@@ -177,7 +183,7 @@ public class Airport implements Serializable{
         for(WeekDay each: this.WEEK) {
             flightsThatDay = this.flightsPerDay.get(each);
             if(flightsThatDay.containsKey(aux)) {
-                flightsThatDay.put(aux, null);
+                flightsThatDay.remove(aux);
             }
         }
     }
