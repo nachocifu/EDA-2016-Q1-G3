@@ -1,6 +1,5 @@
 package FlightAssistant;
 
-import DataStructure.Storage;
 import Outputs.OutputConsole;
 import Outputs.OutputFormater;
 import Outputs.OutputWriter;
@@ -362,7 +361,7 @@ public class FlightAssistant implements GraphManager {
      * Change current persistence
      * @param persistence Persistence
      */
-    public void changePersistence(Persistence<Storage> persistence) {
+    public void changePersistence(Persistence persistence) {
         this.persistence = persistence;
     }
 
