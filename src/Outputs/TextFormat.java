@@ -47,6 +47,15 @@ public class TextFormat implements OutputFormater {
     }
 
     @Override
+    public String writeHeader() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Flight Assitant Results").append(System.lineSeparator()).append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    @Override
     public String write(Airport airport) {
         StringBuilder sb = new StringBuilder();
 
@@ -101,5 +110,11 @@ public class TextFormat implements OutputFormater {
 
         return sb.toString();
 
+    }
+
+    @Override
+    public String writeFooter() {
+        //This implementation of format dosnt write footers
+        return "";
     }
 }

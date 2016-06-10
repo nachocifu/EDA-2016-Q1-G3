@@ -87,6 +87,7 @@ public class OutputFile implements OutputWriter {
 
     @Override
     public Boolean writeHeader(Double price, Double flightTime, Double totalTime) {
+
         //Check if writing is posible
         if ( ! okForWriting() ) return false;
 
@@ -97,6 +98,34 @@ public class OutputFile implements OutputWriter {
             return false;
         }
 
+    }
+
+    @Override
+    public Boolean writeHeader() {
+
+        //Check if writing is posible
+        if ( ! okForWriting() ) return false;
+
+        try {
+            this.writer.write(this.outputFormat.writeHeader());
+            return true;
+        } catch ( IOException e ) {
+            return false;
+        }
+
+    }
+
+    @Override
+    public Boolean writeFooter() {
+        //Check if writing is posible
+        if ( ! okForWriting() ) return false;
+
+        try {
+            this.writer.write(this.outputFormat.writeFooter());
+            return true;
+        } catch ( IOException e ) {
+            return false;
+        }
     }
 
     @Override

@@ -75,6 +75,26 @@ public class OutputConsole implements OutputWriter {
     }
 
     @Override
+    public Boolean writeHeader() {
+
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeHeader());
+
+        return true;
+
+    }
+
+    @Override
+    public Boolean writeFooter() {
+        if ( !okForWriting() ) return false;
+
+        this.builder.append(outputFormat.writeFooter());
+
+        return true;
+    }
+
+    @Override
     public void setFormat(OutputFormater format) {
         if ( format != null )
             this.outputFormat = format;

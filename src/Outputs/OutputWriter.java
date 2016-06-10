@@ -7,28 +7,33 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public interface OutputWriter {
 
-    public void setFormat(OutputFormater format);
-    public OutputFormater getFormat();
+    void setFormat(OutputFormater format);
 
-    public Boolean start();
-    public Boolean finish();
+    OutputFormater getFormat();
 
-    public Boolean write(Flight flight);
-    public Boolean write(Airport airport);
+    Boolean start();
+    Boolean finish();
 
-    public Boolean writeNotFound();
+    Boolean write(Flight flight);
+    Boolean write(Airport airport);
 
-    public Boolean writeHeader(Double price, Double flightTime, Double totalTime);
+    Boolean writeNotFound();
 
-    public Boolean okForWriting();
+    Boolean writeHeader(Double price, Double flightTime, Double totalTime);
+    Boolean writeHeader();
 
-    public void discardAll();
+    Boolean writeFooter();
 
-    public Boolean writeErrorFileHandling(String pathString);
+    Boolean okForWriting();
 
-    public Boolean writeErrorsOnFile(String pathString);
+    void discardAll();
 
-    public Boolean writeErrorSaving();
+    Boolean writeErrorFileHandling(String pathString);
 
-    public Boolean writeUnableToLoadState();
+    Boolean writeErrorsOnFile(String pathString);
+
+    Boolean writeErrorSaving();
+
+    Boolean writeUnableToLoadState();
+
 }

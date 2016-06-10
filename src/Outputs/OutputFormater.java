@@ -6,19 +6,23 @@ import FlightAssistant.Flight;
 
 public interface OutputFormater {
 
-    public String write(Flight flight);
+    String write(Flight flight);
 
-    public String writeNotFound();
+    String writeNotFound();
 
-    public String writeHeader(Double price, Double flightTime, Double totalTime);
+    String writeHeader(Double price, Double flightTime, Double totalTime);
 
-    public String write(Airport airport);
+    String writeHeader();
 
-    public String writeErrorFileHandling(String pathString);
+    String write(Airport airport);
 
-    public String writeErrorsOnFile(String pathString);
+    String writeErrorFileHandling(String pathString);
 
-    public String writeErrorSaving();
+    String writeErrorsOnFile(String pathString);
 
-    public String writeUnableToLoadState();
+    String writeErrorSaving();
+
+    String writeUnableToLoadState();
+
+    String writeFooter();
 }

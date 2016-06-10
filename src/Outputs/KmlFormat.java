@@ -4,13 +4,30 @@ import FlightAssistant.Airport;
 import FlightAssistant.Flight;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-/**
- * Created by nacho on 6/4/16.
- */
+
 public class KmlFormat implements OutputFormater {
     @Override
     public String write(Flight flight) {
-        throw new NotImplementedException();
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("<Placemark>").append( System.lineSeparator() )
+                .append("<name>" ).append( flight.getCode() ).append( "</name>" ).append( System.lineSeparator() )
+                .append("<description>").append(System.lineSeparator())
+                .append("Origin Airport: ").append(flight.getOrigin().getCode()).append(System.lineSeparator())
+                .append("Destination Airport: ").append(flight.getDestination().getCode()).append(System.lineSeparator())
+                .append("</description>").append(System.lineSeparator())
+                .append("<styleUrl>#lineStyle</styleUrl>").append(System.lineSeparator())
+                .append("<LineString>").append(System.lineSeparator())
+                .append("<tessellate>1</tessellate>").append(System.lineSeparator())
+                .append("<altitudeMode>absolute</altitudeMode>").append(System.lineSeparator())
+                .append("<coordinates>").append(System.lineSeparator())
+                .append(flight.getOrigin().getLatitude()).append(",").append(flight.getOrigin().getLongitude()).append(System.lineSeparator())
+                .append(flight.getDestination().getLatitude()).append(",").append(flight.getDestination().getLongitude()).append(System.lineSeparator())
+                .append("</coordinates>").append(System.lineSeparator())
+                .append("</LineString>").append(System.lineSeparator())
+                .append("<Placemark>").append( System.lineSeparator() );
+
+        return sb.toString();
     }
 
     @Override
@@ -22,9 +39,31 @@ public class KmlFormat implements OutputFormater {
     public String writeHeader(Double price, Double flightTime, Double totalTime) {
         StringBuilder sb = new StringBuilder();
 
+        sb.append(this.writeHeader());
+
+        sb.append("<description>").append(System.lineSeparator())
+                .append("Precio: ").append(price).append(System.lineSeparator())
+                .append("Tiempo de Vuelo: ").append(flightTime).append(System.lineSeparator())
+                .append("Tiempo total: ").append(totalTime).append(System.lineSeparator())
+                .append("</description>").append(System.lineSeparator());
+
+        return sb.toString();
+    }
+
+    @Override
+    public String writeHeader() {
+        StringBuilder sb = new StringBuilder();
+
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append( System.lineSeparator() )
                 .append( "<kml xmlns=\"http://www.opengis.net/kml/2.2\">").append( System.lineSeparator() )
-                .append( "<Document>" ).append( System.lineSeparator() );
+                .append( "<Document>" ).append( System.lineSeparator() )
+                .append("<name>Flight Assistant Results</name>").append(System.lineSeparator())
+                .append("<Style id=\"lineStyle\">").append(System.lineSeparator())
+                .append("<LineStyle>").append(System.lineSeparator())
+                .append("<color>7fff00ff</color>").append(System.lineSeparator())
+                .append("<width>4</width>").append(System.lineSeparator())
+                .append("</LineStyle>").append(System.lineSeparator())
+                .append("</Style>").append(System.lineSeparator());
 
         return sb.toString();
     }
@@ -37,8 +76,8 @@ public class KmlFormat implements OutputFormater {
                 .append( "<name>" ).append( airport.getCode() ).append( "</name>" ).append( System.lineSeparator() )
                 .append( "<Point>" ).append( System.lineSeparator() )
                 .append( "<coordinates>" ).append( airport.getLatitude() ).append(",").append( airport.getLongitude() ).append( "</coordinates>" ).append( System.lineSeparator() )
-                .append( "<Point>" ).append( System.lineSeparator() )
-                .append("<Placemark>").append( System.lineSeparator() );
+                .append( "</Point>" ).append( System.lineSeparator() )
+                .append("</Placemark>").append( System.lineSeparator() );
 
         return sb.toString();
     }
@@ -61,5 +100,15 @@ public class KmlFormat implements OutputFormater {
     @Override
     public String writeUnableToLoadState() {
         return "";
+    }
+
+    @Override
+    public String writeFooter() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("</Document>").append(System.lineSeparator())
+                .append("</kml>").append(System.lineSeparator());
+
+        return sb.toString();
     }
 }

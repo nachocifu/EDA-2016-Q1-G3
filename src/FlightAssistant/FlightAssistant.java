@@ -95,10 +95,10 @@ public class FlightAssistant implements GraphManager {
         //Start writing
         if ( ! this.outputWriter.start() ) error = true;
         
-        if(stopover == null) {
+        if(stopover == null && !error) {
             if ( ! this.outputWriter.writeNotFound() ) error = true;
         }
-        else {
+        else if ( !error ) {
             //Write Headers
             Double price = stopover.getTotalPrice();
             Double flightTime = stopover.getTotalFlightTime();
@@ -106,7 +106,9 @@ public class FlightAssistant implements GraphManager {
             if ( ! this.outputWriter.writeHeader(price, flightTime, totalTime) ) error = true;
 
             //Write Flights
-            if ( ! this.writeToOutputFlights(stopover.getFlights()) ) error = true;
+            if(!error)
+                if ( ! this.writeToOutputFlights(stopover.getFlights()) )
+                    error = true;
         }
 
         //Check for error and finish Writing
@@ -125,8 +127,13 @@ public class FlightAssistant implements GraphManager {
         //Start writing
         if ( ! this.outputWriter.start() ) error = true;
 
+        //Write Headers
+        if (!error)
+            if ( ! this.outputWriter.writeHeader() ) error = true;
+
         //Write Flights
-        if ( ! this.writeToOutputFlights(flights) ) error = true;
+        if (!error)
+            if ( ! this.writeToOutputFlights(flights) ) error = true;
 
 
         //Check for error and finish Writing
@@ -144,6 +151,10 @@ public class FlightAssistant implements GraphManager {
         //Start writing
         if ( ! this.outputWriter.start() ) error = true;
 
+        //Write Headers
+        if (!error)
+            if ( ! this.outputWriter.writeHeader() ) error = true;
+
         //Write Airports
         if ( ! this.writeToOutputAirports(airports) ) error = true;
 
@@ -153,6 +164,10 @@ public class FlightAssistant implements GraphManager {
     }
 
     private void checkErrorsAndFinishWritingToOutput(Boolean error){
+
+        if (!error)
+            if ( ! this.outputWriter.writeFooter() ) error = true;
+
         //(lazy evaluation)
         if ( error || ! this.outputWriter.finish() ) {
             System.err.println("Unable to write to output. Discarding all !!!"); //If writer cannot output, then output to system error
@@ -291,11 +306,13 @@ public class FlightAssistant implements GraphManager {
     }
 
     public void findAllFlights() {
+
         this.outputFlights(this.aviationGraph.findAllFlights());
 
     }
 
     public void findAllAirports() {
+
         this.outputAirports(this.aviationGraph.findAllAirports());
 
     }
@@ -307,9 +324,10 @@ public class FlightAssistant implements GraphManager {
     }
 
     public void deleteAllFlights() {
-        for(String each: this.aviationGraph.getAirports().keySet()) {
+
+        for(String each: this.aviationGraph.getAirports().keySet())
             this.aviationGraph.getAirports().get(each).deleteAllFlights();
-        }
+
     }
     
     
