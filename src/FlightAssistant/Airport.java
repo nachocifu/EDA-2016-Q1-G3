@@ -24,7 +24,7 @@ public class Airport implements Serializable{
 	private HashSet<Airport> inboundFlightsOrigin;
 	private transient Boolean tag;
 	
-	private class Order implements Serializable{
+	private class Order implements Serializable, Comparable<Order>{
 		String str;
 		Double time;
 		
@@ -46,7 +46,14 @@ public class Airport implements Serializable{
 			Order or = (Order) obj;
 			return or.str.equals(this.str);
 		}
-	}
+
+        @Override
+        public int compareTo(Order o) {
+            if (o == null) return -1;
+
+            return (int)(this.getTime() -  o.getTime());
+        }
+    }
 
 	/**
 	 * Contructor
@@ -75,7 +82,12 @@ public class Airport implements Serializable{
         private void initializeFlightsPerDay(){
 
             for (WeekDay day : WeekDay.values())
-                this.flightsPerDay.put(day, new TreeMap <Order, Flight> ());
+                this.flightsPerDay.put(day, new TreeMap <Order, Flight>(new Comparator<Order>() {
+                    @Override
+                    public int compare(Order o1, Order o2) {
+                        return (int)(o1.getTime()  - o2.getTime());
+                    }
+                }));
 
         }
 

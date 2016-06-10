@@ -33,7 +33,7 @@ public abstract class Parser<E> {
     public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
         Double timeInMinutes;
 
-        if (timeString.indexOf(";") < 0) return null;
+        if (timeString.indexOf(":") < 0) return null;
 
         try {
             String[] ary = timeString.split(":");

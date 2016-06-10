@@ -208,6 +208,7 @@ public class FlightAssistant implements GraphManager {
 
     public void deleteAirport(String code) {
         Airport airportToDelete = this.aviationGraph.getAirports().get(code);
+        if (airportToDelete == null) return;
         LinkedList<Flight> flightsToDelete = new LinkedList<Flight> ();
         for(Airport each: airportToDelete.getInboundFlightsOrigins()) {
             if(this.aviationGraph.getAirports().containsKey(each.getCode())) {
