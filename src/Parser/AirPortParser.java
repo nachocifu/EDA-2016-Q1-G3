@@ -7,6 +7,11 @@ import FlightAssistant.Airport;
 public class AirPortParser extends Parser<Airport> {
 
     private static int PARAMS_ON_AIRPORT = 3;
+    private String DEFAULT_SAVE = "src/Storage/saveAirports.txt";
+
+    public String getDEFAULT_SAVE() {
+        return DEFAULT_SAVE;
+    }
 
     @Override
     public Boolean parse(String[] params, GraphManager manager) {
@@ -56,6 +61,20 @@ public class AirPortParser extends Parser<Airport> {
         }
 
         return params[0];
+    }
+
+    @Override
+    public String saveFormat(Airport each) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(each.getCode())
+                .append("#")
+                .append(each.getLatitude())
+                .append("#")
+                .append(each.getLongitude())
+                .append(System.lineSeparator());
+
+        return sb.toString();
     }
 
 }

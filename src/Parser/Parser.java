@@ -8,6 +8,8 @@ public abstract class Parser<E> {
 
     public abstract Boolean parse(String[] params, GraphManager consultor);
 
+    public abstract String  getDEFAULT_SAVE();
+
     public Double stringDurationTimeToDouble(String timeString) {
         Double timeInMinutes;
 
@@ -32,7 +34,7 @@ public abstract class Parser<E> {
 
     public Double stringDepartureTimeToDouble(String timeString, WeekDay weekday) {
         Double timeInMinutes;
-
+        if(timeString.indexOf('.') > 0) timeString = timeString.substring(0, timeString.indexOf('.'));
         if (timeString.indexOf(":") < 0) return null;
 
         try {
@@ -92,4 +94,16 @@ public abstract class Parser<E> {
     }
 
     public abstract String parseAdditionalParams(String[] params, GraphManager manager);
+
+    public abstract String saveFormat(E each);
+
+    public static String time(Double departureTime) {
+        Double hours = departureTime/60.0;
+        String hoursString = hours.toString();
+        hoursString = hoursString.substring(0, hoursString.indexOf('.'));
+        Double minutes = departureTime - Double.parseDouble(hoursString + ".0") * 60;
+        String minutesString = minutes.toString();
+        minutesString = minutesString.substring(0, minutesString.indexOf('.'));
+        return hoursString+":"+minutesString;
+    }
 }

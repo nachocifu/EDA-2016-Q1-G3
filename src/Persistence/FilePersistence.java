@@ -1,22 +1,28 @@
 package Persistence;
 
 
+import Parser.*;
+
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 public class FilePersistence<E> implements Persistence<E> {
 
-    //File used for saving by this implementation of Persistance
-    private String FILE = "src/Persistence/filePersistance.ser";
-
     @Override
-    public Boolean save(E obj) {
-
+    public Boolean save(Collection<E> obj, Parser<E> parser) {
+        BufferedWriter writer;
         try {
-            FileOutputStream fileOut = new FileOutputStream(FILE);
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(obj);
-            out.close();
-            fileOut.close();
+
+            writer = Files.newBufferedWriter(Paths.get(parser.getDEFAULT_SAVE()));
+
+            for (E each : obj)
+                writer.write(parser.saveFormat(each));
+
+            writer.close();
             return true;
         } catch ( FileNotFoundException i ) {
             return false;
@@ -27,19 +33,28 @@ public class FilePersistence<E> implements Persistence<E> {
     }
 
     @Override
-    public E load() {
-        E e = null;
-        try
-        {
-            FileInputStream fileIn = new FileInputStream(FILE);
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            e = (E) in.readObject();
-            in.close();
-            fileIn.close();
+    public Collection<E> load(Parser<E> parser, GraphManager manager) {
+        List<E> e = new LinkedList<E>();
+        BufferedReader reader;
+        String line;
+        String file = parser.getDEFAULT_SAVE();
+
+        try {
+
+            reader = Files.newBufferedReader(Paths.get(file));
+
+            line = reader.readLine();
+            while (line != null) {
+                parser.parse(line.split("#"), manager);
+                line = reader.readLine();
+            }
+
+
+            reader.close();
             return e;
         }catch(IOException i) {
             return e;
-        }catch(ClassNotFoundException c) {
+        }catch (Exception r) {
             return e;
         }
     }

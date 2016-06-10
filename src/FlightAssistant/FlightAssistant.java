@@ -5,8 +5,7 @@ import Outputs.OutputFormater;
 import Outputs.OutputWriter;
 import Outputs.TextFormat;
 import Parser.*;
-import Persistence.Persistence;
-import Persistence.FilePersistence;
+import Persistence.*;
 import Stopovers.Stopover;
 
 import java.io.BufferedReader;
@@ -20,6 +19,9 @@ import Priorities.Priority;
 import Priorities.PriorityFlightTime;
 import Priorities.PriorityPrice;
 import Priorities.PriorityTotalTime;
+
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 
 public class FlightAssistant implements GraphManager {
@@ -34,7 +36,7 @@ public class FlightAssistant implements GraphManager {
         this.outputWriter = new OutputConsole();
         this.outputWriter.setFormat( new TextFormat() );
         this.aviationGraph = new AviationGraph();
-        this.persistence = new FilePersistence<AviationGraph>();
+        this.persistence = new FilePersistence<Container<Flight,Airport>>();
         this.flightParser = new FlightParser();
         this.airportParser = new AirPortParser();
     }
@@ -340,7 +342,15 @@ public class FlightAssistant implements GraphManager {
      *
      */
     public void save() {
-        if ( ! persistence.save( this.aviationGraph ) ) {
+        Boolean ok = true;
+
+        if ( !persistence.save( this.aviationGraph.getAirports().values(), this.airportParser))
+            ok = false;
+
+        if ( !persistence.save(  this.aviationGraph.getFlights().values(), this.flightParser ) )
+            ok = false;
+
+        if ( !ok  ) {
             this.outputWriter.start();
             this.outputWriter.writeErrorSaving();
             this.outputWriter.finish();
@@ -353,15 +363,25 @@ public class FlightAssistant implements GraphManager {
      */
     public void load() {
 
-        AviationGraph graph = (AviationGraph) this.persistence.load();
+        this.aviationGraph = new AviationGraph();
 
-        if(graph != null)
-            this.aviationGraph = graph;
-        else {
-            this.outputWriter.start();
-            this.outputWriter.writeUnableToLoadState();
-            this.outputWriter.finish();
-        }
+
+        this.persistence.load(airportParser, this);
+
+        this.persistence.load(flightParser, this);
+
+//        if ( airports == null || flights == null) {
+//            this.outputWriter.start();
+//            this.outputWriter.writeUnableToLoadState();
+//            this.outputWriter.finish();
+//            return;
+//        }
+
+//        for (Airport airport : airports)
+//            this.add(airport);
+//
+//        for (Flight flight : flights )
+//            this.add(flight);
 
     }
 

@@ -4,12 +4,17 @@ package FlightAssistant;
 import java.io.Serializable;
 
 public enum WeekDay implements Serializable{
-    MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
+    MONDAY(0,"Lu"), TUESDAY(1,"Ma"), WEDNESDAY(2,"Mi"), THURSDAY(3, "Ju"), FRIDAY(4, "Vi"), SATURDAY(5, "Sa"), SUNDAY(6, "Do");
 
 	private static Double HOURS = 24.0;
 	private static Double MINUTES = 60.0;
 	
     private Integer numDay;
+    private String code;
+
+    public String getCode() {
+        return code;
+    }
 
     public static WeekDay getWeekDay(String string){
         switch (string){
@@ -32,8 +37,9 @@ public enum WeekDay implements Serializable{
         }
     }
 
-    WeekDay(int numDay) {
+    WeekDay(int numDay, String code) {
         this.numDay = numDay;
+        this.code = code;
     }
 
     int distanceInDays(WeekDay other) {

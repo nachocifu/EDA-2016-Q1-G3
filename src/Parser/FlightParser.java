@@ -10,6 +10,11 @@ import FlightAssistant.WeekDay;
 public class FlightParser extends Parser<Flight> {
 
     private static int PARAMS_ON_FLIGHT = 8;
+    private String DEFAULT_SAVE = "src/Storage/saveFlight.txt";
+
+    public String getDEFAULT_SAVE() {
+        return DEFAULT_SAVE;
+    }
 
     @Override
     public Boolean parse(String[] params, GraphManager manager) {
@@ -85,6 +90,30 @@ public class FlightParser extends Parser<Flight> {
         }
 
         return params[0];
+    }
+
+    @Override
+    public String saveFormat(Flight each) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(each.getAirline())
+                .append("#")
+                .append(each.getFlightNumber())
+                .append("#")
+                .append(each.getDepartureDay().getCode())
+                .append("#")
+                .append(each.getOrigin().getCode())
+                .append("#")
+                .append(each.getDestination().getCode())
+                .append("#")
+                .append(Parser.time(each.getDepartureTime()))
+                .append("#")
+                .append(Parser.timeInMinutesToHoursAndMinutes(each.getFlightTime()))
+                .append("#")
+                .append(each.getPrice())
+                .append(System.lineSeparator());
+
+        return sb.toString();
     }
 
 }

@@ -1,10 +1,14 @@
 package Persistence;
 
 
+import Parser.*;
+import java.util.Collection;
+
+
 public interface Persistence<E> {
 
-    Boolean save(E obj);
+    Boolean save(Collection<E> obj, Parser<E> parser);
 
-    E load();
+    Collection<E> load(Parser<E> parser, GraphManager manager);
 
 }
