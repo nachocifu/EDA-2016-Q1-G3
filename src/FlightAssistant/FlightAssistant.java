@@ -32,7 +32,6 @@ public class FlightAssistant implements GraphManager {
     private Parser<Airport> airportParser;
 
     public FlightAssistant(){
-        //set defaults
         this.outputWriter = new OutputConsole();
         this.outputWriter.setFormat( new TextFormat() );
         this.aviationGraph = new AviationGraph();
@@ -53,7 +52,6 @@ public class FlightAssistant implements GraphManager {
     public void getBestPath(String originString, String destinationString, String priotityString, String weekdays) {
         WeekDay[] weekdayArray = null;
         if (!weekdays.isEmpty()) {
-            System.out.println(weekdays);
             weekdayArray = Parser.parseWeekdays(weekdays);
         }
         Airport origin = findAirportByCode(originString);
@@ -189,7 +187,6 @@ public class FlightAssistant implements GraphManager {
     }
 
     private Boolean writeToOutputAirports(Iterable<Airport> airports) {
-
         //Write Airports
         for (Airport airport : airports )
             if ( ! this.outputWriter.write(airport) ) {
@@ -204,9 +201,7 @@ public class FlightAssistant implements GraphManager {
     public void deleteFlight(String airline, String flightNum) {
         String code = "#" + airline + flightNum;
         Flight aux = this.aviationGraph.getFlights().get(code);
-        System.out.println("Entro al deleteFlight");
         if(aux != null) {
-            System.out.println("aux no dio null");
             this.aviationGraph.getAirports().get(aux.getOrigin().getCode()).removeFlight(aux);
             this.aviationGraph.getFlights().remove(code);
         }
@@ -215,17 +210,18 @@ public class FlightAssistant implements GraphManager {
     public void deleteAirport(String code) {
         Airport airportToDelete = this.aviationGraph.getAirports().get(code);
         LinkedList<Flight> flightsToDelete = new LinkedList<Flight> ();
-        System.out.println(airportToDelete.getInboundFlightsOrigins());
         for(Airport each: airportToDelete.getInboundFlightsOrigins()) {
-            for(Flight flightsInOrigins: each.getOutboundFlights()) {
-                if(flightsInOrigins.getDestination().equals(airportToDelete)) {
-                    flightsToDelete.add(flightsInOrigins);
+            if(this.aviationGraph.getAirports().containsKey(each.getCode())) {
+                for(Flight flightsInOrigins: each.getOutboundFlights()) {
+                    if(flightsInOrigins.getDestination().equals(airportToDelete)) {
+                        flightsToDelete.add(flightsInOrigins);
+                    }
+                }
+                for(Flight flightsToDeleteFound: flightsToDelete) {
+                    this.deleteFlight(flightsToDeleteFound.getAirline(), flightsToDeleteFound.getFlightNumber().toString());
                 }
             }
-            for(Flight flightsToDeleteFound: flightsToDelete) {
-                this.deleteFlight(flightsToDeleteFound.getAirline(), flightsToDeleteFound.getFlightNumber().toString());
-            }
-        }
+        }      
         this.aviationGraph.getAirports().remove(code);
     }
 

@@ -27,25 +27,17 @@ public class Dijkstra {
                 currentStop = queue.poll();
             }
             if (currentStop.getCurrentStop().equals(target)) {
-                System.out.println("Se encontro: " + currentStop.toString() + "Tiempo =" + (System.currentTimeMillis() - time));
                 return currentStop;
             }
             currentStop.getCurrentStop().tag();
-            //System.out.println("Entre al for ---------------------------------------------------");
             prevFlights = currentStop.getFlights();
-            //System.out.println("Los vuelos previos fueron" + prevFlights.toString());
             for (Flight each : currentStop.getCurrentStop().getOutboundFlights()) {
                 if (!each.getDestination().isTagged()) {
-                    //      System.out.println("Los vuelos previos fueron" + prevFlights.toString());
                     dbgassist = new Stopover(prevFlights, each.getDestination(), each, priority.getWeightByPriority(currentStop, each, prevFlights));
                     queue.offer(dbgassist);
-                    //    System.out.println(dbgassist.getFlights().toString());
-                    //  System.out.println("Ofreci: " + dbgassist.toString());
                 }
             }
         }
-        System.out.println("No se encontro nada");
-        System.out.println("Tiempo =" + (System.currentTimeMillis() - time));
         return null;
     }
 
@@ -62,7 +54,6 @@ public class Dijkstra {
         Stopover currentStop = queue.poll();
         if(weekdays != null){
         if (currentStop.getCurrentStop().equals(target)) {
-                    System.out.println("Se encontro: " + currentStop.toString() + "Tiempo =" + (System.currentTimeMillis() - time));
                     return currentStop;
                 }
             currentStop.getCurrentStop().tag();
@@ -80,25 +71,17 @@ public class Dijkstra {
                 currentStop = queue.poll();
             }
             if (currentStop.getCurrentStop().equals(target)) {
-                System.out.println("Se encontro: " + currentStop.toString() + "Tiempo =" + (System.currentTimeMillis() - time));
                 return currentStop;
             }
             currentStop.getCurrentStop().tag();
-            //System.out.println("Entre al for ---------------------------------------------------");
             prevFlights = currentStop.getFlights();
-            //System.out.println("Los vuelos previos fueron" + prevFlights.toString());
             for (Flight each : currentStop.getCurrentStop().getOutboundFlights()) {
                 if (!each.getDestination().isTagged()) {
-                    //      System.out.println("Los vuelos previos fueron" + prevFlights.toString());
                     dbgassist = new Stopover(prevFlights, each.getDestination(), each, priority.getWeightByPriority(currentStop, each, prevFlights));
                     queue.offer(dbgassist);
-                    //    System.out.println(dbgassist.getFlights().toString());
-                    //  System.out.println("Ofreci: " + dbgassist.toString());
                 }
             }
         }
-        System.out.println("No se encontro nada");
-        System.out.println("Tiempo =" + (System.currentTimeMillis() - time));
         return null;
     }
 
@@ -110,7 +93,6 @@ public class Dijkstra {
         if (timeStopped < 0) {
             timeStopped = WeekDay.getMinutesInAWeek() - timeStopped;
         }
-        System.out.println(timeStopped.toString());
         return timeStopped;
     }
 

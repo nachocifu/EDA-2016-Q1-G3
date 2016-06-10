@@ -53,8 +53,6 @@ public class AviationGraph implements Serializable{
         Airport origin = this.airports.get(originAirport);
         Flight flight = new Flight(flightTime, departureTime, WeekDay.getWeekDay(departureDay), 
         		                   destination, origin, airline, flightNumber, price);
-        // agregar FlightAssistant a los to en origin
-        // agregar origin a los from de destinatin.
     }
     
     public Stopover getBestPath(Airport origin, Airport target, Priority priority) {
@@ -62,6 +60,16 @@ public class AviationGraph implements Serializable{
         return Dijkstra.getShortestPathFromAToBWithFixedWeights(origin, target, priority);
     }
     
+//    public void deleteAirportFromInboundFlightsOrigin(Airport deletedAirport) {
+//        HashSet<Airport> airportsVisited = new HashSet<Airport>();
+//        for(Flight each: deletedAirport.getOutboundFlights()) {
+//            airportsVisited.add(each.getDestination());
+//        }
+//        for(Airport eachAirport: airportsVisited) {
+//            eachAirport.getInboundFlightsOrigins().remove(eachAirport);
+//        }
+//    }
+
     public Stopover getBestPath(Airport origin, Airport target, Priority priority, WeekDay [] weekdays) {
         this.clearMarks();
         return Dijkstra.getShortestPathFromAToBWithFixedWeightsDepartingSpecificDays(origin, target, priority, weekdays);
