@@ -62,6 +62,12 @@ public class Main {
             case "--airport-file":
                 flightAssistant.insertFromFile(Parser.toStringArray(input.toArray()), new AirPortParser());
                 break;
+            case "--flight-file":
+                flightAssistant.insertFromFile(Parser.toStringArray(input.toArray()), new FlightParser());
+                break;
+            case "--delete-airports":
+                flightAssistant.deleteAllAirports();
+                break;
 
             case "insert":
                 aux = input.poll();

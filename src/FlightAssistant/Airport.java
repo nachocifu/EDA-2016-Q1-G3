@@ -82,12 +82,7 @@ public class Airport implements Serializable{
         private void initializeFlightsPerDay(){
 
             for (WeekDay day : WeekDay.values())
-                this.flightsPerDay.put(day, new TreeMap <Order, Flight>(new Comparator<Order>() {
-                    @Override
-                    public int compare(Order o1, Order o2) {
-                        return (int)(o1.getTime()  - o2.getTime());
-                    }
-                }));
+                this.flightsPerDay.put(day, new HashMap<Order, Flight>());
 
         }
 
