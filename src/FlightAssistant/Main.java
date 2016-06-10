@@ -68,6 +68,9 @@ public class Main {
             case "--delete-airports":
                 flightAssistant.deleteAllAirports();
                 break;
+            case "--delete-flights":
+                flightAssistant.deleteAllAirports();
+                break;
 
             case "insert":
                 aux = input.poll();
