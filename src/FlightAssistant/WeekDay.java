@@ -52,7 +52,7 @@ public enum WeekDay implements Serializable{
          return (24.0 * 60.0 * 7.0);
     }
     
-    public int getNumDay() {
+    public Integer getNumDay() {
         return this.numDay;
     }
 
