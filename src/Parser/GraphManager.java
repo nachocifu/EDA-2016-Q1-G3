@@ -12,4 +12,7 @@ public interface GraphManager {
 
     void add(Flight flight);
 
+    void deleteAllAirports();
+    void deleteAllFlights();
+
 }

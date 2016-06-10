@@ -90,4 +90,6 @@ public abstract class Parser<E> {
         }
         return stringArray;
     }
+
+    public abstract String parseAdditionalParams(String[] params, GraphManager manager);
 }

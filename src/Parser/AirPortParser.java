@@ -37,4 +37,25 @@ public class AirPortParser extends Parser<Airport> {
         return !inconsistencies;
     }
 
+    @Override
+    public String parseAdditionalParams(String[] params, GraphManager manager){
+
+        //Check params has file
+        if (params.length == 1 ) return params[0];
+
+        switch (params[1]){
+            case "--replace-airports":
+                manager.deleteAllAirports();
+                break;
+            case "--append-airports":
+                //do nothing and continue
+                break;
+            default:
+                //invalid param. abort!
+                return null;
+        }
+
+        return params[0];
+    }
+
 }

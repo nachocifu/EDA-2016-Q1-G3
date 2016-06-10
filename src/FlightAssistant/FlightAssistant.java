@@ -258,7 +258,14 @@ public class FlightAssistant implements GraphManager {
     }
 
 
+    public void insertFromFile(String[] params,Parser parser) {
 
+        String pathString= parser.parseAdditionalParams(params, this);
+
+        if (pathString != null)
+            this.insertFromFile(pathString, parser);
+
+    }
 
     public void insertFromFile(String pathString,Parser parser) {
 

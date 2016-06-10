@@ -23,7 +23,10 @@ public class Main {
         flightAssistant.load();
 
         if (args !=  null && args.length > 0) {
+            //Parse arguments
             parseCommand(new LinkedList<>(Arrays.asList(args)),flightAssistant);
+            //Save state before exit
+            flightAssistant.save();
         } else {
             Boolean endExecution = false;
             while ( !endExecution ) {
@@ -56,6 +59,10 @@ public class Main {
         String aux;
 
         switch ( input.poll() ) {
+            case "--airport-file":
+                flightAssistant.insertFromFile(Parser.toStringArray(input.toArray()), new AirPortParser());
+                break;
+
             case "insert":
                 aux = input.poll();
                 if ( aux != null )
