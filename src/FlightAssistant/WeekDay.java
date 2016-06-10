@@ -6,8 +6,8 @@ import java.io.Serializable;
 public enum WeekDay implements Serializable{
     MONDAY(0), TUESDAY(1), WEDNESDAY(2), THURSDAY(3), FRIDAY(4), SATURDAY(5), SUNDAY(6);
 
-	private Double HOURS = 24.0;
-	private Double MINUTES = 60.0;
+	private static Double HOURS = 24.0;
+	private static Double MINUTES = 60.0;
 	
     private Integer numDay;
 
@@ -56,4 +56,7 @@ public enum WeekDay implements Serializable{
         return this.numDay;
     }
 
+    public static Double minutesInDay() {
+        return HOURS*MINUTES;
+    }
 }

@@ -34,15 +34,19 @@ public class FlightParser extends Parser<Flight> {
 
         if (departureDayString == null) return inconsistencies;
 
+        try {
 
-        flightTime = stringDurationTimeToDouble(flightTimeString);
-        price = new Double(priceString);
+            flightTime = stringDurationTimeToDouble(flightTimeString);
+            price = new Double(priceString);
 
-        flightNumber = new Integer(flightNumberString);
+            flightNumber = new Integer(flightNumberString);
 
-        destination = manager.findAirportByCode(destinationString);
-        origin = manager.findAirportByCode(originString);
+            destination = manager.findAirportByCode(destinationString);
+            origin = manager.findAirportByCode(originString);
 
+        } catch (NumberFormatException e) {
+           return null;
+        }
         //Validations
         if ( destination == null || origin == null || airline  == null ) return inconsistencies;
 
