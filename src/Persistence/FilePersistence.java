@@ -19,11 +19,10 @@ public class FilePersistence<E> implements Persistence<E> {
             fileOut.close();
             return true;
         } catch ( FileNotFoundException i ) {
-            i.printStackTrace();
+            return false;
         } catch( IOException i ) {
-            i.printStackTrace();
+            return false;
         }
-        return false;
 
     }
 
@@ -37,13 +36,12 @@ public class FilePersistence<E> implements Persistence<E> {
             e = (E) in.readObject();
             in.close();
             fileIn.close();
+            return e;
         }catch(IOException i) {
-            i.printStackTrace();
+            return e;
         }catch(ClassNotFoundException c) {
-            c.printStackTrace();
+            return e;
         }
-
-        return e;
     }
 
 }
