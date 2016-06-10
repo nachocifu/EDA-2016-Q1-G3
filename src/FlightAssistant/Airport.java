@@ -8,14 +8,7 @@ import static FlightAssistant.WeekDay.THURSDAY;
 import static FlightAssistant.WeekDay.TUESDAY;
 import static FlightAssistant.WeekDay.WEDNESDAY;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Airport implements Serializable{
 	
@@ -27,7 +20,7 @@ public class Airport implements Serializable{
 	private String code;
 	private Float latitude;
 	private Float longitude;
-	private HashMap<WeekDay, TreeMap<Order,Flight>> flightsPerDay;
+	private HashMap<WeekDay, Map<Order,Flight>> flightsPerDay;
 	private HashSet<Airport> inboundFlightsOrigin;
 	private transient Boolean tag;
 	
@@ -68,7 +61,7 @@ public class Airport implements Serializable{
 			|| lon > MAX_LAT || lon < MIN_LAT){
 			throw new IllegalArgumentException();
 		}
-        this.flightsPerDay = new HashMap<WeekDay, TreeMap<Order, Flight>> ();
+        this.flightsPerDay = new HashMap<WeekDay, Map<Order, Flight>> ();
         initializeFlightsPerDay();
         this.code = code;
         this.latitude = lat;
@@ -80,48 +73,10 @@ public class Airport implements Serializable{
 	}
         
         private void initializeFlightsPerDay(){
-            this.flightsPerDay.put(MONDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(TUESDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(WEDNESDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(THURSDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(FRIDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(SATURDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
-            this.flightsPerDay.put(SUNDAY, new TreeMap <Order, Flight> (new Comparator<Order> () {
-                @Override
-                public int compare(Order t, Order t1) {
-                    return (int) (t.getTime() - t1.getTime());
-                }
-            }));
+
+            for (WeekDay day : WeekDay.values())
+                this.flightsPerDay.put(day, new TreeMap <Order, Flight> ());
+
         }
 
 	/**
@@ -177,7 +132,7 @@ public class Airport implements Serializable{
         if(flight == null)
              throw new IllegalArgumentException();
         Order aux = new Order(flight.getCode(), flight.getDepartureTime());
-        TreeMap<Order, Flight> flightsThatDay;
+        Map<Order, Flight> flightsThatDay;
         for(WeekDay each: WeekDay.values()) {
             flightsThatDay = this.flightsPerDay.get(each);
             if(flightsThatDay.containsKey(aux)) {
