@@ -20,6 +20,7 @@ public class AviationGraph implements Serializable{
     }
 
     public void insertAirport(Airport airport){
+        if(this.airports.containsKey(airport.getCode())) return;
         this.airports.put(airport.getCode(), airport);
     }
 
