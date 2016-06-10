@@ -1,10 +1,5 @@
 package FlightAssistant;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.InvalidPathException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -17,7 +12,6 @@ import Outputs.TextFormat;
 import Parser.AirPortParser;
 import Parser.FlightParser;
 import Parser.Parser;
-import com.sun.corba.se.impl.presentation.rmi.DynamicMethodMarshallerImpl;
 
 public class Main {
 

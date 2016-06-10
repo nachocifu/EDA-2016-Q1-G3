@@ -2,7 +2,6 @@ package Outputs;
 
 import FlightAssistant.Airport;
 import FlightAssistant.Flight;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 
 public class KmlFormat implements OutputFormater {
@@ -33,7 +32,7 @@ public class KmlFormat implements OutputFormater {
 
     @Override
     public String writeNotFound() {
-        throw new NotImplementedException();
+        return "";
     }
 
     @Override

@@ -6,7 +6,7 @@ import java.io.*;
 public class FilePersistence<E> implements Persistence<E> {
 
     //File used for saving by this implementation of Persistance
-    private String FILE = "src/Storage/filePersistance.ser";
+    private String FILE = "src/Persistence/filePersistance.ser";
 
     @Override
     public Boolean save(E obj) {

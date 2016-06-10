@@ -3,7 +3,6 @@ package Outputs;
 
 import FlightAssistant.Airport;
 import FlightAssistant.Flight;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public interface OutputWriter {
 
