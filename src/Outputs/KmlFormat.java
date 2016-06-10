@@ -19,13 +19,14 @@ public class KmlFormat implements OutputFormater {
                 .append("<styleUrl>#lineStyle</styleUrl>").append(System.lineSeparator())
                 .append("<LineString>").append(System.lineSeparator())
                 .append("<tessellate>1</tessellate>").append(System.lineSeparator())
-                .append("<altitudeMode>absolute</altitudeMode>").append(System.lineSeparator())
+                .append("<altitudeMode>relativeToGround</altitudeMode>").append(System.lineSeparator())
+                .append("<gx:altitudeOffset>10</gx:altitudeOffset>").append(System.lineSeparator())
                 .append("<coordinates>").append(System.lineSeparator())
                 .append(flight.getOrigin().getLatitude()).append(",").append(flight.getOrigin().getLongitude()).append(System.lineSeparator())
                 .append(flight.getDestination().getLatitude()).append(",").append(flight.getDestination().getLongitude()).append(System.lineSeparator())
                 .append("</coordinates>").append(System.lineSeparator())
                 .append("</LineString>").append(System.lineSeparator())
-                .append("<Placemark>").append( System.lineSeparator() );
+                .append("</Placemark>").append( System.lineSeparator() );
 
         return sb.toString();
     }
@@ -55,7 +56,7 @@ public class KmlFormat implements OutputFormater {
         StringBuilder sb = new StringBuilder();
 
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>").append( System.lineSeparator() )
-                .append( "<kml xmlns=\"http://www.opengis.net/kml/2.2\">").append( System.lineSeparator() )
+                .append( "<kml xmlns=\"http://www.opengis.net/kml/2.2\" xmlns:gx=\"http://www.google.com/kml/ext/2.2\">").append( System.lineSeparator() )
                 .append( "<Document>" ).append( System.lineSeparator() )
                 .append("<name>Flight Assistant Results</name>").append(System.lineSeparator())
                 .append("<Style id=\"lineStyle\">").append(System.lineSeparator())
